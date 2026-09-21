@@ -1,8 +1,5 @@
 node_modules
-vite.config.js
 package-lock.json
-public
 src/assets
-src/main.jsx
 README.md
 .oxlintrc.json
