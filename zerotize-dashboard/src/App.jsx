@@ -1,3 +1,4 @@
+import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { HOME, LINKS, CHECKOUT, SUPPORT, PROFILE, API_CREDENTIALS } from "./routes";
