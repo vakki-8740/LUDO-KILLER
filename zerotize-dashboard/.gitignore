@@ -1,0 +1,9 @@
+node_modules
+vite.config.js
+package-lock.json
+public
+src/assets
+src/main.jsx
+index.html
+README.md
+.oxlintrc.json
