@@ -1,7 +1,6 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { HOME, LINKS, CHECKOUT, SUPPORT, PROFILE, API_CREDENTIALS } from "./routes";
-import AppNavbar from "./components/AppNavbar";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 
@@ -16,6 +15,8 @@ import ApiPage from "./pages/ApiPage";
 export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Offcanvas mirror only; real menu is rendered by AppNavbar
   const [offcanvasOpen, setOffcanvasOpen] = React.useState(false);
 
   // Close the offcanvas menu on route change
@@ -40,8 +41,8 @@ export default function App() {
         </Container>
       </main>
 
-      {/* Mobile offcanvas (AppNavbar already renders this; we keep a mirror here
-          until AppNavbar is wired as the single source in App.) */}
+      {/* Mobile offcanvas backoff (kept in sync with AppNavbar until
+          that component is the single source for the menu.) */}
       {offcanvasOpen && (
         <div
           className="offcanvas-backdrop fade show"
