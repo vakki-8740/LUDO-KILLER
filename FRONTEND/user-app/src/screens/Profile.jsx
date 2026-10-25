@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../firebase.js';
 import { TopBar } from '../components/ui.jsx';
 import { winAmount } from './Wallet.jsx';
 import { logoutAll } from './Login.jsx';
-
-const BACKEND_URL = 'https://php-vakki-8740.wasmer.app';
 
 // SVG Icons
 const EditIcon = () => (
@@ -98,31 +98,21 @@ export default function Profile({ profile, uid, toast, go, onLogout }) {
 
     setSaving(true);
     try {
-      const res = await fetch(BACKEND_URL + '/update-profile.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ uid, name: newName }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        toast('Name updated!', '#34c759');
-        // LocalStorage update
-        const saved = JSON.parse(localStorage.getItem('lrc_user') || '{}');
-        saved.name = newName;
-        localStorage.setItem('lrc_user', JSON.stringify(saved));
-        window.location.reload();
-      } else {
-        toast(data.error || 'Update failed', '#ff3b30');
-      }
+      await updateDoc(doc(db, 'users', uid), { name: newName });
+      toast('Name updated!', '#34c759');
+      const saved = JSON.parse(localStorage.getItem('lrc_user') || '{}');
+      saved.name = newName;
+      localStorage.setItem('lrc_user', JSON.stringify(saved));
+      setShowDetails(false);
     } catch (e) {
-      toast('Network error', '#ff3b30');
+      toast('Firebase update failed: ' + e.message, '#ff3b30');
     } finally {
       setSaving(false);
     }
   }
 
-  function logout() {
-    logoutAll();
+  async function logout() {
+    await logoutAll();
     onLogout();
   }
 

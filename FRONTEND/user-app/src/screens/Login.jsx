@@ -1,6 +1,39 @@
 import React, { useState } from 'react';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
+import { collection, doc, getDoc, getDocs, limit, query, serverTimestamp, setDoc, where } from 'firebase/firestore';
+import { auth, db } from '../firebase.js';
+import { generateUserId, randomLogo } from '../lib.js';
 
-const BACKEND_URL = 'https://php-vakki-8740.wasmer.app';
+// Mobile/password UI backed by Firebase Email/Password Auth. The private alias
+// keeps the current mobile-number login UI without sending passwords to PHP.
+function authEmailForMobile(mobile) {
+  return `${mobile}@lrc.app`;
+}
+
+async function uniqueCode(field) {
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    const code = generateUserId();
+    const matches = await getDocs(query(collection(db, 'users'), where(field, '==', code), limit(1)));
+    if (matches.empty) return code;
+  }
+  return `${generateUserId()}${String(Date.now()).slice(-2)}`;
+}
+
+function authErrorMessage(error, registering = false) {
+  switch (error?.code) {
+    case 'auth/email-already-in-use': return 'Ye mobile number pehle se registered hai. Login karo.';
+    case 'auth/invalid-credential':
+    case 'auth/user-not-found':
+    case 'auth/wrong-password': return 'Mobile number ya password galat hai.';
+    case 'auth/weak-password': return 'Password kam se kam 6 characters ka rakho.';
+    case 'auth/invalid-email': return 'Mobile number sahi format mein dalo.';
+    case 'auth/operation-not-allowed': return 'Firebase Console mein Email/Password sign-in enable karna hoga.';
+    case 'auth/network-request-failed': return 'Firebase se connection nahi ho raha. Internet check karke dobara try karo.';
+    case 'permission-denied':
+    case 'firestore/permission-denied': return 'Firebase Firestore permission denied. Firestore rules check karni hongi.';
+    default: return registering ? (error?.message || 'Account create nahi ho paya.') : (error?.message || 'Login nahi ho paya.');
+  }
+}
 
 // SVG Icons
 const PhoneIcon = () => (
@@ -71,22 +104,21 @@ export default function Login({ toast }) {
 
     setBusy(true);
     try {
-      const res = await fetch(BACKEND_URL + '/login.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mobile, password: pass }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        // Save user data locally
-        localStorage.setItem('lrc_user', JSON.stringify(data));
-        toast('Login ho gaya!', '#34c759');
-        window.location.reload();
-      } else {
-        toast(data.error || 'Login failed', '#ff3b30');
+      const credential = await signInWithEmailAndPassword(auth, authEmailForMobile(mobile), pass);
+      const profileSnap = await getDoc(doc(db, 'users', credential.user.uid));
+      if (!profileSnap.exists()) {
+        throw new Error('Is account ka Firebase profile nahi mila. Support se contact karo.');
       }
+      const profile = profileSnap.data();
+      if (profile.status === 'blocked') {
+        await signOut(auth);
+        throw new Error('Ye account blocked hai. Support se baat karo.');
+      }
+      localStorage.setItem('lrc_user', JSON.stringify({ uid: credential.user.uid, ...profile }));
+      toast('Login ho gaya!', '#34c759');
+      window.location.reload();
     } catch (e) {
-      toast('Network error', '#ff3b30');
+      toast(authErrorMessage(e), '#ff3b30');
     } finally {
       setBusy(false);
     }
@@ -100,29 +132,55 @@ export default function Login({ toast }) {
 
     if (!name) return toast('Username dalo', '#ff3b30');
     if (!mobile || mobile.length !== 10) return toast('10 digit mobile number dalo', '#ff3b30');
-    if (!pass || pass.length < 4) return toast('Password kam se kam 4 characters ka ho', '#ff3b30');
+    if (!pass || pass.length < 6) return toast('Password kam se kam 6 characters ka ho', '#ff3b30');
 
     setBusy(true);
+    let createdUser = null;
     try {
-      const res = await fetch(BACKEND_URL + '/register.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, mobile, password: pass, referral_code: referral }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        toast('Account ban gaya! Ab login karo.', '#34c759');
-        setMode('login');
-        setLoginMobile(mobile);
-        setRegName('');
-        setRegMobile('');
-        setRegPass('');
-        setRegReferral('');
-      } else {
-        toast(data.error || 'Register failed', '#ff3b30');
+      const credential = await createUserWithEmailAndPassword(auth, authEmailForMobile(mobile), pass);
+      createdUser = credential.user;
+      await updateProfile(createdUser, { displayName: name });
+
+      let referredBy = '';
+      if (referral) {
+        const refSnap = await getDocs(query(collection(db, 'users'), where('referralCode', '==', referral), limit(1)));
+        if (!refSnap.empty) referredBy = referral;
       }
+
+      const profile = {
+        name,
+        email: authEmailForMobile(mobile),
+        mobile,
+        photoURL: '',
+        profileLogo: randomLogo(),
+        userId: await uniqueCode('userId'),
+        balance: 0,
+        totalDeposit: 0,
+        totalWithdraw: 0,
+        totalWin: 0,
+        status: 'active',
+        referralCode: await uniqueCode('referralCode'),
+        referredBy,
+        referralCommission: 0,
+        kycStatus: 'none',
+        createdAt: serverTimestamp()
+      };
+      await setDoc(doc(db, 'users', createdUser.uid), profile);
+      await signOut(auth);
+      localStorage.removeItem('lrc_user');
+      toast('Account Firebase par ban gaya! Ab login karo.', '#34c759');
+      setMode('login');
+      setLoginMobile(mobile);
+      setRegName('');
+      setRegMobile('');
+      setRegPass('');
+      setRegReferral('');
     } catch (e) {
-      toast('Network error', '#ff3b30');
+      if (createdUser) {
+        // Avoid leaving this newly-created Firebase session active if profile setup failed.
+        try { await signOut(auth); } catch (signOutError) {}
+      }
+      toast(authErrorMessage(e, true), '#ff3b30');
     } finally {
       setBusy(false);
     }
@@ -228,7 +286,8 @@ export default function Login({ toast }) {
   );
 }
 
-export function logoutAll() {
+export async function logoutAll() {
+  try { await signOut(auth); } catch (e) {}
   localStorage.removeItem('lrc_user');
   window.location.reload();
 }

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { addDoc, collection, doc, getDoc, getDocs, limit, onSnapshot, orderBy, query, serverTimestamp, setDoc, where } from 'firebase/firestore';
 import { auth, db } from './firebase.js';
 import { generateUserId, randomLogo } from './lib.js';
@@ -160,36 +160,46 @@ export default function App() {
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
-  // Auth — localStorage se (PHP backend login)
+  // Firebase Auth session is the source of truth (no PHP/localStorage auth).
   useEffect(() => {
-    const saved = localStorage.getItem('lrc_user');
-    if (saved) {
-      try {
-        const userData = JSON.parse(saved);
-        if (userData && userData.uid) {
-          setUser(userData);
-          setProfile(userData);
+    let active = true;
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (!firebaseUser) {
+        localStorage.removeItem('lrc_user');
+        if (active) {
+          setUser(null);
+          setProfile(null);
+          setAuthChecked(true);
         }
-      } catch (e) {}
-    }
-    setAuthChecked(true);
-  }, []);
-
-  // Profile — localStorage data se (PHP backend)
-  useEffect(() => {
-    if (!user?.uid) return;
-    // localStorage se profile refresh karo har 5 sec
-    const interval = setInterval(() => {
-      const saved = localStorage.getItem('lrc_user');
-      if (saved) {
-        try {
-          const data = JSON.parse(saved);
-          setProfile(data);
-        } catch (e) {}
+        return;
       }
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [user?.uid]);
+
+      try {
+        const userProfile = await ensureUserDoc(firebaseUser);
+        if (userProfile.status === 'blocked') throw new Error('Ye account blocked hai. Support se baat karo.');
+        const savedProfile = { uid: firebaseUser.uid, ...userProfile };
+        localStorage.setItem('lrc_user', JSON.stringify(savedProfile));
+        if (active) {
+          setUser({ uid: firebaseUser.uid, email: firebaseUser.email || '' });
+          setProfile(savedProfile);
+        }
+      } catch (e) {
+        localStorage.removeItem('lrc_user');
+        if (active) {
+          setUser(null);
+          setProfile(null);
+          toast(e.message || 'Firebase profile load nahi hua.', '#ff3b30');
+        }
+        try { await signOut(auth); } catch (signOutError) {}
+      } finally {
+        if (active) setAuthChecked(true);
+      }
+    });
+    return () => {
+      active = false;
+      unsubscribe();
+    };
+  }, [toast]);
   useEffect(() => {
     if (!user) return;
     const unsub = onSnapshot(
@@ -211,6 +221,7 @@ export default function App() {
       if (snap.exists()) {
         const data = { uid: snap.id, ...snap.data() };
         setProfile(data);
+        localStorage.setItem('lrc_user', JSON.stringify(data));
       }
     }, () => {});
     return unsub;
