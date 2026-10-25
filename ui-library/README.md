@@ -76,4 +76,14 @@ monochrome Black theme).
 - `npm run smoke:catalog` — server-renders all 88 variants inside all providers,
   validates unique ids, known categories and non-empty JSX/CSS sources
 - `npm run smoke:pages` — server-renders every route (home, catalog, category, detail,
-  search, favorites, recent)
+  search, favorites, recent) and resolves the real lazy route table mounted by `App.jsx`
+
+## Deployment (Vercel)
+
+- The app is a static SPA built with `vite build` (output `dist/`). `vercel.json` adds a
+  catch-all rewrite to `index.html` so deep links such as `/component/button` work.
+- Vercel project: **vakeem-library**, framework Vite, root directory `ui-library`,
+  Node engine pinned to `24.x` in `package.json`.
+- Live URL: <https://vakeem-library.vercel.app>
+- Lazy pages live in `src/pages/lazyPages.jsx`: `React.lazy` needs a default export, so
+  named exports from `CatalogPages.jsx` are wrapped via `loader().then(m => ({ default: m[name] }))`.
