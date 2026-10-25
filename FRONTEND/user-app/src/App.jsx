@@ -175,7 +175,18 @@ export default function App() {
       }
 
       try {
-        const userProfile = await ensureUserDoc(firebaseUser);
+        const profileSnap = await getDoc(doc(db, 'users', firebaseUser.uid));
+        if (!profileSnap.exists()) {
+          // Registration writes the user document immediately after Firebase Auth creation.
+          // Do not create a competing profile here while that write is in flight.
+          if (active) {
+            setUser(null);
+            setProfile(null);
+            setAuthChecked(true);
+          }
+          return;
+        }
+        const userProfile = profileSnap.data();
         if (userProfile.status === 'blocked') throw new Error('Ye account blocked hai. Support se baat karo.');
         const savedProfile = { uid: firebaseUser.uid, ...userProfile };
         localStorage.setItem('lrc_user', JSON.stringify(savedProfile));
