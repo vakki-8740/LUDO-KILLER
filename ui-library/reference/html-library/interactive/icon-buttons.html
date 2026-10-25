@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Icon Buttons</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    --accent: #4f6bed;
+    --yes: #22a06b;
+    --no: #e5484d;
+    --accent-soft: rgba(79, 107, 237, 0.10);
+  }
+
+  [data-theme="dark"] {
+    --bg: #12141a;
+    --card: #1c1f28;
+    --text: #eceef3;
+    --muted: #9aa1b2;
+    --border: #2a2e3a;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --accent: #7b92ff;
+    --accent-soft: rgba(123, 146, 255, 0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: 80px 16px 40px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .theme-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 60;
+    width: 46px;
+    height: 46px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, background 0.3s;
+  }
+  .theme-toggle:hover { transform: scale(1.08); }
+  .theme-toggle svg { width: 22px; height: 22px; }
+  .theme-toggle .icon-sun { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+  .wrap {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .panel h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+
+  /* ---------- Icon buttons ---------- */
+  .icon-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s, opacity 0.2s;
+  }
+  .icon-btn svg { width: 19px; height: 19px; }
+  .icon-btn:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); }
+  .icon-btn:active { transform: translateY(0); }
+
+  .icon-btn.filled {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .icon-btn.filled:hover { opacity: 0.9; color: #fff; border-color: var(--accent); }
+
+  .icon-btn.ghost {
+    background: transparent;
+    border-color: transparent;
+    color: var(--muted);
+  }
+  .icon-btn.ghost:hover { background: var(--bg); color: var(--text); border-color: transparent; }
+
+  .icon-btn.soft {
+    background: var(--accent-soft);
+    border-color: transparent;
+    color: var(--accent);
+  }
+  .icon-btn.soft:hover { background: var(--accent-soft); border-color: var(--accent); }
+
+  .icon-btn.danger { color: var(--no); }
+  .icon-btn.danger:hover { border-color: var(--no); color: var(--no); }
+
+  .icon-btn.active {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .icon-btn.sm { width: 34px; height: 34px; }
+  .icon-btn.sm svg { width: 16px; height: 16px; }
+  .icon-btn.lg { width: 52px; height: 52px; }
+  .icon-btn.lg svg { width: 23px; height: 23px; }
+
+  .dot-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--no);
+    border: 2px solid var(--card);
+  }
+
+  .count-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    border: 2px solid var(--card);
+    font-size: 0.6rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ---------- Variant grid ---------- */
+  .variants {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+    gap: 12px;
+  }
+  .variant {
+    position: relative;
+    min-height: 104px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 10px 28px;
+  }
+  .variant-label {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 8px;
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  /* ---------- Sizes ---------- */
+  .sizes { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .size-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .size-item span { font-size: 0.7rem; color: var(--muted); }
+
+  /* ---------- Toolbar group ---------- */
+  .group {
+    display: inline-flex;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--card);
+  }
+  .group .icon-btn {
+    border: 0;
+    border-left: 1px solid var(--border);
+    border-radius: 0;
+    width: 44px;
+    height: 40px;
+    color: var(--muted);
+  }
+  .group .icon-btn:first-child { border-left: 0; }
+  .group .icon-btn:hover { transform: none; background: var(--bg); color: var(--text); }
+  .group .icon-btn.active { background: var(--accent-soft); color: var(--accent); }
+
+  .btn-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .btn-row + .btn-row { margin-top: 16px; }
+
+  @media (max-width: 520px) {
+    .panel { padding: 18px; }
+    .variants { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .variant { min-height: 92px; }
+    .group .icon-btn { width: 39px; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+</button>
+
+<main class="wrap">
+
+  <section class="panel">
+    <h2>Icon button variants</h2>
+    <div class="variants">
+      <div class="variant">
+        <button class="icon-btn" aria-label="Search" title="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+        <span class="variant-label">Default</span>
+      </div>
+
+      <div class="variant">
+        <button class="icon-btn filled" aria-label="Add item" title="Add item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <span class="variant-label">Filled</span>
+      </div>
+
+      <div class="variant">
+        <button class="icon-btn ghost" aria-label="More options" title="More options">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+        </button>
+        <span class="variant-label">Ghost</span>
+      </div>
+
+      <div class="variant">
+        <button class="icon-btn soft" aria-label="Like" title="Like">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.7-7.5 1.1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+        </button>
+        <span class="variant-label">Soft</span>
+      </div>
+
+      <div class="variant">
+        <button class="icon-btn danger" aria-label="Delete" title="Delete">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg>
+        </button>
+        <span class="variant-label">Danger</span>
+      </div>
+
+      <div class="variant">
+        <button class="icon-btn active" aria-label="Saved" title="Saved" aria-pressed="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        </button>
+        <span class="variant-label">Active</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Sizes &amp; badges</h2>
+    <div class="btn-row">
+      <button class="icon-btn sm" aria-label="Search small" title="Small">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Search medium" title="Medium">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+      </button>
+      <button class="icon-btn lg" aria-label="Search large" title="Large">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+      </button>
+
+      <button class="icon-btn" aria-label="Notifications, unread" title="Unread">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        <span class="dot-badge"></span>
+      </button>
+
+      <button class="icon-btn" aria-label="Messages, 4 new" title="4 new messages">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span class="count-badge">4</span>
+      </button>
+    </div>
+
+    <div class="btn-row" style="margin-top: 20px;">
+      <div class="group" role="group" aria-label="View options">
+        <button class="icon-btn active" aria-label="Grid view" aria-pressed="true" title="Grid view">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="List view" aria-pressed="false" title="List view">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Calendar view" aria-pressed="false" title="Calendar view">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        </button>
+      </div>
+      <span style="font-size: 0.78rem; color: var(--muted);">Segmented toolbar</span>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.getElementById("themeToggle");
+
+  function setTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    try { localStorage.setItem("theme", theme); } catch (e) {}
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem("theme"); } catch (e) {}
+  setTheme(saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+
+  toggle.addEventListener("click", () => {
+    setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  document.querySelectorAll(".group .icon-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".group .icon-btn").forEach(b => {
+        b.classList.remove("active");
+        b.setAttribute("aria-pressed", "false");
+      });
+      btn.classList.add("active");
+      btn.setAttribute("aria-pressed", "true");
+    });
+  });
+</script>
+</body>
+</html>

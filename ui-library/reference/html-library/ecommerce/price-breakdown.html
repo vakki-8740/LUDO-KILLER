@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Price Breakdown · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">E-commerce</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Price Breakdown</h1>
+    <p>Itemised pricing with savings, tax and total.</p>
+  </div>
+  <section class="vw-block" id="price-breakdown" aria-labelledby="price-breakdown-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="price-breakdown-t">Cost breakdown</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="pb-card">
+  <p class="pb-t">Price details</p>
+  <div class="pb-line"><span class="pb-k">Items (3)</span><span class="pb-v">$68.00</span></div>
+  <div class="pb-line"><span class="pb-k">Discount (SAVE10)</span><span class="pb-v is-save">-$6.80</span></div>
+  <div class="pb-line"><span class="pb-k">Delivery</span><span class="pb-v is-save">Free</span></div>
+  <div class="pb-line"><span class="pb-k">Estimated tax</span><span class="pb-v">$5.51</span></div>
+  <div class="pb-line pb-sub"><span class="pb-k">Subtotal</span><span class="pb-v">$66.71</span></div>
+  <div class="pb-total"><span class="pb-tk">Total</span><span class="pb-tv">$66.71</span></div>
+  <p class="pb-saved"><span class="pb-ico" aria-hidden="true">&#10003;</span> You saved $6.80 on this order</p>
+  <button class="pb-help" type="button">How is tax calculated?</button>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.pb-card { max-width: 330px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 13px; }
+.pb-t { margin: 0 0 8px; font-size: 0.78rem; font-weight: 700; }
+.pb-line { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; }
+.pb-k { font-size: 0.66rem; color: var(--muted); }
+.pb-v { font-size: 0.66rem; font-weight: 600; }
+.pb-v.is-save { color: var(--yes); }
+.pb-sub { border-top: 1px dashed var(--border); margin-top: 4px; padding-top: 6px; }
+.pb-sub .pb-k, .pb-sub .pb-v { color: var(--text); font-weight: 700; }
+.pb-total { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); margin-top: 4px; padding-top: 7px; }
+.pb-tk { font-size: 0.74rem; font-weight: 800; }
+.pb-tv { font-size: 0.98rem; font-weight: 800; color: var(--accent); }
+.pb-saved { display: flex; align-items: center; gap: 4px; margin: 7px 0; font-size: 0.6rem; font-weight: 600; color: var(--yes); }
+.pb-ico { width: 13px; height: 13px; border-radius: 999px; background: rgba(34, 160, 107, 0.14); display: flex; align-items: center; justify-content: center; font-size: 0.5rem; }
+.pb-help { border: 0; background: transparent; color: var(--accent); font: inherit; font-size: 0.6rem; font-weight: 600; padding: 2px; cursor: pointer; border-radius: 3px; }
+.pb-help:hover { text-decoration: underline; }
+.pb-help:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }</style>
+    <script data-block></script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

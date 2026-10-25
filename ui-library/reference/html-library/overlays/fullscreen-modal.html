@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fullscreen Modal · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Overlays</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Fullscreen Modal</h1>
+    <p>Immersive overlay that fills the demo surface.</p>
+  </div>
+  <section class="vw-block" id="fullscreen-modal" aria-labelledby="fullscreen-modal-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="fullscreen-modal-t">Immersive modal</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="fm-demo">
+  <div class="fm-base">
+    <p class="fm-baseT">Media workspace</p>
+    <p class="fm-baseD">Open the immersive editor to focus on one asset.</p>
+    <button class="fm-open" type="button" id="fmOpen">Open immersive view</button>
+  </div>
+  <div class="fm-layer" id="fmLayer" role="dialog" aria-modal="true" aria-labelledby="fmTitle" hidden>
+    <div class="fm-bar">
+      <span class="fm-title" id="fmTitle">Editing: hero-banner.jpg</span>
+      <button class="fm-close" type="button" id="fmClose" aria-label="Close immersive view">&times;</button>
+    </div>
+    <div class="fm-canvas">
+      <div class="fm-art" aria-hidden="true">
+        <span class="fm-shape fm-s1"></span>
+        <span class="fm-shape fm-s2"></span>
+        <span class="fm-shape fm-s3"></span>
+      </div>
+    </div>
+    <div class="fm-tools">
+      <button class="fm-tool is-on" type="button" aria-pressed="true">Crop</button>
+      <button class="fm-tool" type="button" aria-pressed="false">Adjust</button>
+      <button class="fm-tool" type="button" aria-pressed="false">Filter</button>
+      <button class="fm-save" type="button">Save</button>
+    </div>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.fm-demo { position: relative; height: 330px; border: 1px dashed var(--border); border-radius: var(--radius); overflow: hidden; }
+.fm-base { padding: 20px; }
+.fm-baseT { margin: 0 0 4px; font-size: 0.95rem; font-weight: 700; }
+.fm-baseD { margin: 0 0 12px; font-size: 0.78rem; color: var(--muted); max-width: 280px; line-height: 1.5; }
+.fm-open { border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.78rem; font-weight: 600; padding: 8px 13px; border-radius: var(--radius); cursor: pointer; }
+.fm-open:hover { opacity: 0.92; }
+.fm-open:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.fm-layer { position: absolute; inset: 0; background: var(--card); z-index: 20; display: flex; flex-direction: column; }
+.fm-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 12px; border-bottom: 1px solid var(--border); }
+.fm-title { font-size: 0.76rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fm-close { width: 26px; height: 26px; border: 0; border-radius: 999px; background: var(--bg); color: var(--muted); font-size: 1rem; cursor: pointer; line-height: 1; flex: 0 0 auto; }
+.fm-close:hover { color: var(--text); }
+.fm-close:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.fm-canvas { flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px; background: var(--bg); overflow: hidden; }
+.fm-art { position: relative; width: 100%; height: 100%; border-radius: var(--radius); background: linear-gradient(140deg, #1f2a4a, #4f6bed 60%, #8b5cf6); overflow: hidden; }
+.fm-shape { position: absolute; border-radius: 999px; }
+.fm-s1 { width: 90px; height: 90px; background: rgba(255, 255, 255, 0.16); top: 18%; left: 16%; }
+.fm-s2 { width: 46px; height: 46px; background: rgba(255, 255, 255, 0.24); bottom: 22%; right: 20%; }
+.fm-s3 { width: 130px; height: 130px; border: 2px solid rgba(255, 255, 255, 0.3); bottom: -40px; left: 34%; }
+.fm-tools { display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+.fm-tool { border: 1px solid var(--border); background: transparent; color: var(--muted); font: inherit; font-size: 0.72rem; font-weight: 600; padding: 5px 10px; border-radius: 999px; cursor: pointer; }
+.fm-tool.is-on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.fm-tool:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.fm-save { margin-left: auto; border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.72rem; font-weight: 600; padding: 6px 13px; border-radius: 4px; cursor: pointer; }
+.fm-save:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }</style>
+    <script data-block>(function () {
+  var layer = document.getElementById("fmLayer");
+  var openBtn = document.getElementById("fmOpen");
+  var closeBtn = document.getElementById("fmClose");
+
+  function set(open) {
+    layer.hidden = !open;
+    if (open) closeBtn.focus();
+    else openBtn.focus();
+  }
+
+  openBtn.addEventListener("click", function () { set(true); });
+  closeBtn.addEventListener("click", function () { set(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !layer.hidden) set(false);
+  });
+
+  document.querySelectorAll(".fm-tool").forEach(function (t) {
+    t.addEventListener("click", function () {
+      document.querySelectorAll(".fm-tool").forEach(function (x) {
+        x.classList.remove("is-on");
+        x.setAttribute("aria-pressed", "false");
+      });
+      t.classList.add("is-on");
+      t.setAttribute("aria-pressed", "true");
+    });
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

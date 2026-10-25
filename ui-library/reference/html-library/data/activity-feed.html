@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Activity Feed · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Data Display</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Activity Feed</h1>
+    <p>Team activity list with avatars and relative times.</p>
+  </div>
+  <section class="vw-block" id="activity-feed" aria-labelledby="activity-feed-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="activity-feed-t">Recent activity</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="af-card">
+  <div class="af-head">
+    <span class="af-title">Recent activity</span>
+    <span class="af-live"><span class="af-dot" aria-hidden="true"></span>Live</span>
+  </div>
+  <ul class="af-list">
+    <li class="af-item">
+      <span class="af-av af-1">AK</span>
+      <div class="af-body"><p class="af-t"><strong>Ayesha</strong> commented on <span class="af-link">Checkout flow</span></p><p class="af-time">2 min ago</p></div>
+    </li>
+    <li class="af-item">
+      <span class="af-av af-2">RS</span>
+      <div class="af-body"><p class="af-t"><strong>Rohan</strong> merged pull request <span class="af-link">#248</span></p><p class="af-time">18 min ago</p></div>
+    </li>
+    <li class="af-item">
+      <span class="af-av af-3">MP</span>
+      <div class="af-body"><p class="af-t"><strong>Mira</strong> moved 3 tasks to <span class="af-link">Review</span></p><p class="af-time">1 hour ago</p></div>
+    </li>
+    <li class="af-item">
+      <span class="af-av af-4">TN</span>
+      <div class="af-body"><p class="af-t"><strong>Tarun</strong> uploaded <span class="af-link">brand-assets.zip</span></p><p class="af-time">3 hours ago</p></div>
+    </li>
+  </ul>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.af-card { max-width: 380px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); overflow: hidden; }
+.af-head { display: flex; align-items: center; justify-content: space-between; padding: 11px 13px; border-bottom: 1px solid var(--border); }
+.af-title { font-size: 0.8rem; font-weight: 700; }
+.af-live { display: inline-flex; align-items: center; gap: 4px; font-size: 0.68rem; font-weight: 600; color: var(--yes); }
+.af-dot { width: 6px; height: 6px; border-radius: 999px; background: currentColor; animation: afPulse 1.6s ease-in-out infinite; }
+.af-list { list-style: none; margin: 0; padding: 4px; }
+.af-item { display: flex; gap: 9px; padding: 9px; border-radius: 4px; }
+.af-item:hover { background: var(--bg); }
+.af-av { width: 30px; height: 30px; border-radius: 999px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.65rem; font-weight: 700; flex: 0 0 auto; }
+.af-1 { background: linear-gradient(135deg, #4f6bed, #8b5cf6); }
+.af-2 { background: linear-gradient(135deg, #22a06b, #0ea5e9); }
+.af-3 { background: linear-gradient(135deg, #e5484d, #f0b543); }
+.af-4 { background: linear-gradient(135deg, #8b5cf6, #e5484d); }
+.af-body { min-width: 0; }
+.af-t { margin: 0; font-size: 0.77rem; line-height: 1.4; }
+.af-t strong { font-weight: 700; }
+.af-link { color: var(--accent); font-weight: 600; }
+.af-time { margin: 2px 0 0; font-size: 0.68rem; color: var(--muted); }
+@keyframes afPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+@media (prefers-reduced-motion: reduce) { .af-dot { animation: none; } }</style>
+    <script data-block></script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

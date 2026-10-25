@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dropdown Menu · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Overlays</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Dropdown Menu</h1>
+    <p>Keyboard-friendly menu with groups and selection.</p>
+  </div>
+  <section class="vw-block" id="dropdown-menu" aria-labelledby="dropdown-menu-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="dropdown-menu-t">Account menu</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="dd-wrap">
+  <button class="dd-trigger" type="button" id="ddTrigger" aria-expanded="false" aria-haspopup="menu" aria-controls="ddMenu">
+    <span class="dd-av" aria-hidden="true">AK</span>
+    <span class="dd-meta"><span class="dd-name">Ayesha Khan</span><span class="dd-role">Product designer</span></span>
+    <svg class="dd-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
+  <div class="dd-menu" id="ddMenu" role="menu" aria-labelledby="ddTrigger" hidden>
+    <span class="dd-group" role="presentation">Account</span>
+    <button class="dd-item is-sel" type="button" role="menuitemradio" aria-checked="true"><span class="dd-dot" aria-hidden="true"></span>Profile</button>
+    <button class="dd-item" type="button" role="menuitemradio" aria-checked="false"><span class="dd-dot" aria-hidden="true"></span>Preferences</button>
+    <span class="dd-sep" role="separator"></span>
+    <span class="dd-group" role="presentation">Team</span>
+    <button class="dd-item" type="button" role="menuitem">Invite member</button>
+    <button class="dd-item" type="button" role="menuitem">Manage billing</button>
+    <span class="dd-sep" role="separator"></span>
+    <button class="dd-item dd-danger" type="button" role="menuitem">Sign out</button>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.dd-wrap { position: relative; display: inline-block; }
+.dd-trigger { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); background: var(--card); padding: 6px 10px; border-radius: var(--radius); cursor: pointer; font: inherit; color: var(--text); }
+.dd-trigger:hover { border-color: var(--accent); }
+.dd-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dd-av { width: 28px; height: 28px; border-radius: 999px; background: linear-gradient(135deg, #4f6bed, #8b5cf6); color: #fff; font-size: 0.64rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.dd-meta { display: flex; flex-direction: column; text-align: left; }
+.dd-name { font-size: 0.76rem; font-weight: 700; line-height: 1.2; }
+.dd-role { font-size: 0.62rem; color: var(--muted); }
+.dd-caret { width: 14px; height: 14px; color: var(--muted); }
+.dd-menu { position: absolute; top: calc(100% + 7px); left: 0; width: 200px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 5px; z-index: 20; }
+.dd-group { display: block; padding: 5px 8px 3px; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+.dd-item { display: flex; align-items: center; gap: 7px; width: 100%; border: 0; background: transparent; color: var(--text); font: inherit; font-size: 0.78rem; text-align: left; padding: 7px 8px; border-radius: 4px; cursor: pointer; }
+.dd-item:hover, .dd-item:focus-visible { background: var(--bg); outline: none; }
+.dd-item.is-sel { color: var(--accent); font-weight: 600; }
+.dd-dot { width: 6px; height: 6px; border-radius: 999px; background: transparent; }
+.dd-item.is-sel .dd-dot { background: var(--accent); }
+.dd-sep { display: block; height: 1px; background: var(--border); margin: 4px 2px; }
+.dd-danger { color: var(--no); }</style>
+    <script data-block>(function () {
+  var trigger = document.getElementById("ddTrigger");
+  var menu = document.getElementById("ddMenu");
+  var items = Array.prototype.slice.call(menu.querySelectorAll(".dd-item"));
+
+  function set(open) {
+    menu.hidden = !open;
+    trigger.setAttribute("aria-expanded", String(open));
+    if (open && items[0]) items[0].focus();
+  }
+
+  trigger.addEventListener("click", function (e) {
+    e.stopPropagation();
+    set(menu.hidden);
+  });
+
+  trigger.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowDown") { e.preventDefault(); set(true); }
+  });
+
+  items.forEach(function (it, i) {
+    it.addEventListener("click", function () {
+      if (it.getAttribute("role") === "menuitemradio") {
+        items.forEach(function (x) {
+          if (x.getAttribute("role") === "menuitemradio") {
+            x.classList.remove("is-sel");
+            x.setAttribute("aria-checked", "false");
+          }
+        });
+        it.classList.add("is-sel");
+        it.setAttribute("aria-checked", "true");
+      }
+      set(false);
+      trigger.focus();
+    });
+    it.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown") { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+      if (e.key === "ArrowUp") { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+      if (e.key === "Escape") { set(false); trigger.focus(); }
+    });
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!menu.hidden && !menu.contains(e.target) && !trigger.contains(e.target)) set(false);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !menu.hidden) { set(false); trigger.focus(); }
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

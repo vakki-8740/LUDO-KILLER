@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gradient Buttons · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Buttons &amp; Actions</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Gradient Buttons</h1>
+    <p>Accent gradients, soft gradient, multi-stop and shine hover.</p>
+  </div>
+  <section class="vw-block" id="gradient-buttons" aria-labelledby="gradient-buttons-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="gradient-buttons-t">Gradient button set</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="gr-set">
+  <button class="gr-btn gr-primary" type="button">Get started</button>
+  <button class="gr-btn gr-soft" type="button">Soft gradient</button>
+  <button class="gr-btn gr-green" type="button">Upgrade plan</button>
+  <button class="gr-btn gr-shine" type="button">Shine on hover</button>
+</div>
+<div class="gr-sizes">
+  <button class="gr-btn gr-primary gr-sm" type="button">Small</button>
+  <button class="gr-btn gr-primary" type="button">Medium</button>
+  <button class="gr-btn gr-primary gr-lg" type="button">Large</button>
+</div>
+<button class="gr-btn gr-primary gr-full" type="button">Continue to dashboard</button>
+        </div>
+      </div>
+    </div>
+    <style data-block>.gr-set { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.gr-sizes { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+.gr-btn {
+  position: relative;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius);
+  color: #fff;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 18px;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.2s;
+}
+.gr-btn:hover { transform: translateY(-2px); opacity: 0.94; }
+.gr-btn:active { transform: translateY(0); }
+.gr-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.gr-primary { background: linear-gradient(135deg, #4f6bed, #8b5cf6); }
+.gr-soft { background: var(--accent-soft); color: var(--accent); border: 1px solid rgba(79, 107, 237, 0.35); }
+.gr-green { background: linear-gradient(135deg, #22a06b, #0ea5e9); }
+.gr-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.6s;
+}
+.gr-shine:hover::after { transform: translateX(120%); }
+.gr-sm { font-size: 0.78rem; padding: 7px 13px; }
+.gr-lg { font-size: 1rem; padding: 13px 24px; }
+.gr-full { display: block; width: 100%; }
+@media (prefers-reduced-motion: reduce) {
+  .gr-btn, .gr-shine::after { transition: none; }
+  .gr-btn:hover { transform: none; }
+}</style>
+    <script data-block></script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

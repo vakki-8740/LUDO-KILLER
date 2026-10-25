@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Settings Panel · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Dashboard &amp; App</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Settings Panel</h1>
+    <p>Tabbed settings with toggle switches.</p>
+  </div>
+  <section class="vw-block" id="settings-panel" aria-labelledby="settings-panel-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="settings-panel-t">Workspace settings</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="ds-card">
+  <div class="ds-tabs" role="tablist" aria-label="Settings sections">
+    <button class="ds-tab is-on" type="button" role="tab" aria-selected="true" data-p="general">General</button>
+    <button class="ds-tab" type="button" role="tab" aria-selected="false" data-p="notify">Notifications</button>
+    <button class="ds-tab" type="button" role="tab" aria-selected="false" data-p="security">Security</button>
+  </div>
+  <div class="ds-panel" id="dsGeneral">
+    <label class="ds-lbl" for="dsName">Workspace name</label>
+    <input class="ds-input" id="dsName" type="text" value="OWN Studio">
+    <label class="ds-lbl" for="dsUrl">Workspace URL</label>
+    <input class="ds-input" id="dsUrl" type="text" value="own.studio">
+  </div>
+  <div class="ds-panel" id="dsNotify" hidden>
+    <div class="ds-row"><div><p class="ds-rt">Product updates</p><p class="ds-rd">Monthly changelog email.</p></div><label class="ds-switch"><input class="ds-toggle" type="checkbox" checked aria-label="Product updates"><span class="ds-slider"></span></label></div>
+    <div class="ds-row"><div><p class="ds-rt">Comments</p><p class="ds-rd">When someone mentions you.</p></div><label class="ds-switch"><input class="ds-toggle" type="checkbox" checked aria-label="Comments"><span class="ds-slider"></span></label></div>
+    <div class="ds-row"><div><p class="ds-rt">Weekly digest</p><p class="ds-rd">Summary every Monday.</p></div><label class="ds-switch"><input class="ds-toggle" type="checkbox" aria-label="Weekly digest"><span class="ds-slider"></span></label></div>
+  </div>
+  <div class="ds-panel" id="dsSecurity" hidden>
+    <div class="ds-row"><div><p class="ds-rt">Two-factor auth</p><p class="ds-rd">Require a code at sign-in.</p></div><label class="ds-switch"><input class="ds-toggle" type="checkbox" checked aria-label="Two-factor auth"><span class="ds-slider"></span></label></div>
+    <div class="ds-row"><div><p class="ds-rt">Session alerts</p><p class="ds-rd">Email on new device login.</p></div><label class="ds-switch"><input class="ds-toggle" type="checkbox" aria-label="Session alerts"><span class="ds-slider"></span></label></div>
+  </div>
+  <div class="ds-foot"><button class="ds-save" type="button" id="dsSave">Save changes</button></div>
+  <p class="ds-msg" id="dsMsg" role="status"></p>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.ds-card { max-width: 380px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 12px; }
+.ds-tabs { display: flex; gap: 3px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+.ds-tab { border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 0.68rem; font-weight: 600; padding: 6px 7px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.ds-tab.is-on { color: var(--accent); border-bottom-color: var(--accent); }
+.ds-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ds-lbl { display: block; margin: 0 0 4px; font-size: 0.64rem; font-weight: 600; color: var(--muted); }
+.ds-input { width: 100%; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font: inherit; font-size: 0.74rem; padding: 6px 8px; margin-bottom: 9px; outline: none; }
+.ds-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.ds-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.ds-row:last-child { border-bottom: 0; }
+.ds-rt { margin: 0; font-size: 0.72rem; font-weight: 600; }
+.ds-rd { margin: 1px 0 0; font-size: 0.6rem; color: var(--muted); }
+.ds-switch { position: relative; width: 34px; height: 19px; flex: 0 0 auto; display: inline-block; }
+.ds-toggle { opacity: 0; width: 0; height: 0; position: absolute; }
+.ds-slider { position: absolute; inset: 0; background: var(--track-off); border-radius: 999px; cursor: pointer; transition: background 0.2s; }
+.ds-slider::before { content: ""; position: absolute; width: 15px; height: 15px; left: 2px; top: 2px; background: #fff; border-radius: 999px; transition: transform 0.2s; }
+.ds-toggle:checked + .ds-slider { background: var(--accent); }
+.ds-toggle:checked + .ds-slider::before { transform: translateX(15px); }
+.ds-toggle:focus-visible + .ds-slider { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ds-foot { margin-top: 10px; display: flex; justify-content: flex-end; }
+.ds-save { border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.7rem; font-weight: 600; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+.ds-save:hover { opacity: 0.92; }
+.ds-save:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ds-msg { min-height: 1em; margin: 6px 0 0; font-size: 0.64rem; color: var(--yes); text-align: right; }</style>
+    <script data-block>(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".ds-tab"));
+  var panels = { general: document.getElementById("dsGeneral"), notify: document.getElementById("dsNotify"), security: document.getElementById("dsSecurity") };
+
+  tabs.forEach(function (t) {
+    t.addEventListener("click", function () {
+      tabs.forEach(function (x) {
+        x.classList.remove("is-on");
+        x.setAttribute("aria-selected", "false");
+      });
+      t.classList.add("is-on");
+      t.setAttribute("aria-selected", "true");
+      Object.keys(panels).forEach(function (k) { panels[k].hidden = k !== t.getAttribute("data-p"); });
+    });
+  });
+
+  var msg = document.getElementById("dsMsg");
+  document.getElementById("dsSave").addEventListener("click", function () {
+    msg.textContent = "Settings saved.";
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

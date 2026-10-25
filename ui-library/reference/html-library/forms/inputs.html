@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Input Fields</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    --accent: #4f6bed;
+    --yes: #22a06b;
+    --no: #e5484d;
+    --accent-soft: rgba(79, 107, 237, 0.10);
+  }
+
+  [data-theme="dark"] {
+    --bg: #12141a;
+    --card: #1c1f28;
+    --text: #eceef3;
+    --muted: #9aa1b2;
+    --border: #2a2e3a;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --accent: #7b92ff;
+    --accent-soft: rgba(123, 146, 255, 0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: 80px 16px 40px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .theme-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 60;
+    width: 46px;
+    height: 46px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, background 0.3s;
+  }
+  .theme-toggle:hover { transform: scale(1.08); }
+  .theme-toggle svg { width: 22px; height: 22px; }
+  .theme-toggle .icon-sun { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+  .wrap {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .panel h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .panel-note { color: var(--muted); font-size: 0.85rem; margin-bottom: 18px; }
+
+  .fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+  }
+
+  .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .field > label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .field > label .req { color: var(--no); }
+
+  .control { position: relative; display: flex; align-items: center; }
+
+  .input {
+    width: 100%;
+    height: 44px;
+    padding: 0 13px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  .input::placeholder { color: var(--muted); opacity: 0.85; }
+  .input:hover { border-color: var(--muted); }
+  .input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .input:disabled {
+    background: var(--bg);
+    color: var(--muted);
+    cursor: not-allowed;
+  }
+
+  .control .lead {
+    position: absolute;
+    left: 12px;
+    color: var(--muted);
+    display: flex;
+    pointer-events: none;
+  }
+  .control .lead svg { width: 17px; height: 17px; }
+  .control.has-lead .input { padding-left: 38px; }
+
+  .control .trail {
+    position: absolute;
+    right: 5px;
+    display: flex;
+  }
+  .control.has-trail .input { padding-right: 46px; }
+
+  .ghost-btn {
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .ghost-btn:hover { background: var(--bg); color: var(--text); }
+  .ghost-btn svg { width: 17px; height: 17px; }
+
+  .help { font-size: 0.75rem; color: var(--muted); line-height: 1.4; }
+  .help.error { color: var(--no); }
+  .help.success { color: var(--yes); }
+
+  .field.has-error .input { border-color: var(--no); }
+  .field.has-error .input:focus { box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.15); }
+  .field.has-success .input { border-color: var(--yes); }
+  .field.has-success .input:focus { box-shadow: 0 0 0 3px rgba(34, 160, 107, 0.15); }
+  .field.has-error .lead { color: var(--no); }
+  .field.has-success .lead { color: var(--yes); }
+
+  .textarea {
+    min-height: 104px;
+    height: auto;
+    padding: 11px 13px;
+    line-height: 1.5;
+    resize: vertical;
+  }
+
+  .key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 600;
+  }
+
+  .counter-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .counter { font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
+
+  @media (max-width: 640px) {
+    .panel { padding: 18px; }
+    .fields { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+</button>
+
+<main class="wrap">
+
+  <section class="panel">
+    <h2>Input states</h2>
+    <p class="panel-note">Labels, helper text and clear focus, error and success states.</p>
+
+    <div class="fields">
+      <div class="field">
+        <label for="fullName">Full name <span class="req">*</span></label>
+        <div class="control">
+          <input class="input" id="fullName" type="text" placeholder="Aman Kumar" />
+        </div>
+        <span class="help">Use the name shown on your profile.</span>
+      </div>
+
+      <div class="field">
+        <label for="email">Email address</label>
+        <div class="control has-lead">
+          <span class="lead" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          </span>
+          <input class="input" id="email" type="email" placeholder="you@example.com" />
+        </div>
+        <span class="help">We will never share your email.</span>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <div class="control has-trail">
+          <input class="input" id="password" type="password" value="secret123" />
+          <span class="trail">
+            <button class="ghost-btn" id="togglePassword" type="button" aria-label="Show password" aria-pressed="false">
+              <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none"><path d="M17.9 17.9A10.4 10.4 0 0 1 12 19c-6.5 0-10-7-10-7a19 19 0 0 1 5.1-5.9M9.9 4.2A10 10 0 0 1 12 4c6.5 0 10 7 10 7a19 19 0 0 1-2.2 3.2"/><path d="M14.1 14.1a3 3 0 1 1-4.2-4.2"/><path d="M2 2l20 20"/></svg>
+            </button>
+          </span>
+        </div>
+        <span class="help">At least 8 characters.</span>
+      </div>
+
+      <div class="field has-error">
+        <label for="username">Username</label>
+        <div class="control has-lead">
+          <span class="lead" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+          </span>
+          <input class="input" id="username" type="text" value="aman_k" aria-invalid="true" aria-describedby="usernameError" />
+        </div>
+        <span class="help error" id="usernameError">This username is already taken.</span>
+      </div>
+
+      <div class="field has-success">
+        <label for="website">Website</label>
+        <div class="control has-lead">
+          <span class="lead" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </span>
+          <input class="input" id="website" type="url" value="https://aman.dev" />
+        </div>
+        <span class="help success">Looks good.</span>
+      </div>
+
+      <div class="field">
+        <label for="accountId">Account ID</label>
+        <div class="control">
+          <input class="input" id="accountId" type="text" value="ACC-2048" disabled />
+        </div>
+        <span class="help">Assigned automatically.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Search &amp; textarea</h2>
+    <p class="panel-note">Search with an inline shortcut hint, and a multiline field with a live counter.</p>
+
+    <div class="fields">
+      <div class="field">
+        <label for="search">Search components</label>
+        <div class="control has-lead has-trail">
+          <span class="lead" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+          </span>
+          <input class="input" id="search" type="search" placeholder="Buttons, cards, modals…" />
+          <span class="trail"><span class="key">/</span></span>
+        </div>
+        <span class="help">Press / anywhere to focus.</span>
+      </div>
+
+      <div class="field">
+        <label for="message">Project brief</label>
+        <textarea class="input textarea" id="message" maxlength="280" placeholder="Tell us what you want to build…"></textarea>
+        <div class="counter-row">
+          <span class="help">Keep it short and specific.</span>
+          <span class="counter" id="counter">0 / 280</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.getElementById("themeToggle");
+
+  function setTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    try { localStorage.setItem("theme", theme); } catch (e) {}
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem("theme"); } catch (e) {}
+  setTheme(saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+
+  toggle.addEventListener("click", () => {
+    setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  const password = document.getElementById("password");
+  const eyeBtn = document.getElementById("togglePassword");
+  const eyeOpen = eyeBtn.querySelector(".eye-open");
+  const eyeOff = eyeBtn.querySelector(".eye-off");
+
+  eyeBtn.addEventListener("click", () => {
+    const show = password.type === "password";
+    password.type = show ? "text" : "password";
+    eyeOpen.style.display = show ? "none" : "block";
+    eyeOff.style.display = show ? "block" : "none";
+    eyeBtn.setAttribute("aria-label", show ? "Hide password" : "Show password");
+    eyeBtn.setAttribute("aria-pressed", show);
+  });
+
+  const message = document.getElementById("message");
+  const counter = document.getElementById("counter");
+  message.addEventListener("input", () => {
+    counter.textContent = message.value.length + " / 280";
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "/" && document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA") {
+      e.preventDefault();
+      document.getElementById("search").focus();
+    }
+  });
+</script>
+</body>
+</html>

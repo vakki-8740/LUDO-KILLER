@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checkbox</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    --accent: #4f6bed;
+    --yes: #22a06b;
+    --no: #e5484d;
+    --accent-soft: rgba(79, 107, 237, 0.10);
+  }
+
+  [data-theme="dark"] {
+    --bg: #12141a;
+    --card: #1c1f28;
+    --text: #eceef3;
+    --muted: #9aa1b2;
+    --border: #2a2e3a;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --accent: #7b92ff;
+    --accent-soft: rgba(123, 146, 255, 0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: 80px 16px 40px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .theme-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 60;
+    width: 46px;
+    height: 46px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, background 0.3s;
+  }
+  .theme-toggle:hover { transform: scale(1.08); }
+  .theme-toggle svg { width: 22px; height: 22px; }
+  .theme-toggle .icon-sun { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+  .wrap {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .panel h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .panel-note { color: var(--muted); font-size: 0.85rem; margin-bottom: 18px; }
+
+  /* ---------- Checkbox ---------- */
+  .check {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    cursor: pointer;
+    user-select: none;
+  }
+  .check input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+  }
+
+  .box {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1.5px solid var(--border);
+    background: var(--card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    margin-top: 1px;
+    transition: background 0.18s, border-color 0.18s, box-shadow 0.18s;
+  }
+  .box svg {
+    width: 12px;
+    height: 12px;
+    color: #fff;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.15s, transform 0.15s;
+  }
+
+  .check:hover .box { border-color: var(--accent); }
+  .check input:focus-visible + .box { box-shadow: 0 0 0 3px var(--accent-soft); border-color: var(--accent); }
+
+  .check input:checked + .box,
+  .check input:indeterminate + .box {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .check input:checked + .box svg { opacity: 1; transform: scale(1); }
+
+  .check input:indeterminate + .box svg { display: none; }
+  .check input:indeterminate + .box::after {
+    content: "";
+    width: 8px;
+    height: 2px;
+    border-radius: 2px;
+    background: #fff;
+  }
+
+  .check input:disabled + .box {
+    background: var(--bg);
+    border-color: var(--border);
+  }
+  .check input:disabled:checked + .box {
+    background: var(--muted);
+    border-color: var(--muted);
+  }
+  .check.disabled { color: var(--muted); cursor: not-allowed; }
+  .check.disabled:hover .box { border-color: var(--border); }
+
+  .check-text strong { display: block; font-weight: 600; font-size: 0.9rem; }
+  .check-text span { display: block; color: var(--muted); font-size: 0.78rem; margin-top: 2px; }
+
+  /* ---------- States grid ---------- */
+  .states {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 16px;
+  }
+  .state {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    padding: 14px;
+  }
+  .state-label {
+    display: block;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  /* ---------- Group ---------- */
+  .group {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .group-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 15px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.86rem;
+    font-weight: 600;
+  }
+  .group-body { padding: 6px 15px; }
+  .group-body .check { padding: 9px 0; }
+  .group-body .check + .check { border-top: 1px solid var(--border); }
+
+  /* ---------- Card options ---------- */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .check-card {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--card);
+    padding: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  }
+  .check-card:hover { border-color: var(--accent); }
+  .check-card:has(input:checked) {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .check-card input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+  }
+  .check-card input:focus-visible + .box { box-shadow: 0 0 0 3px var(--accent-soft); border-color: var(--accent); }
+  .check-card .check-text span { line-height: 1.45; }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 22px 0;
+  }
+  .sub-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  @media (max-width: 600px) {
+    .panel { padding: 18px; }
+    .states { grid-template-columns: 1fr 1fr; gap: 10px; }
+  }
+  @media (max-width: 400px) {
+    .states { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+</button>
+
+<main class="wrap">
+
+  <section class="panel">
+    <h2>Checkbox states</h2>
+    <p class="panel-note">Unchecked, checked, indeterminate and disabled states with a focus ring.</p>
+
+    <div class="states">
+      <div class="state">
+        <span class="state-label">Default</span>
+        <label class="check">
+          <input type="checkbox" />
+          <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+          Remember me
+        </label>
+      </div>
+
+      <div class="state">
+        <span class="state-label">Checked</span>
+        <label class="check">
+          <input type="checkbox" checked />
+          <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+          Email updates
+        </label>
+      </div>
+
+      <div class="state">
+        <span class="state-label">Indeterminate</span>
+        <label class="check">
+          <input type="checkbox" id="indeterminate" />
+          <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+          Partial selection
+        </label>
+      </div>
+
+      <div class="state">
+        <span class="state-label">Disabled</span>
+        <label class="check disabled">
+          <input type="checkbox" disabled />
+          <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+          Unavailable
+        </label>
+      </div>
+
+      <div class="state">
+        <span class="state-label">Disabled + checked</span>
+        <label class="check disabled">
+          <input type="checkbox" checked disabled />
+          <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+          Locked option
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Group with “select all”</h2>
+    <p class="panel-note">The parent checkbox becomes indeterminate when only some children are selected.</p>
+
+    <div class="group">
+      <label class="group-head check" style="padding: 13px 15px;">
+        <input type="checkbox" id="selectAll" />
+        <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span>Email notifications</span>
+      </label>
+      <div class="group-body" id="notificationGroup">
+        <label class="check">
+          <input type="checkbox" class="child" checked />
+          <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+          <span class="check-text"><strong>Product updates</strong><span>New features and improvements</span></span>
+        </label>
+        <label class="check">
+          <input type="checkbox" class="child" checked />
+          <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+          <span class="check-text"><strong>Security alerts</strong><span>Sign-ins and password changes</span></span>
+        </label>
+        <label class="check">
+          <input type="checkbox" class="child" />
+          <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+          <span class="check-text"><strong>Weekly digest</strong><span>A summary every Monday morning</span></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <p class="sub-title">Card options</p>
+    <div class="cards">
+      <label class="check-card">
+        <input type="checkbox" checked />
+        <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span class="check-text"><strong>Analytics cookies</strong><span>Help us understand how the app is used.</span></span>
+      </label>
+
+      <label class="check-card">
+        <input type="checkbox" />
+        <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span class="check-text"><strong>Marketing emails</strong><span>Occasional offers, no more than once a month.</span></span>
+      </label>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.getElementById("themeToggle");
+
+  function setTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    try { localStorage.setItem("theme", theme); } catch (e) {}
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem("theme"); } catch (e) {}
+  setTheme(saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+
+  toggle.addEventListener("click", () => {
+    setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  const indeterminate = document.getElementById("indeterminate");
+  indeterminate.indeterminate = true;
+
+  const selectAll = document.getElementById("selectAll");
+  const children = Array.from(document.querySelectorAll("#notificationGroup .child"));
+
+  function syncParent() {
+    const checked = children.filter(c => c.checked).length;
+    selectAll.checked = checked === children.length;
+    selectAll.indeterminate = checked > 0 && checked < children.length;
+  }
+
+  selectAll.addEventListener("change", () => {
+    children.forEach(child => { child.checked = selectAll.checked; });
+    syncParent();
+  });
+
+  children.forEach(child => child.addEventListener("change", syncParent));
+  syncParent();
+</script>
+</body>
+</html>

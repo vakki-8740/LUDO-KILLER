@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wallet Card · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Dashboard &amp; App</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Wallet Card</h1>
+    <p>Balance, virtual card and recent transactions.</p>
+  </div>
+  <section class="vw-block" id="wallet-card" aria-labelledby="wallet-card-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="wallet-card-t">Wallet</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="wa-card">
+  <div class="wa-bal">
+    <span class="wa-lb">Available balance</span>
+    <span class="wa-v">$4,862.40</span>
+    <span class="wa-d">+$240 this week</span>
+  </div>
+  <div class="wa-actions">
+    <button class="wa-btn" type="button">Add money</button>
+    <button class="wa-btn wa-ghost" type="button">Send</button>
+  </div>
+  <div class="wa-visa" aria-label="Visa card ending 4242">
+    <div class="wa-visaTop"><span class="wa-chip" aria-hidden="true"></span><span class="wa-brand">VISA</span></div>
+    <span class="wa-num">4242 &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226; 8210</span>
+    <div class="wa-visaBot"><span class="wa-holder">AYESHA KHAN</span><span class="wa-exp">09/29</span></div>
+  </div>
+  <p class="wa-sub">Recent</p>
+  <ul class="wa-list">
+    <li class="wa-item"><span class="wa-ii" aria-hidden="true">&#8595;</span><div><p class="wa-it">Figma subscription</p><p class="wa-id">Today, 10:24</p></div><span class="wa-amt is-out">-$15.00</span></li>
+    <li class="wa-item"><span class="wa-ii is-in" aria-hidden="true">&#8593;</span><div><p class="wa-it">Client payment</p><p class="wa-id">Yesterday</p></div><span class="wa-amt is-in">+$1,200.00</span></li>
+    <li class="wa-item"><span class="wa-ii" aria-hidden="true">&#8595;</span><div><p class="wa-it">Cloud hosting</p><p class="wa-id">20 Oct</p></div><span class="wa-amt is-out">-$28.00</span></li>
+  </ul>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.wa-card { max-width: 340px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 14px; }
+.wa-bal { display: flex; flex-direction: column; gap: 1px; margin-bottom: 10px; }
+.wa-lb { font-size: 0.66rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.wa-v { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
+.wa-d { font-size: 0.66rem; color: var(--yes); font-weight: 600; }
+.wa-actions { display: flex; gap: 7px; margin-bottom: 12px; }
+.wa-btn { flex: 1; border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.72rem; font-weight: 600; padding: 7px; border-radius: var(--radius); cursor: pointer; }
+.wa-btn:hover { opacity: 0.92; }
+.wa-ghost { background: transparent; border: 1px solid var(--border); color: var(--text); }
+.wa-ghost:hover { border-color: var(--accent); color: var(--accent); opacity: 1; }
+.wa-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wa-visa { background: linear-gradient(135deg, #2a2350, #4f6bed 60%, #8b5cf6); border-radius: 10px; padding: 12px; color: #fff; margin-bottom: 12px; }
+.wa-visaTop { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.wa-chip { width: 24px; height: 17px; border-radius: 3px; background: linear-gradient(135deg, #f5d787, #c9a44c); }
+.wa-brand { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; font-style: italic; }
+.wa-num { display: block; font-size: 0.76rem; letter-spacing: 0.12em; margin-bottom: 10px; font-variant-numeric: tabular-nums; }
+.wa-visaBot { display: flex; align-items: center; justify-content: space-between; font-size: 0.58rem; color: rgba(255, 255, 255, 0.8); letter-spacing: 0.06em; }
+.wa-sub { margin: 0 0 4px; font-size: 0.64rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.wa-list { list-style: none; margin: 0; padding: 0; }
+.wa-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.wa-item:last-child { border-bottom: 0; }
+.wa-ii { width: 24px; height: 24px; border-radius: 999px; background: var(--bg); color: var(--no); font-size: 0.7rem; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.wa-ii.is-in { color: var(--yes); }
+.wa-item > div { flex: 1; min-width: 0; }
+.wa-it { margin: 0; font-size: 0.72rem; font-weight: 600; }
+.wa-id { margin: 1px 0 0; font-size: 0.62rem; color: var(--muted); }
+.wa-amt { font-size: 0.72rem; font-weight: 700; }
+.wa-amt.is-out { color: var(--text); }
+.wa-amt.is-in { color: var(--yes); }</style>
+    <script data-block></script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

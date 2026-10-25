@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Profile Page · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Dashboard &amp; App</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Profile Page</h1>
+    <p>Cover, avatar, stats and tabbed profile content.</p>
+  </div>
+  <section class="vw-block" id="profile-page" aria-labelledby="profile-page-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="profile-page-t">Member profile</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="pp-card">
+  <div class="pp-cover"><span class="pp-coverArt" aria-hidden="true"></span></div>
+  <div class="pp-body">
+    <div class="pp-id">
+      <span class="pp-av" aria-hidden="true">AK</span>
+      <div class="pp-idm"><p class="pp-n">Ayesha Khan</p><p class="pp-r">Product designer &#183; Mumbai</p></div>
+    </div>
+    <div class="pp-stats">
+      <div class="pp-st"><span class="pp-sv">24</span><span class="pp-sl">Projects</span></div>
+      <div class="pp-st"><span class="pp-sv">1.8k</span><span class="pp-sl">Followers</span></div>
+      <div class="pp-st"><span class="pp-sv">312</span><span class="pp-sl">Following</span></div>
+    </div>
+    <div class="pp-tabs" role="tablist" aria-label="Profile sections">
+      <button class="pp-tab is-on" type="button" role="tab" aria-selected="true" data-p="about">About</button>
+      <button class="pp-tab" type="button" role="tab" aria-selected="false" data-p="activity">Activity</button>
+    </div>
+    <div class="pp-panel" id="ppAbout">
+      <p class="pp-text">Designing calm interfaces and reusable systems. Currently focused on accessible dashboards and design tokens.</p>
+      <div class="pp-skills"><span class="pp-skill">UI design</span><span class="pp-skill">Design systems</span><span class="pp-skill">Accessibility</span></div>
+    </div>
+    <div class="pp-panel" id="ppActivity" hidden>
+      <div class="pp-act"><span class="pp-dot" aria-hidden="true"></span>Updated the component library &#183; 2h ago</div>
+      <div class="pp-act"><span class="pp-dot" aria-hidden="true"></span>Commented on Checkout flow &#183; yesterday</div>
+      <div class="pp-act"><span class="pp-dot" aria-hidden="true"></span>Published the dashboard spec &#183; 3 days ago</div>
+    </div>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.pp-card { max-width: 380px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); overflow: hidden; }
+.pp-cover { height: 76px; background: linear-gradient(120deg, #2a2350, #4f6bed 55%, #8b5cf6); }
+.pp-coverArt { display: block; height: 100%; background: radial-gradient(circle at 78% 30%, rgba(255, 255, 255, 0.28), transparent 40%); }
+.pp-body { padding: 0 13px 13px; }
+.pp-id { display: flex; align-items: flex-end; gap: 8px; margin-top: -22px; margin-bottom: 8px; }
+.pp-av { width: 46px; height: 46px; border-radius: 999px; background: linear-gradient(135deg, #4f6bed, #8b5cf6); border: 3px solid var(--card); color: #fff; font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.pp-idm { padding-bottom: 1px; }
+.pp-n { margin: 0; font-size: 0.88rem; font-weight: 800; }
+.pp-r { margin: 0; font-size: 0.62rem; color: var(--muted); }
+.pp-stats { display: flex; gap: 14px; padding: 6px 0 8px; border-bottom: 1px solid var(--border); }
+.pp-st { display: flex; flex-direction: column; }
+.pp-sv { font-size: 0.8rem; font-weight: 800; }
+.pp-sl { font-size: 0.56rem; color: var(--muted); }
+.pp-tabs { display: flex; gap: 3px; margin: 8px 0; }
+.pp-tab { border: 1px solid var(--border); background: transparent; color: var(--muted); font: inherit; font-size: 0.62rem; font-weight: 600; padding: 3px 9px; border-radius: 999px; cursor: pointer; }
+.pp-tab.is-on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.pp-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pp-text { margin: 0 0 7px; font-size: 0.7rem; line-height: 1.5; color: var(--text); }
+.pp-skills { display: flex; gap: 4px; flex-wrap: wrap; }
+.pp-skill { font-size: 0.56rem; font-weight: 600; color: var(--muted); background: var(--bg); border-radius: 999px; padding: 2px 7px; }
+.pp-act { display: flex; align-items: center; gap: 5px; font-size: 0.66rem; color: var(--muted); padding: 4px 0; }
+.pp-dot { width: 5px; height: 5px; border-radius: 999px; background: var(--accent); flex: 0 0 auto; }</style>
+    <script data-block>(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".pp-tab"));
+  var about = document.getElementById("ppAbout");
+  var activity = document.getElementById("ppActivity");
+  tabs.forEach(function (t) {
+    t.addEventListener("click", function () {
+      tabs.forEach(function (x) {
+        x.classList.remove("is-on");
+        x.setAttribute("aria-selected", "false");
+      });
+      t.classList.add("is-on");
+      t.setAttribute("aria-selected", "true");
+      var isAbout = t.getAttribute("data-p") === "about";
+      about.hidden = !isAbout;
+      activity.hidden = isAbout;
+    });
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Search &amp; Filter · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Dashboard &amp; App</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Search &amp; Filter</h1>
+    <p>Live search with toggleable category filters.</p>
+  </div>
+  <section class="vw-block" id="search-filter" aria-labelledby="search-filter-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="search-filter-t">Filtered results</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="sf-card">
+  <div class="sf-bar">
+    <svg class="sf-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input class="sf-input" id="sfInput" type="search" placeholder="Search documents..." aria-label="Search documents">
+  </div>
+  <div class="sf-chips" role="group" aria-label="Categories">
+    <button class="sf-chip is-on" type="button" data-c="all">All</button>
+    <button class="sf-chip" type="button" data-c="design">Design</button>
+    <button class="sf-chip" type="button" data-c="dev">Development</button>
+    <button class="sf-chip" type="button" data-c="ops">Operations</button>
+  </div>
+  <p class="sf-count" id="sfCount">3 results</p>
+  <ul class="sf-list" id="sfList">
+    <li class="sf-item" data-c="design"><span class="sf-doc" aria-hidden="true">PDF</span><div class="sf-m"><p class="sf-n">Brand guidelines</p><p class="sf-d">Design &#183; Updated 2 days ago</p></div></li>
+    <li class="sf-item" data-c="dev"><span class="sf-doc" aria-hidden="true">MD</span><div class="sf-m"><p class="sf-n">API reference</p><p class="sf-d">Development &#183; Updated today</p></div></li>
+    <li class="sf-item" data-c="ops"><span class="sf-doc" aria-hidden="true">XLS</span><div class="sf-m"><p class="sf-n">Q4 budget</p><p class="sf-d">Operations &#183; Updated last week</p></div></li>
+    <li class="sf-item" data-c="design"><span class="sf-doc" aria-hidden="true">FIG</span><div class="sf-m"><p class="sf-n">Mobile screens</p><p class="sf-d">Design &#183; Updated 4 days ago</p></div></li>
+  </ul>
+  <p class="sf-empty" id="sfEmpty" hidden>No documents match your search.</p>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.sf-card { max-width: 400px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 12px; }
+.sf-bar { display: flex; align-items: center; gap: 7px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg); padding: 5px 10px; margin-bottom: 8px; }
+.sf-bar:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.sf-ic { width: 14px; height: 14px; color: var(--muted); flex: 0 0 auto; }
+.sf-input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--text); font: inherit; font-size: 0.75rem; outline: none; padding: 3px 0; }
+.sf-chips { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px; }
+.sf-chip { border: 1px solid var(--border); background: transparent; color: var(--muted); font: inherit; font-size: 0.64rem; font-weight: 600; padding: 3px 8px; border-radius: 999px; cursor: pointer; }
+.sf-chip.is-on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.sf-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sf-count { margin: 0 0 4px; font-size: 0.62rem; color: var(--muted); }
+.sf-list { list-style: none; margin: 0; padding: 0; }
+.sf-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.sf-item:last-child { border-bottom: 0; }
+.sf-doc { width: 28px; height: 28px; border-radius: 4px; background: var(--bg); color: var(--accent); font-size: 0.52rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.sf-m { min-width: 0; }
+.sf-n { margin: 0; font-size: 0.73rem; font-weight: 600; }
+.sf-d { margin: 1px 0 0; font-size: 0.62rem; color: var(--muted); }
+.sf-empty { margin: 8px 0 0; font-size: 0.72rem; color: var(--muted); text-align: center; padding: 8px 0; }</style>
+    <script data-block>(function () {
+  var input = document.getElementById("sfInput");
+  var chips = Array.prototype.slice.call(document.querySelectorAll(".sf-chip"));
+  var items = Array.prototype.slice.call(document.querySelectorAll(".sf-item"));
+  var count = document.getElementById("sfCount");
+  var empty = document.getElementById("sfEmpty");
+  var cat = "all";
+
+  function paint() {
+    var q = input.value.trim().toLowerCase();
+    var n = 0;
+    items.forEach(function (it) {
+      var okCat = cat === "all" || it.getAttribute("data-c") === cat;
+      var okText = it.textContent.toLowerCase().indexOf(q) > -1;
+      var show = okCat && okText;
+      it.hidden = !show;
+      if (show) n += 1;
+    });
+    count.textContent = n + " result" + (n === 1 ? "" : "s");
+    empty.hidden = n > 0;
+  }
+
+  input.addEventListener("input", paint);
+  chips.forEach(function (c) {
+    c.addEventListener("click", function () {
+      chips.forEach(function (x) { x.classList.remove("is-on"); });
+      c.classList.add("is-on");
+      cat = c.getAttribute("data-c");
+      paint();
+    });
+  });
+  paint();
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

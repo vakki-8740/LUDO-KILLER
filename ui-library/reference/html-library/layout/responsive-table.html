@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Responsive Table · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Navigation &amp; Layout</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Responsive Table</h1>
+    <p>Data table that becomes stacked cards on small screens.</p>
+  </div>
+  <section class="vw-block" id="responsive-table" aria-labelledby="responsive-table-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="responsive-table-t">Responsive table</h2>
+      <span class="vw-note">640px se chhoti width par cards ban jate hain.</span>
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="rt-wrap">
+  <table class="rt-table" aria-label="Recent orders">
+    <thead>
+      <tr>
+        <th scope="col">Customer</th>
+        <th scope="col">Order</th>
+        <th scope="col">Date</th>
+        <th scope="col">Status</th>
+        <th scope="col" class="rt-num">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="Customer">Aman Kumar</td>
+        <td data-label="Order">#1024</td>
+        <td data-label="Date">12 Oct</td>
+        <td data-label="Status"><span class="rt-pill rt-yes">Paid</span></td>
+        <td data-label="Amount" class="rt-num">₹1,240</td>
+      </tr>
+      <tr>
+        <td data-label="Customer">Riya Sharma</td>
+        <td data-label="Order">#1025</td>
+        <td data-label="Date">12 Oct</td>
+        <td data-label="Status"><span class="rt-pill rt-warn">Pending</span></td>
+        <td data-label="Amount" class="rt-num">₹860</td>
+      </tr>
+      <tr>
+        <td data-label="Customer">Vikram Singh</td>
+        <td data-label="Order">#1026</td>
+        <td data-label="Date">11 Oct</td>
+        <td data-label="Status"><span class="rt-pill rt-accent">Shipped</span></td>
+        <td data-label="Amount" class="rt-num">₹2,150</td>
+      </tr>
+      <tr>
+        <td data-label="Customer">Neha Gupta</td>
+        <td data-label="Order">#1027</td>
+        <td data-label="Date">11 Oct</td>
+        <td data-label="Status"><span class="rt-pill rt-no">Failed</span></td>
+        <td data-label="Amount" class="rt-num">₹499</td>
+      </tr>
+      <tr>
+        <td data-label="Customer">Arjun Mehta</td>
+        <td data-label="Order">#1028</td>
+        <td data-label="Date">10 Oct</td>
+        <td data-label="Status"><span class="rt-pill rt-yes">Paid</span></td>
+        <td data-label="Amount" class="rt-num">₹3,400</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.rt-wrap {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  overflow: hidden;
+}
+.rt-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.rt-table th {
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.rt-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); }
+.rt-table tbody tr:last-child td { border-bottom: 0; }
+.rt-table tbody tr:hover { background: var(--bg); }
+.rt-num { text-align: right; font-variant-numeric: tabular-nums; }
+.rt-pill {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+.rt-yes { background: rgba(34, 160, 107, 0.12); color: var(--yes); }
+.rt-warn { background: rgba(194, 116, 10, 0.12); color: var(--warn); }
+.rt-no { background: rgba(229, 72, 77, 0.12); color: var(--no); }
+.rt-accent { background: var(--accent-soft); color: var(--accent); }
+@media (max-width: 640px) {
+  .rt-table thead { display: none; }
+  .rt-table, .rt-table tbody, .rt-table tr, .rt-table td { display: block; width: 100%; }
+  .rt-table tr { border-bottom: 1px solid var(--border); padding: 6px 0; }
+  .rt-table tbody tr:last-child { border-bottom: 0; }
+  .rt-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 0;
+    padding: 6px 14px;
+    text-align: right;
+  }
+  .rt-table td::before {
+    content: attr(data-label);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+  }
+  .rt-num { text-align: right; }
+}</style>
+    <script data-block></script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

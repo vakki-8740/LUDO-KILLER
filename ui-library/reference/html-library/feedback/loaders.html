@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Loaders</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    --accent: #4f6bed;
+    --yes: #22a06b;
+    --no: #e5484d;
+    --warn: #c2740a;
+    --accent-soft: rgba(79, 107, 237, 0.10);
+  }
+
+  [data-theme="dark"] {
+    --bg: #12141a;
+    --card: #1c1f28;
+    --text: #eceef3;
+    --muted: #9aa1b2;
+    --border: #2a2e3a;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --accent: #7b92ff;
+    --accent-soft: rgba(123, 146, 255, 0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: 80px 16px 40px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .theme-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 60;
+    width: 46px;
+    height: 46px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, background 0.3s;
+  }
+  .theme-toggle:hover { transform: scale(1.08); }
+  .theme-toggle svg { width: 22px; height: 22px; }
+  .theme-toggle .icon-sun { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+  .wrap {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .panel h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .panel-note { color: var(--muted); font-size: 0.85rem; margin-bottom: 18px; }
+
+  .section { padding: 20px 0; border-top: 1px solid var(--border); }
+  .section:first-of-type { padding-top: 0; border-top: 0; }
+  .section:last-of-type { padding-bottom: 0; }
+  .section h3 { font-size: 0.78rem; font-weight: 600; color: var(--muted); margin-bottom: 14px; }
+
+  /* ---------- Spinner ---------- */
+  .spinner {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 999px;
+    animation: spin 0.7s linear infinite;
+    flex: 0 0 auto;
+  }
+  .spinner.sm { width: 16px; height: 16px; }
+  .spinner.lg { width: 32px; height: 32px; border-width: 3px; }
+  .spinner.success { border-top-color: var(--yes); }
+  .spinner.light { border-color: rgba(255, 255, 255, 0.35); border-top-color: #fff; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loader-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+  }
+  .loader-box {
+    min-height: 108px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 14px;
+  }
+  .loader-box span { font-size: 0.72rem; color: var(--muted); }
+
+  /* ---------- Dots ---------- */
+  .dots { display: flex; align-items: center; gap: 5px; height: 22px; }
+  .dots span {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--accent);
+    animation: bounce 1s infinite ease-in-out;
+  }
+  .dots span:nth-child(2) { animation-delay: 0.15s; }
+  .dots span:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes bounce {
+    0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; }
+    40% { transform: scale(1); opacity: 1; }
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .btn.primary { background: var(--accent); color: #fff; }
+  .btn.outline { background: transparent; border-color: var(--border); color: var(--text); }
+  .btn.loading { pointer-events: none; }
+  .btn-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+  /* ---------- Progress ---------- */
+  .progress {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .progress > span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--accent);
+    transition: width 0.4s ease;
+  }
+  .progress.success > span { background: var(--yes); }
+  .progress.warning > span { background: var(--warn); }
+  .progress.indeterminate > span {
+    width: 40%;
+    animation: indeterminate 1.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+  @keyframes indeterminate {
+    0% { transform: translateX(-110%); }
+    100% { transform: translateX(280%); }
+  }
+
+  .progress-row { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+  .progress-row:last-child { margin-bottom: 0; }
+  .progress-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .progress-label strong { color: var(--text); font-weight: 600; }
+
+  .progress-layout {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+  }
+
+  /* ---------- Ring ---------- */
+  .ring {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+    background: conic-gradient(var(--accent) 0 68%, var(--bg) 68% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+  .ring::before {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border-radius: 999px;
+    background: var(--card);
+  }
+  .ring span { position: relative; font-size: 0.72rem; font-weight: 700; }
+  .ring-wrap { display: flex; align-items: center; gap: 12px; }
+  .ring-wrap p { font-size: 0.78rem; color: var(--muted); }
+  .ring-wrap strong { display: block; color: var(--text); font-size: 0.85rem; margin-bottom: 2px; }
+
+  /* ---------- Skeleton ---------- */
+  .skeleton {
+    background: linear-gradient(90deg, var(--bg) 25%, var(--border) 37%, var(--bg) 63%);
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease infinite;
+    border-radius: 4px;
+  }
+  @keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+
+  .skel-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    padding: 16px;
+    max-width: 420px;
+  }
+  .skel-avatar { width: 42px; height: 42px; border-radius: 6px; flex: 0 0 auto; }
+  .skel-lines { flex: 1; display: flex; flex-direction: column; gap: 8px; padding-top: 3px; }
+  .skel-line { height: 9px; }
+  .skel-line.w-60 { width: 60%; }
+  .skel-line.w-90 { width: 90%; }
+  .skel-line.w-40 { width: 40%; }
+
+  .skel-rows { display: flex; flex-direction: column; gap: 10px; max-width: 480px; margin-top: 16px; }
+  .skel-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 11px 13px;
+    background: var(--bg);
+  }
+  .skel-row .skel-avatar { width: 28px; height: 28px; }
+  .skel-row .skel-lines { gap: 6px; }
+  .skel-row .skel-line { height: 7px; }
+  .skel-row .skel-pill { width: 50px; height: 18px; border-radius: 999px; flex: 0 0 auto; }
+
+  @media (max-width: 560px) {
+    .panel { padding: 18px; }
+    .progress-layout { grid-template-columns: 1fr; gap: 18px; }
+    .loader-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .spinner, .dots span, .skeleton, .progress.indeterminate > span { animation-duration: 0.001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+</button>
+
+<main class="wrap">
+
+  <section class="panel">
+    <h2>Spinners &amp; dots</h2>
+    <p class="panel-note">Compact loading indicators for buttons, cards and full sections.</p>
+
+    <div class="section">
+      <h3>Sizes</h3>
+      <div class="loader-grid">
+        <div class="loader-box">
+          <span class="spinner sm"></span>
+          <span>Small</span>
+        </div>
+        <div class="loader-box">
+          <span class="spinner"></span>
+          <span>Medium</span>
+        </div>
+        <div class="loader-box">
+          <span class="spinner lg"></span>
+          <span>Large</span>
+        </div>
+        <div class="loader-box">
+          <div class="dots" aria-label="Loading"><span></span><span></span><span></span></div>
+          <span>Dots</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Button loading</h3>
+      <div class="btn-row">
+        <button class="btn primary loading">
+          <span class="spinner sm light"></span>
+          Saving…
+        </button>
+        <button class="btn outline loading">
+          <span class="spinner sm"></span>
+          Loading
+        </button>
+        <button class="btn primary">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          New item
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Progress</h2>
+    <p class="panel-note">Determinate bars for known progress, plus an indeterminate state for unknown waits.</p>
+
+    <div class="progress-layout">
+      <div>
+        <div class="progress-row">
+          <span class="progress-label"><span>Uploading files</span><strong>68%</strong></span>
+          <div class="progress"><span style="width: 68%"></span></div>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label"><span>Onboarding completed</span><strong>100%</strong></span>
+          <div class="progress success"><span style="width: 100%"></span></div>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label"><span>Storage used</span><strong>92%</strong></span>
+          <div class="progress warning"><span style="width: 92%"></span></div>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label"><span>Preparing preview</span><strong>Please wait</strong></span>
+          <div class="progress indeterminate"><span></span></div>
+        </div>
+      </div>
+
+      <div class="ring-wrap">
+        <div class="ring" role="img" aria-label="68 percent complete"><span>68%</span></div>
+        <p><strong>Overall progress</strong>of this project</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Skeleton loading</h2>
+    <p class="panel-note">Placeholder shapes that preserve the final layout while content loads.</p>
+
+    <div class="skel-card" aria-hidden="true">
+      <div class="skeleton skel-avatar"></div>
+      <div class="skel-lines">
+        <div class="skeleton skel-line w-60"></div>
+        <div class="skeleton skel-line w-90"></div>
+        <div class="skeleton skel-line w-40"></div>
+      </div>
+    </div>
+
+    <div class="skel-rows" aria-hidden="true">
+      <div class="skel-row">
+        <div class="skeleton skel-avatar"></div>
+        <div class="skel-lines">
+          <div class="skeleton skel-line w-60"></div>
+          <div class="skeleton skel-line w-40"></div>
+        </div>
+        <div class="skeleton skel-pill"></div>
+      </div>
+      <div class="skel-row">
+        <div class="skeleton skel-avatar"></div>
+        <div class="skel-lines">
+          <div class="skeleton skel-line w-90"></div>
+          <div class="skeleton skel-line w-40"></div>
+        </div>
+        <div class="skeleton skel-pill"></div>
+      </div>
+      <div class="skel-row">
+        <div class="skeleton skel-avatar"></div>
+        <div class="skel-lines">
+          <div class="skeleton skel-line w-60"></div>
+          <div class="skeleton skel-line w-40"></div>
+        </div>
+        <div class="skeleton skel-pill"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.getElementById("themeToggle");
+
+  function setTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    try { localStorage.setItem("theme", theme); } catch (e) {}
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem("theme"); } catch (e) {}
+  setTheme(saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+
+  toggle.addEventListener("click", () => {
+    setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+</script>
+</body>
+</html>

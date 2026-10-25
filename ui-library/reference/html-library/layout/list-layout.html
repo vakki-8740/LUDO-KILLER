@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>List Layout</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    --accent: #4f6bed;
+    --yes: #22a06b;
+    --no: #e5484d;
+    --accent-soft: rgba(79, 107, 237, 0.10);
+  }
+
+  [data-theme="dark"] {
+    --bg: #12141a;
+    --card: #1c1f28;
+    --text: #eceef3;
+    --muted: #9aa1b2;
+    --border: #2a2e3a;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --accent: #7b92ff;
+    --accent-soft: rgba(123, 146, 255, 0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: 80px 16px 40px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .theme-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 60;
+    width: 46px;
+    height: 46px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, background 0.3s;
+  }
+  .theme-toggle:hover { transform: scale(1.08); }
+  .theme-toggle svg { width: 22px; height: 22px; }
+  .theme-toggle .icon-sun { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+  .wrap {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .panel h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .panel-note { color: var(--muted); font-size: 0.85rem; margin-bottom: 18px; }
+
+  .list {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-top: 1px solid var(--border);
+    background: var(--card);
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.2s;
+    min-width: 0;
+  }
+  .list-item:first-child { border-top: 0; }
+  .list-item:hover { background: var(--bg); }
+
+  .avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    flex: 0 0 auto;
+  }
+  .avatar.green { background: rgba(34, 160, 107, 0.12); color: var(--yes); }
+  .avatar.red { background: rgba(229, 72, 77, 0.12); color: var(--no); }
+
+  .item-text { min-width: 0; flex: 1; }
+  .item-text strong {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .item-text span {
+    display: block;
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .item-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex: 0 0 auto;
+  }
+  .item-meta time { color: var(--muted); font-size: 0.72rem; }
+
+  .unread {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--accent);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 7px;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    background: var(--accent);
+    color: #fff;
+  }
+  .badge.soft { background: var(--accent-soft); color: var(--accent); }
+  .badge.green { background: rgba(34, 160, 107, 0.12); color: var(--yes); }
+
+  .chevron {
+    width: 18px;
+    height: 18px;
+    color: var(--muted);
+    flex: 0 0 auto;
+  }
+
+  .icon-tile {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+  .icon-tile svg { width: 18px; height: 18px; }
+  .icon-tile.neutral { background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
+
+  .list-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 4px 2px 12px;
+  }
+  .list-head h3 { font-size: 0.95rem; }
+  .list-head span { color: var(--muted); font-size: 0.78rem; }
+
+  @media (max-width: 520px) {
+    .panel { padding: 18px; }
+    .list-item { padding: 12px 13px; gap: 10px; }
+    .avatar { width: 38px; height: 38px; }
+    .item-meta time { display: none; }
+    .item-text strong { font-size: 0.87rem; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+</button>
+
+<main class="wrap">
+
+  <section class="panel">
+    <h2>List · People &amp; messages</h2>
+    <p class="panel-note">Avatar, two-line text, timestamp and a trailing status indicator.</p>
+
+    <div class="list-head">
+      <h3>Inbox</h3>
+      <span>4 unread</span>
+    </div>
+
+    <div class="list">
+      <a href="#" class="list-item">
+        <span class="avatar">RS</span>
+        <span class="item-text">
+          <strong>Riya Sharma</strong>
+          <span>Can you review the new dashboard layout?</span>
+        </span>
+        <span class="item-meta">
+          <time>2m</time>
+          <span class="unread" aria-label="Unread"></span>
+        </span>
+      </a>
+
+      <a href="#" class="list-item">
+        <span class="avatar green">MP</span>
+        <span class="item-text">
+          <strong>Manish Patel</strong>
+          <span>Deployment finished successfully.</span>
+        </span>
+        <span class="item-meta">
+          <time>1h</time>
+        </span>
+      </a>
+
+      <a href="#" class="list-item">
+        <span class="avatar red">SK</span>
+        <span class="item-text">
+          <strong>Sana Khan</strong>
+          <span>Found a small issue on the mobile navbar.</span>
+        </span>
+        <span class="item-meta">
+          <time>3h</time>
+          <span class="badge soft">2</span>
+        </span>
+      </a>
+
+      <a href="#" class="list-item">
+        <span class="avatar">AK</span>
+        <span class="item-text">
+          <strong>Aman Kumar</strong>
+          <span>Updated the design tokens and pushed them.</span>
+        </span>
+        <span class="item-meta">
+          <time>1d</time>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>List · Settings / navigation</h2>
+    <p class="panel-note">Leading icon, label with description, and a trailing badge or chevron.</p>
+
+    <div class="list">
+      <a href="#" class="list-item">
+        <span class="icon-tile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        </span>
+        <span class="item-text">
+          <strong>Notifications</strong>
+          <span>Product updates and account alerts</span>
+        </span>
+        <span class="badge">3</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a>
+
+      <a href="#" class="list-item">
+        <span class="icon-tile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </span>
+        <span class="item-text">
+          <strong>Privacy &amp; security</strong>
+          <span>Password, sessions and two-factor auth</span>
+        </span>
+        <span class="badge green">Secure</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a>
+
+      <a href="#" class="list-item">
+        <span class="icon-tile neutral">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+        </span>
+        <span class="item-text">
+          <strong>Billing</strong>
+          <span>Invoices, plan and payment method</span>
+        </span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a>
+
+      <a href="#" class="list-item">
+        <span class="icon-tile neutral">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4"/><path d="M12 17h.01"/></svg>
+        </span>
+        <span class="item-text">
+          <strong>Help center</strong>
+          <span>Guides, FAQs and contact support</span>
+        </span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.getElementById("themeToggle");
+
+  function setTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    try { localStorage.setItem("theme", theme); } catch (e) {}
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem("theme"); } catch (e) {}
+  setTheme(saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+
+  toggle.addEventListener("click", () => {
+    setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+</script>
+</body>
+</html>

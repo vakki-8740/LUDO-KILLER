@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Payment Methods · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">E-commerce</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Payment Methods</h1>
+    <p>Selectable cards, UPI and saved wallet options.</p>
+  </div>
+  <section class="vw-block" id="payment-method" aria-labelledby="payment-method-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="payment-method-t">Choose payment</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="pm-card">
+  <p class="pm-t">Payment method</p>
+  <div class="pm-list" role="radiogroup" aria-label="Payment method">
+    <button class="pm-opt is-on" type="button" role="radio" aria-checked="true" data-pm="card">
+      <span class="pm-logo pm-visa" aria-hidden="true">VISA</span>
+      <span class="pm-m"><span class="pm-n">Visa ending 4242</span><span class="pm-d">Expires 09/29</span></span>
+      <span class="pm-radio" aria-hidden="true"></span>
+    </button>
+    <button class="pm-opt" type="button" role="radio" aria-checked="false" data-pm="upi">
+      <span class="pm-logo pm-upi" aria-hidden="true">UPI</span>
+      <span class="pm-m"><span class="pm-n">UPI</span><span class="pm-d">Pay using any UPI app</span></span>
+      <span class="pm-radio" aria-hidden="true"></span>
+    </button>
+    <button class="pm-opt" type="button" role="radio" aria-checked="false" data-pm="wallet">
+      <span class="pm-logo pm-wallet" aria-hidden="true">$</span>
+      <span class="pm-m"><span class="pm-n">OWN Wallet</span><span class="pm-d">Balance $120.40</span></span>
+      <span class="pm-radio" aria-hidden="true"></span>
+    </button>
+  </div>
+  <button class="pm-new" type="button" id="pmNew">+ Add a new card</button>
+  <button class="pm-pay" type="button" id="pmPay">Pay $73.44</button>
+  <p class="pm-msg" id="pmMsg" role="status"></p>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.pm-card { max-width: 350px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 13px; }
+.pm-t { margin: 0 0 8px; font-size: 0.8rem; font-weight: 700; }
+.pm-list { display: flex; flex-direction: column; gap: 5px; margin-bottom: 7px; }
+.pm-opt { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: 5px; background: transparent; padding: 8px; cursor: pointer; text-align: left; font: inherit; }
+.pm-opt:hover { border-color: var(--accent); }
+.pm-opt.is-on { border-color: var(--accent); background: var(--accent-soft); }
+.pm-opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pm-logo { width: 34px; height: 23px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 0.5rem; font-weight: 800; flex: 0 0 auto; }
+.pm-visa { background: #1a1f71; color: #fff; font-style: italic; letter-spacing: 0.04em; }
+.pm-upi { background: linear-gradient(135deg, #f0b543, #e5484d); color: #fff; }
+.pm-wallet { background: var(--accent-soft); color: var(--accent); font-size: 0.8rem; }
+.pm-m { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.pm-n { font-size: 0.68rem; font-weight: 700; }
+.pm-d { font-size: 0.56rem; color: var(--muted); }
+.pm-radio { width: 13px; height: 13px; border-radius: 999px; border: 1px solid var(--border); flex: 0 0 auto; position: relative; }
+.pm-opt.is-on .pm-radio { border-color: var(--accent); }
+.pm-opt.is-on .pm-radio::after { content: ""; position: absolute; inset: 2px; border-radius: 999px; background: var(--accent); }
+.pm-new { border: 0; background: transparent; color: var(--accent); font: inherit; font-size: 0.64rem; font-weight: 700; padding: 2px; cursor: pointer; margin-bottom: 8px; border-radius: 3px; }
+.pm-new:hover { text-decoration: underline; }
+.pm-new:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pm-pay { width: 100%; border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.74rem; font-weight: 700; padding: 9px; border-radius: 4px; cursor: pointer; }
+.pm-pay:hover { opacity: 0.92; }
+.pm-pay:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pm-msg { min-height: 1em; margin: 7px 0 0; font-size: 0.62rem; color: var(--yes); text-align: center; }</style>
+    <script data-block>(function () {
+  var opts = Array.prototype.slice.call(document.querySelectorAll(".pm-opt"));
+  var msg = document.getElementById("pmMsg");
+
+  opts.forEach(function (o) {
+    o.addEventListener("click", function () {
+      opts.forEach(function (x) {
+        x.classList.remove("is-on");
+        x.setAttribute("aria-checked", "false");
+      });
+      o.classList.add("is-on");
+      o.setAttribute("aria-checked", "true");
+    });
+  });
+
+  document.getElementById("pmNew").addEventListener("click", function () {
+    msg.textContent = "New card form would open here.";
+  });
+
+  document.getElementById("pmPay").addEventListener("click", function () {
+    var sel = document.querySelector(".pm-opt.is-on .pm-n").textContent;
+    msg.textContent = "Paid with " + sel + " (demo).";
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Signup Form · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Authentication</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Signup Form</h1>
+    <p>Account creation with live password strength.</p>
+  </div>
+  <section class="vw-block" id="signup-form" aria-labelledby="signup-form-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="signup-form-t">Create account</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="sg-card">
+  <h4 class="sg-t">Create your account</h4>
+  <p class="sg-s">Free for personal projects.</p>
+  <label class="sg-lbl" for="sgName">Full name</label>
+  <input class="sg-input" id="sgName" type="text" placeholder="Ayesha Khan" autocomplete="name">
+  <label class="sg-lbl" for="sgEmail">Email</label>
+  <input class="sg-input" id="sgEmail" type="email" placeholder="you@example.com" autocomplete="email">
+  <label class="sg-lbl" for="sgPass">Password</label>
+  <input class="sg-input" id="sgPass" type="password" placeholder="At least 8 characters" autocomplete="new-password">
+  <div class="sg-meter" aria-hidden="true">
+    <span class="sg-seg" id="sgSeg1"></span><span class="sg-seg" id="sgSeg2"></span><span class="sg-seg" id="sgSeg3"></span>
+  </div>
+  <p class="sg-hint" id="sgHint">Use 8+ characters with a number and a symbol.</p>
+  <label class="sg-terms"><input class="sg-check" id="sgTerms" type="checkbox"> I agree to the terms of service</label>
+  <button class="sg-submit" type="button" id="sgSubmit">Create account</button>
+  <p class="sg-msg" id="sgMsg" role="status"></p>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.sg-card { max-width: 350px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 20px; }
+.sg-t { margin: 0 0 3px; font-size: 1.02rem; }
+.sg-s { margin: 0 0 14px; font-size: 0.76rem; color: var(--muted); }
+.sg-lbl { display: block; margin: 0 0 4px; font-size: 0.71rem; font-weight: 600; color: var(--muted); }
+.sg-input { width: 100%; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font: inherit; font-size: 0.82rem; padding: 8px 10px; margin-bottom: 9px; outline: none; }
+.sg-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.sg-input.is-bad { border-color: var(--no); }
+.sg-meter { display: flex; gap: 4px; margin-bottom: 4px; }
+.sg-seg { flex: 1; height: 4px; border-radius: 999px; background: var(--border); transition: background 0.2s; }
+.sg-hint { margin: 0 0 10px; font-size: 0.68rem; color: var(--muted); min-height: 1em; }
+.sg-terms { display: flex; align-items: flex-start; gap: 6px; font-size: 0.72rem; color: var(--muted); margin-bottom: 12px; line-height: 1.4; }
+.sg-check { accent-color: var(--accent); width: 13px; height: 13px; margin-top: 1px; }
+.sg-submit { width: 100%; border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.83rem; font-weight: 600; padding: 9px; border-radius: var(--radius); cursor: pointer; }
+.sg-submit:hover { opacity: 0.92; }
+.sg-submit:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sg-msg { min-height: 1em; margin: 8px 0 0; font-size: 0.73rem; color: var(--no); }
+.sg-msg.is-ok { color: var(--yes); }</style>
+    <script data-block>(function () {
+  var pass = document.getElementById("sgPass");
+  var hint = document.getElementById("sgHint");
+  var segs = [document.getElementById("sgSeg1"), document.getElementById("sgSeg2"), document.getElementById("sgSeg3")];
+  var msg = document.getElementById("sgMsg");
+
+  function strength(v) {
+    var score = 0;
+    if (v.length >= 8) score += 1;
+    if (/[0-9]/.test(v)) score += 1;
+    if (/[^A-Za-z0-9]/.test(v)) score += 1;
+    return score;
+  }
+
+  pass.addEventListener("input", function () {
+    var s = strength(pass.value);
+    var colors = ["", "var(--no)", "var(--warn)", "var(--yes)"];
+    segs.forEach(function (seg, i) { seg.style.background = i < s ? colors[s] : "var(--border)"; });
+    hint.textContent = pass.value
+      ? (s === 3 ? "Strong password." : s === 2 ? "Almost there — add a symbol." : "Weak — add numbers and symbols.")
+      : "Use 8+ characters with a number and a symbol.";
+  });
+
+  document.getElementById("sgSubmit").addEventListener("click", function () {
+    var name = document.getElementById("sgName");
+    var email = document.getElementById("sgEmail");
+    name.classList.toggle("is-bad", !name.value.trim());
+    email.classList.toggle("is-bad", !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim()));
+    if (!name.value.trim()) { msg.textContent = "Please enter your name."; msg.classList.remove("is-ok"); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) { msg.textContent = "Enter a valid email."; msg.classList.remove("is-ok"); return; }
+    if (strength(pass.value) < 2) { msg.textContent = "Please choose a stronger password."; msg.classList.remove("is-ok"); return; }
+    if (!document.getElementById("sgTerms").checked) { msg.textContent = "Please accept the terms to continue."; msg.classList.remove("is-ok"); return; }
+    msg.textContent = "Account created (demo).";
+    msg.classList.add("is-ok");
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

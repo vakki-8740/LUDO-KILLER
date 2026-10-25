@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Snackbar · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Feedback</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Snackbar</h1>
+    <p>Bottom snackbar with an undo action.</p>
+  </div>
+  <section class="vw-block" id="snackbar" aria-labelledby="snackbar-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="snackbar-t">Snackbar with undo</h2>
+      <span class="vw-note">Delete dabaiye — snackbar me Undo milega.</span>
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="sn-demo">
+  <div class="sn-body">
+    <p class="sn-count">Items: <strong id="snCount">3</strong></p>
+    <button class="sn-del" type="button" id="snDel">Delete item</button>
+  </div>
+  <div class="sn-bar" id="snBar" role="status" hidden>
+    <span class="sn-msg" id="snMsg">Item deleted.</span>
+    <button class="sn-undo" type="button" id="snUndo">Undo</button>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.sn-demo { position: relative; min-height: 220px; border: 1px dashed var(--border); border-radius: var(--radius); padding: 16px; overflow: hidden; }
+.sn-count { margin: 0 0 10px; font-size: 0.9rem; }
+.sn-del {
+  border: 1px solid rgba(229, 72, 77, 0.4);
+  background: rgba(229, 72, 77, 0.08);
+  color: var(--no);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.sn-del:hover { border-color: var(--no); }
+.sn-del:focus-visible { outline: 2px solid var(--no); outline-offset: 2px; }
+.sn-bar {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #242833;
+  color: #f3f4f8;
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  box-shadow: var(--shadow);
+  animation: snUp 0.22s ease-out;
+}
+.sn-msg { flex: 1; font-size: 0.8rem; }
+.sn-undo {
+  border: 0;
+  background: transparent;
+  color: #9db0ff;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 3px;
+}
+.sn-undo:hover { background: rgba(157, 176, 255, 0.14); }
+.sn-undo:focus-visible { outline: 2px solid #9db0ff; outline-offset: 2px; }
+@keyframes snUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .sn-bar { animation: none; } }</style>
+    <script data-block>(function () {
+  var count = 3;
+  var countEl = document.getElementById("snCount");
+  var bar = document.getElementById("snBar");
+  var msg = document.getElementById("snMsg");
+  var timer = null;
+
+  function hide() {
+    bar.hidden = true;
+    if (timer) { clearTimeout(timer); timer = null; }
+  }
+
+  document.getElementById("snDel").addEventListener("click", function () {
+    if (count <= 0) { msg.textContent = "Nothing left to delete."; bar.hidden = false; return; }
+    count -= 1;
+    countEl.textContent = count;
+    msg.textContent = "Item deleted.";
+    bar.hidden = false;
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(hide, 4200);
+  });
+
+  document.getElementById("snUndo").addEventListener("click", function () {
+    count += 1;
+    countEl.textContent = count;
+    msg.textContent = "Item restored.";
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(hide, 2200);
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

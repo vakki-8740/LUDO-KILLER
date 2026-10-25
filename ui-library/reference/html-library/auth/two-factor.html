@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Two-Factor Auth · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Authentication</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Two-Factor Auth</h1>
+    <p>Method picker with authenticator code entry.</p>
+  </div>
+  <section class="vw-block" id="two-factor" aria-labelledby="two-factor-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="two-factor-t">Two-step verification</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="tf-card">
+  <div class="tf-head">
+    <span class="tf-lock" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+    </span>
+    <div><p class="tf-t">Two-factor authentication</p><p class="tf-s" id="tfSub">Enter the 6-digit code from your authenticator app.</p></div>
+  </div>
+  <div class="tf-tabs" role="tablist" aria-label="2FA method">
+    <button class="tf-tab is-on" type="button" role="tab" aria-selected="true" data-m="app">Authenticator</button>
+    <button class="tf-tab" type="button" role="tab" aria-selected="false" data-m="sms">SMS</button>
+  </div>
+  <label class="tf-lbl" for="tfCode">Verification code</label>
+  <input class="tf-input" id="tfCode" type="text" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code">
+  <label class="tf-remember"><input class="tf-check" type="checkbox"> Trust this device for 30 days</label>
+  <button class="tf-submit" type="button" id="tfSubmit">Verify and continue</button>
+  <p class="tf-msg" id="tfMsg" role="status"></p>
+  <button class="tf-recover" type="button">Use a recovery code instead</button>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.tf-card { max-width: 350px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 18px; }
+.tf-head { display: flex; gap: 10px; margin-bottom: 12px; }
+.tf-lock { width: 38px; height: 38px; flex: 0 0 auto; border-radius: 999px; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; }
+.tf-lock svg { width: 19px; height: 19px; }
+.tf-t { margin: 0 0 2px; font-size: 0.88rem; font-weight: 700; }
+.tf-s { margin: 0; font-size: 0.72rem; color: var(--muted); line-height: 1.4; }
+.tf-tabs { display: flex; gap: 3px; background: var(--bg); border-radius: var(--radius); padding: 3px; margin-bottom: 10px; }
+.tf-tab { flex: 1; border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 0.72rem; font-weight: 600; padding: 6px; border-radius: 4px; cursor: pointer; }
+.tf-tab.is-on { background: var(--card); color: var(--text); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); }
+.tf-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.tf-lbl { display: block; margin-bottom: 4px; font-size: 0.71rem; font-weight: 600; color: var(--muted); }
+.tf-input { width: 100%; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font: inherit; font-size: 1rem; font-weight: 700; letter-spacing: 0.35em; padding: 9px 10px; outline: none; margin-bottom: 8px; text-align: center; }
+.tf-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.tf-remember { display: flex; align-items: center; gap: 6px; font-size: 0.71rem; color: var(--muted); margin-bottom: 10px; cursor: pointer; }
+.tf-check { accent-color: var(--accent); width: 13px; height: 13px; }
+.tf-submit { width: 100%; border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.82rem; font-weight: 600; padding: 9px; border-radius: var(--radius); cursor: pointer; }
+.tf-submit:hover { opacity: 0.92; }
+.tf-submit:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tf-msg { min-height: 1em; margin: 8px 0 0; font-size: 0.72rem; color: var(--no); text-align: center; }
+.tf-msg.is-ok { color: var(--yes); }
+.tf-recover { display: block; margin: 4px auto 0; border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 0.71rem; font-weight: 600; cursor: pointer; }
+.tf-recover:hover { color: var(--accent); }
+.tf-recover:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }</style>
+    <script data-block>(function () {
+  var code = document.getElementById("tfCode");
+  var msg = document.getElementById("tfMsg");
+  var sub = document.getElementById("tfSub");
+
+  document.querySelectorAll(".tf-tab").forEach(function (t) {
+    t.addEventListener("click", function () {
+      document.querySelectorAll(".tf-tab").forEach(function (x) {
+        x.classList.remove("is-on");
+        x.setAttribute("aria-selected", "false");
+      });
+      t.classList.add("is-on");
+      t.setAttribute("aria-selected", "true");
+      sub.textContent = t.getAttribute("data-m") === "app"
+        ? "Enter the 6-digit code from your authenticator app."
+        : "Enter the 6-digit code we texted to +91 98765 43210.";
+      msg.textContent = "";
+    });
+  });
+
+  document.getElementById("tfSubmit").addEventListener("click", function () {
+    var v = code.value.replace(/[^0-9]/g, "");
+    if (v.length !== 6) { msg.textContent = "Enter the full 6-digit code."; msg.classList.remove("is-ok"); return; }
+    if (v === "123456") { msg.textContent = "Verified. Redirecting to your account."; msg.classList.add("is-ok"); }
+    else { msg.textContent = "Invalid code. Demo code is 123456."; msg.classList.remove("is-ok"); }
+  });
+
+  document.querySelector(".tf-recover").addEventListener("click", function () {
+    msg.textContent = "Recovery code flow is demo-only.";
+    msg.classList.remove("is-ok");
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

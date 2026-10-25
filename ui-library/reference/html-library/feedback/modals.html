@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Modals</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    --accent: #4f6bed;
+    --yes: #22a06b;
+    --no: #e5484d;
+    --accent-soft: rgba(79, 107, 237, 0.10);
+    --no-soft: rgba(229, 72, 77, 0.12);
+  }
+
+  [data-theme="dark"] {
+    --bg: #12141a;
+    --card: #1c1f28;
+    --text: #eceef3;
+    --muted: #9aa1b2;
+    --border: #2a2e3a;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --accent: #7b92ff;
+    --accent-soft: rgba(123, 146, 255, 0.14);
+    --no-soft: rgba(229, 72, 77, 0.16);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: 80px 16px 40px;
+    transition: background 0.3s, color 0.3s;
+  }
+  body.no-scroll { overflow: hidden; }
+
+  .theme-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 80;
+    width: 46px;
+    height: 46px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, background 0.3s;
+  }
+  .theme-toggle:hover { transform: scale(1.08); }
+  .theme-toggle svg { width: 22px; height: 22px; }
+  .theme-toggle .icon-sun { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+  .wrap {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .panel h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .panel-note { color: var(--muted); font-size: 0.85rem; margin-bottom: 18px; }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s, opacity 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .btn:hover { transform: translateY(-2px); opacity: 0.92; }
+  .btn:active { transform: translateY(0); }
+  .btn.primary { background: var(--accent); color: #fff; }
+  .btn.danger { background: var(--no); color: #fff; }
+  .btn.outline { background: transparent; border-color: var(--border); color: var(--text); }
+  .btn.outline:hover { border-color: var(--accent); color: var(--accent); opacity: 1; }
+  .btn svg { width: 16px; height: 16px; }
+
+  .trigger-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+  /* ---------- Preview stage ---------- */
+  .stage {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 26px 16px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* ---------- Modal ---------- */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.22s, visibility 0.22s;
+  }
+  .overlay.open { opacity: 1; visibility: visible; }
+
+  .modal {
+    width: min(420px, 100%);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+    padding: 22px;
+    transform: scale(0.96) translateY(10px);
+    transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.05);
+  }
+  .overlay.open .modal { transform: scale(1) translateY(0); }
+
+  .modal-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .modal-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+  .modal-icon svg { width: 19px; height: 19px; }
+  .modal-icon.danger { background: var(--no-soft); color: var(--no); }
+  .modal-icon.accent { background: var(--accent-soft); color: var(--accent); }
+
+  .modal-title { flex: 1; min-width: 0; padding-top: 1px; }
+  .modal-title h3 { font-size: 1.05rem; margin-bottom: 3px; }
+  .modal-title p { color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
+
+  .modal-close {
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex: 0 0 auto;
+    transition: background 0.2s, color 0.2s;
+  }
+  .modal-close:hover { background: var(--bg); color: var(--text); }
+  .modal-close svg { width: 16px; height: 16px; }
+
+  .modal-body { color: var(--muted); font-size: 0.87rem; line-height: 1.6; }
+  .modal-body strong { color: var(--text); }
+
+  .modal-field { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; }
+  .modal-field label { font-size: 0.8rem; font-weight: 600; color: var(--text); }
+  .modal-field input,
+  .modal-field select {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.88rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .modal-field input:focus,
+  .modal-field select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  .modal-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .preview-modal { box-shadow: var(--shadow); max-width: 420px; transform: none; }
+  .preview-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 480px) {
+    .panel { padding: 18px; }
+    .modal { padding: 18px; }
+    .modal-actions .btn { flex: 1; }
+    .trigger-row .btn { flex: 1; }
+    .stage { padding: 16px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+</button>
+
+<main class="wrap">
+
+  <section class="panel">
+    <h2>Live modals</h2>
+    <p class="panel-note">Open a dialog to preview the overlay, focus and closing behaviour.</p>
+    <div class="trigger-row">
+      <button class="btn danger" data-open="confirmModal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg>
+        Delete project
+      </button>
+      <button class="btn primary" data-open="inviteModal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+        Invite teammate
+      </button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Modal anatomy · static preview</h2>
+    <p class="panel-note">Icon, title, supporting text and a clear primary / secondary action pair.</p>
+    <div class="stage">
+      <div class="modal preview-modal">
+        <div class="modal-head">
+          <span class="modal-icon danger" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 4.3L2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+          </span>
+          <div class="modal-title">
+            <h3>Delete project?</h3>
+            <p>This action cannot be undone.</p>
+          </div>
+          <span class="modal-close" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </span>
+        </div>
+        <div class="modal-body">
+          The project <strong>Design system v2</strong> and its 14 files will be permanently removed.
+        </div>
+        <div class="modal-actions">
+          <button class="btn outline" type="button">Cancel</button>
+          <button class="btn danger" type="button">Delete</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Confirm dialog -->
+<div class="overlay" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle" aria-hidden="true">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-icon danger" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 4.3L2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+      </span>
+      <div class="modal-title">
+        <h3 id="confirmTitle">Delete project?</h3>
+        <p>This action cannot be undone.</p>
+      </div>
+      <button class="modal-close" data-close aria-label="Close dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      The project <strong>Design system v2</strong> and its 14 files will be permanently removed.
+    </div>
+    <div class="modal-actions">
+      <button class="btn outline" data-close type="button">Cancel</button>
+      <button class="btn danger" data-close type="button">Delete project</button>
+    </div>
+  </div>
+</div>
+
+<!-- Invite dialog -->
+<div class="overlay" id="inviteModal" role="dialog" aria-modal="true" aria-labelledby="inviteTitle" aria-hidden="true">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-icon accent" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+      </span>
+      <div class="modal-title">
+        <h3 id="inviteTitle">Invite a teammate</h3>
+        <p>They will receive an email with a join link.</p>
+      </div>
+      <button class="modal-close" data-close aria-label="Close dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+
+    <div class="modal-field">
+      <label for="inviteEmail">Email address</label>
+      <input id="inviteEmail" type="email" placeholder="teammate@example.com" />
+    </div>
+    <div class="modal-field">
+      <label for="inviteRole">Role</label>
+      <select id="inviteRole">
+        <option>Editor</option>
+        <option>Viewer</option>
+        <option>Admin</option>
+      </select>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn outline" data-close type="button">Cancel</button>
+      <button class="btn primary" data-close type="button">Send invite</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.getElementById("themeToggle");
+
+  function setTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    try { localStorage.setItem("theme", theme); } catch (e) {}
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem("theme"); } catch (e) {}
+  setTheme(saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+
+  toggle.addEventListener("click", () => {
+    setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  let lastFocus = null;
+
+  function openModal(id) {
+    const overlay = document.getElementById(id);
+    if (!overlay) return;
+    lastFocus = document.activeElement;
+    overlay.classList.add("open");
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.classList.add("no-scroll");
+    const focusable = overlay.querySelector("input, select, button");
+    if (focusable) setTimeout(() => focusable.focus(), 60);
+  }
+
+  function closeModal(overlay) {
+    overlay.classList.remove("open");
+    overlay.setAttribute("aria-hidden", "true");
+    if (!document.querySelector(".overlay.open")) {
+      document.body.classList.remove("no-scroll");
+    }
+    if (lastFocus) lastFocus.focus();
+  }
+
+  document.querySelectorAll("[data-open]").forEach(btn => {
+    btn.addEventListener("click", () => openModal(btn.dataset.open));
+  });
+
+  document.querySelectorAll(".overlay").forEach(overlay => {
+    overlay.querySelectorAll("[data-close]").forEach(btn => {
+      btn.addEventListener("click", () => closeModal(overlay));
+    });
+    overlay.addEventListener("click", e => {
+      if (e.target === overlay) closeModal(overlay);
+    });
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      const open = document.querySelector(".overlay.open");
+      if (open) closeModal(open);
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Infinite Scroll · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Navigation &amp; Layout</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Infinite Scroll</h1>
+    <p>Feed that loads more items near the end of the list.</p>
+  </div>
+  <section class="vw-block" id="infinite-scroll" aria-labelledby="infinite-scroll-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="infinite-scroll-t">Infinite scroll feed</h2>
+      <span class="vw-note">Neeche scroll karein — items auto load honge.</span>
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="is-wrap">
+  <div class="is-list" id="isList"></div>
+  <div class="is-sent" id="isSent" aria-hidden="true"></div>
+  <div class="is-load" id="isLoad" hidden><span class="is-spin" aria-hidden="true"></span> Loading more…</div>
+  <p class="is-end" id="isEnd" hidden>You're all caught up.</p>
+  <button class="is-reset" type="button" id="isReset">Reset demo</button>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.is-wrap { max-width: 420px; margin: 0 auto; position: relative; }
+.is-list { display: flex; flex-direction: column; gap: 10px; }
+.is-item {
+  display: flex;
+  gap: 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.is-av {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+.is-body { min-width: 0; }
+.is-name { margin: 0; font-size: 0.82rem; font-weight: 600; }
+.is-text { margin: 2px 0 0; font-size: 0.78rem; color: var(--muted); line-height: 1.45; }
+.is-sent { height: 1px; }
+.is-load {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.is-spin {
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 999px;
+  animation: is-spin 0.8s linear infinite;
+}
+@keyframes is-spin { to { transform: rotate(360deg); } }
+.is-end { text-align: center; font-size: 0.8rem; color: var(--muted); padding: 14px; margin: 0; }
+.is-reset {
+  display: block;
+  margin: 12px auto 0;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.is-reset:hover { border-color: var(--accent); }
+.is-reset:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .is-spin { animation: none; }
+}</style>
+    <script data-block>(function () {
+  var list = document.getElementById("isList");
+  var sent = document.getElementById("isSent");
+  var load = document.getElementById("isLoad");
+  var end = document.getElementById("isEnd");
+  var reset = document.getElementById("isReset");
+  var names = ["Aman Kumar", "Riya Sharma", "Vikram Singh", "Neha Gupta", "Arjun Mehta", "Sara Khan", "Dev Patel", "Isha Rao", "Kabir Joshi", "Meera Nair"];
+  var texts = ["Naya component library use kar raha hoon.", "Dashboard layout bahut clean bana hai.", "Copy button se code uthana super easy.", "Dark mode bhi perfect lag raha hai.", "Mobile preview toggle kaam karta hai.", "Accordion smooth animate ho raha hai.", "Table mobile pe cards ban jata hai.", "Stepper ke controls working hain.", "Toast notifications useful hain.", "Tokens sab jagah consistent rakhte hain."];
+  var idx = 0;
+  var batches = 0;
+  var MAX = 3;
+  var busy = false;
+
+  function makeItem() {
+    var i = idx % names.length;
+    var div = document.createElement("div");
+    div.className = "is-item";
+    var av = document.createElement("span");
+    av.className = "is-av";
+    av.textContent = names[i].split(" ").map(function (w) { return w[0]; }).join("").slice(0, 2);
+    var body = document.createElement("div");
+    body.className = "is-body";
+    var name = document.createElement("p");
+    name.className = "is-name";
+    name.textContent = names[i];
+    var text = document.createElement("p");
+    text.className = "is-text";
+    text.textContent = texts[i % texts.length];
+    body.appendChild(name);
+    body.appendChild(text);
+    div.appendChild(av);
+    div.appendChild(body);
+    idx++;
+    return div;
+  }
+
+  function appendBatch(n) {
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < n; i++) frag.appendChild(makeItem());
+    list.appendChild(frag);
+  }
+
+  function finish() {
+    load.hidden = true;
+    end.hidden = false;
+    busy = false;
+  }
+
+  function loadMore() {
+    if (busy || !end.hidden) return;
+    busy = true;
+    load.hidden = false;
+    setTimeout(function () {
+      appendBatch(3);
+      batches++;
+      load.hidden = true;
+      busy = false;
+      if (batches >= MAX) end.hidden = false;
+    }, 600);
+  }
+
+  function start() {
+    list.textContent = "";
+    idx = 0;
+    batches = 0;
+    busy = false;
+    end.hidden = true;
+    load.hidden = true;
+    appendBatch(4);
+  }
+
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      if (entries.some(function (e) { return e.isIntersecting; })) loadMore();
+    }, { rootMargin: "120px" });
+    io.observe(sent);
+  } else {
+    appendBatch(3);
+  }
+
+  reset.addEventListener("click", start);
+  start();
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

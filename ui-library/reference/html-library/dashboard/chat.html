@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chat Interface · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Dashboard &amp; App</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Chat Interface</h1>
+    <p>Conversation list, message bubbles and composer.</p>
+  </div>
+  <section class="vw-block" id="chat-shell" aria-labelledby="chat-shell-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="chat-shell-t">Chat layout</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="ct-frame">
+  <aside class="ct-side">
+    <div class="ct-sideTop"><span class="ct-sideT">Messages</span><button class="ct-new" type="button" id="ctNew" aria-label="New message">+</button></div>
+    <div class="ct-item is-on"><span class="ct-av c1">RS</span><div class="ct-im"><p class="ct-n">Rohan Shah</p><p class="ct-p">Sent the updated files</p></div><span class="ct-un">2</span></div>
+    <div class="ct-item"><span class="ct-av c2">MP</span><div class="ct-im"><p class="ct-n">Mira Patel</p><p class="ct-p">Looks good to me</p></div></div>
+    <div class="ct-item"><span class="ct-av c3">TN</span><div class="ct-im"><p class="ct-n">Tarun Nair</p><p class="ct-p">See you tomorrow</p></div></div>
+  </aside>
+  <div class="ct-pane">
+    <div class="ct-head"><span class="ct-av c1">RS</span><div><p class="ct-hn">Rohan Shah</p><p class="ct-hs">Online</p></div></div>
+    <div class="ct-thread">
+      <div class="ct-bub is-them"><p class="ct-bt">Hey! The new dashboard is live on staging.</p><span class="ct-bs">10:12</span></div>
+      <div class="ct-bub is-me"><p class="ct-bt">Nice. I will review it after standup.</p><span class="ct-bs">10:14</span></div>
+      <div class="ct-bub is-them"><p class="ct-bt">Great — the mobile view needs a check too.</p><span class="ct-bs">10:15</span></div>
+    </div>
+    <div class="ct-compose">
+      <input class="ct-input" type="text" placeholder="Write a message..." aria-label="Message">
+      <button class="ct-send" type="button" id="ctSend" aria-label="Send message">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.ct-frame { display: grid; grid-template-columns: 170px 1fr; height: 300px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--card); }
+.ct-side { background: var(--bg); border-right: 1px solid var(--border); overflow: auto; }
+.ct-sideTop { display: flex; align-items: center; justify-content: space-between; padding: 8px 9px 6px; }
+.ct-sideT { font-size: 0.66rem; font-weight: 700; }
+.ct-new { width: 18px; height: 18px; border: 1px solid var(--border); border-radius: 3px; background: var(--card); color: var(--muted); font-size: 0.8rem; line-height: 1; cursor: pointer; }
+.ct-new:hover { border-color: var(--accent); color: var(--accent); }
+.ct-new:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ct-item { display: flex; align-items: center; gap: 6px; padding: 6px 9px; cursor: pointer; }
+.ct-item.is-on { background: var(--accent-soft); }
+.ct-item:hover { background: var(--bg); }
+.ct-item.is-on:hover { background: var(--accent-soft); }
+.ct-av { width: 24px; height: 24px; border-radius: 999px; color: #fff; font-size: 0.52rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.ct-av.c1 { background: linear-gradient(135deg, #4f6bed, #8b5cf6); }
+.ct-av.c2 { background: linear-gradient(135deg, #22a06b, #0ea5e9); }
+.ct-av.c3 { background: linear-gradient(135deg, #e5484d, #f0b543); }
+.ct-im { flex: 1; min-width: 0; }
+.ct-n { margin: 0; font-size: 0.64rem; font-weight: 700; }
+.ct-p { margin: 0; font-size: 0.55rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ct-un { min-width: 14px; height: 14px; padding: 0 3px; border-radius: 999px; background: var(--accent); color: #fff; font-size: 0.5rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.ct-pane { display: flex; flex-direction: column; min-width: 0; }
+.ct-head { display: flex; align-items: center; gap: 6px; padding: 7px 9px; border-bottom: 1px solid var(--border); }
+.ct-hn { margin: 0; font-size: 0.68rem; font-weight: 700; }
+.ct-hs { margin: 0; font-size: 0.55rem; color: var(--yes); }
+.ct-thread { flex: 1; padding: 8px; overflow: auto; display: flex; flex-direction: column; gap: 6px; background: var(--bg); }
+.ct-bub { max-width: 82%; border-radius: 8px; padding: 6px 8px; }
+.ct-bub.is-them { align-self: flex-start; background: var(--card); border: 1px solid var(--border); }
+.ct-bub.is-me { align-self: flex-end; background: var(--accent); color: #fff; }
+.ct-bt { margin: 0; font-size: 0.66rem; line-height: 1.45; }
+.ct-bs { display: block; margin-top: 2px; font-size: 0.5rem; opacity: 0.6; text-align: right; }
+.ct-compose { display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-top: 1px solid var(--border); }
+.ct-input { flex: 1; min-width: 0; border: 1px solid var(--border); border-radius: 999px; background: var(--bg); color: var(--text); font: inherit; font-size: 0.66rem; padding: 5px 9px; outline: none; }
+.ct-input:focus { border-color: var(--accent); }
+.ct-send { width: 26px; height: 26px; border: 0; border-radius: 999px; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; flex: 0 0 auto; }
+.ct-send svg { width: 13px; height: 13px; }
+.ct-send:hover { opacity: 0.92; }
+.ct-send:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 480px) { .ct-frame { grid-template-columns: 1fr; } .ct-side { display: none; } }</style>
+    <script data-block></script>
+  </section>
+
+  <section class="vw-block" id="chat-bubbles" aria-labelledby="chat-bubbles-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="chat-bubbles-t">Message bubbles</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="cb-list">
+  <div class="cb-row"><span class="cb-av" aria-hidden="true">RS</span><div class="cb-bub is-them"><p class="cb-t">The staging build is ready for review.</p><span class="cb-time">Rohan &#183; 10:12</span></div></div>
+  <div class="cb-row is-me"><div class="cb-bub is-me"><p class="cb-t">Looks great. I will add notes in Figma.</p><span class="cb-time">You &#183; 10:14</span></div></div>
+  <div class="cb-row"><span class="cb-av" aria-hidden="true">MP</span><div class="cb-bub is-them"><p class="cb-t">Can we ship the mobile fix today?</p><span class="cb-time">Mira &#183; 10:18</span></div></div>
+  <div class="cb-typing" aria-label="Ayesha is typing"><span class="cb-tdot"></span><span class="cb-tdot"></span><span class="cb-tdot"></span></div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.cb-list { max-width: 380px; display: flex; flex-direction: column; gap: 7px; }
+.cb-row { display: flex; align-items: flex-end; gap: 6px; }
+.cb-row.is-me { justify-content: flex-end; }
+.cb-av { width: 22px; height: 22px; border-radius: 999px; background: linear-gradient(135deg, #22a06b, #0ea5e9); color: #fff; font-size: 0.5rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.cb-bub { max-width: 78%; border-radius: 9px; padding: 7px 9px; background: var(--card); border: 1px solid var(--border); }
+.cb-bub.is-me { background: var(--accent); border-color: var(--accent); color: #fff; }
+.cb-t { margin: 0; font-size: 0.72rem; line-height: 1.45; }
+.cb-time { display: block; margin-top: 2px; font-size: 0.54rem; opacity: 0.62; }
+.cb-typing { display: inline-flex; align-items: center; gap: 3px; width: 40px; padding: 8px 9px; background: var(--card); border: 1px solid var(--border); border-radius: 9px; margin-left: 28px; }
+.cb-tdot { width: 4px; height: 4px; border-radius: 999px; background: var(--muted); animation: cbBounce 1.2s infinite; }
+.cb-tdot:nth-child(2) { animation-delay: 0.15s; }
+.cb-tdot:nth-child(3) { animation-delay: 0.3s; }
+@keyframes cbBounce { 0%, 60%, 100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-3px); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .cb-tdot { animation: none; } }</style>
+    <script data-block></script>
+  </section>
+
+  <section class="vw-block" id="chat-composer" aria-labelledby="chat-composer-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="chat-composer-t">Composer</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="cc-box">
+  <textarea class="cc-input" id="ccInput" rows="2" placeholder="Write a message..." aria-label="Message"></textarea>
+  <div class="cc-foot">
+    <div class="cc-tools">
+      <button class="cc-tool" type="button" aria-label="Attach file">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.5l-8.5 8.5a6 6 0 0 1-8.5-8.5L12.5 4a4 4 0 0 1 5.7 5.7l-8.5 8.5a2 2 0 0 1-2.8-2.8l8-8"/></svg>
+      </button>
+      <button class="cc-tool" type="button" aria-label="Add emoji">&#9786;</button>
+      <span class="cc-count" id="ccCount">0 / 500</span>
+    </div>
+    <button class="cc-send" type="button" id="ccSend">Send</button>
+  </div>
+  <p class="cc-msg" id="ccMsg" aria-live="polite"></p>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.cc-box { max-width: 380px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); padding: 8px; }
+.cc-input { width: 100%; border: 0; background: transparent; color: var(--text); font: inherit; font-size: 0.76rem; line-height: 1.5; outline: none; resize: none; padding: 4px; }
+.cc-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 5px; border-top: 1px solid var(--border); }
+.cc-tools { display: flex; align-items: center; gap: 3px; }
+.cc-tool { border: 0; background: transparent; color: var(--muted); font-size: 0.9rem; padding: 3px 5px; border-radius: 3px; cursor: pointer; display: flex; }
+.cc-tool svg { width: 14px; height: 14px; }
+.cc-tool:hover { color: var(--accent); }
+.cc-tool:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cc-count { font-size: 0.56rem; color: var(--muted); margin-left: 3px; }
+.cc-send { border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.66rem; font-weight: 700; padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+.cc-send:hover { opacity: 0.92; }
+.cc-send:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cc-msg { min-height: 1em; margin: 5px 2px 0; font-size: 0.6rem; color: var(--yes); }</style>
+    <script data-block>(function () {
+  var input = document.getElementById("ccInput");
+  var count = document.getElementById("ccCount");
+  var msg = document.getElementById("ccMsg");
+
+  input.addEventListener("input", function () {
+    if (input.value.length > 500) input.value = input.value.slice(0, 500);
+    count.textContent = input.value.length + " / 500";
+  });
+
+  document.getElementById("ccSend").addEventListener("click", function () {
+    if (!input.value.trim()) { msg.textContent = "Type a message first."; return; }
+    msg.textContent = "Message sent (demo).";
+    input.value = "";
+    count.textContent = "0 / 500";
+    input.focus();
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

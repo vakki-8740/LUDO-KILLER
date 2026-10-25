@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Context Menu · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Overlays</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Context Menu</h1>
+    <p>Right-click menu positioned inside a demo surface.</p>
+  </div>
+  <section class="vw-block" id="context-menu" aria-labelledby="context-menu-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="context-menu-t">Right-click area</h2>
+      <span class="vw-note">Demo area par right-click karein, ya button se menu kholein.</span>
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="ct-demo" id="ctArea">
+  <p class="ct-hint">Right-click anywhere in this area</p>
+  <div class="ct-file">
+    <span class="ct-ic" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></svg>
+    </span>
+    <span class="ct-name">project-brief.pdf</span>
+  </div>
+  <button class="ct-btn" type="button" id="ctBtn">Open menu</button>
+  <div class="ct-menu" id="ctMenu" role="menu" aria-label="File actions" hidden>
+    <button class="ct-item" type="button" role="menuitem">Open</button>
+    <button class="ct-item" type="button" role="menuitem">Rename</button>
+    <button class="ct-item" type="button" role="menuitem">Duplicate</button>
+    <span class="ct-sep" aria-hidden="true"></span>
+    <button class="ct-item ct-danger" type="button" role="menuitem">Delete</button>
+  </div>
+  <p class="ct-msg" id="ctMsg" aria-live="polite"></p>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.ct-demo { position: relative; height: 280px; border: 1px dashed var(--border); border-radius: var(--radius); padding: 14px; overflow: hidden; }
+.ct-hint { margin: 0 0 10px; font-size: 0.74rem; color: var(--muted); }
+.ct-file { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 8px 11px; }
+.ct-ic { width: 22px; height: 26px; color: var(--accent); }
+.ct-ic svg { width: 100%; height: 100%; }
+.ct-name { font-size: 0.78rem; font-weight: 600; }
+.ct-btn { display: block; margin-top: 10px; border: 1px solid var(--border); background: transparent; color: var(--accent); font: inherit; font-size: 0.74rem; font-weight: 600; padding: 6px 11px; border-radius: var(--radius); cursor: pointer; }
+.ct-btn:hover { border-color: var(--accent); }
+.ct-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ct-menu { position: absolute; width: 158px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 4px; z-index: 20; }
+.ct-item { display: block; width: 100%; text-align: left; border: 0; background: transparent; color: var(--text); font: inherit; font-size: 0.78rem; padding: 7px 9px; border-radius: 4px; cursor: pointer; }
+.ct-item:hover, .ct-item:focus-visible { background: var(--bg); outline: none; }
+.ct-danger { color: var(--no); }
+.ct-sep { display: block; height: 1px; background: var(--border); margin: 4px 2px; }
+.ct-msg { position: absolute; left: 14px; bottom: 10px; margin: 0; font-size: 0.72rem; color: var(--yes); }</style>
+    <script data-block>(function () {
+  var area = document.getElementById("ctArea");
+  var menu = document.getElementById("ctMenu");
+  var btn = document.getElementById("ctBtn");
+  var msg = document.getElementById("ctMsg");
+
+  function open(x, y) {
+    var rect = area.getBoundingClientRect();
+    var w = menu.offsetWidth || 158;
+    var h = menu.offsetHeight || 150;
+    var left = Math.max(6, Math.min(x, rect.width - w - 6));
+    var top = Math.max(6, Math.min(y, rect.height - h - 6));
+    menu.style.left = left + "px";
+    menu.style.top = top + "px";
+    menu.hidden = false;
+  }
+
+  function hide() { menu.hidden = true; }
+
+  area.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+    var rect = area.getBoundingClientRect();
+    open(e.clientX - rect.left, e.clientY - rect.top);
+  });
+
+  btn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (!menu.hidden) { hide(); return; }
+    var rect = btn.getBoundingClientRect();
+    var arect = area.getBoundingClientRect();
+    var y = rect.bottom - arect.top + 6;
+    var x = rect.left - arect.left;
+    if (y + 150 > arect.height) y = rect.top - arect.top - 152;
+    open(x, y);
+  });
+
+  menu.querySelectorAll(".ct-item").forEach(function (item) {
+    item.addEventListener("click", function () {
+      msg.textContent = item.textContent + " selected.";
+      hide();
+    });
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!menu.hidden && !menu.contains(e.target) && e.target !== btn) hide();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !menu.hidden) { hide(); btn.focus(); }
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

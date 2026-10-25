@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coupon Code · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">E-commerce</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Coupon Code</h1>
+    <p>Promo input with valid, invalid and applied states.</p>
+  </div>
+  <section class="vw-block" id="coupon-code" aria-labelledby="coupon-code-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="coupon-code-t">Apply promo</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="cu-card">
+  <p class="cu-t">Have a promo code?</p>
+  <div class="cu-row">
+    <input class="cu-input" id="cuInput" type="text" placeholder="Enter code" aria-label="Promo code" autocomplete="off">
+    <button class="cu-apply" type="button" id="cuApply">Apply</button>
+  </div>
+  <p class="cu-msg" id="cuMsg" role="status"></p>
+  <div class="cu-applied" id="cuApplied" hidden>
+    <span class="cu-tag" id="cuTag">SAVE10</span>
+    <span class="cu-saved">You save $7.34</span>
+    <button class="cu-remove" type="button" id="cuRemove" aria-label="Remove promo code">&times;</button>
+  </div>
+  <p class="cu-sub">Available offers</p>
+  <button class="cu-offer" type="button" data-code="SAVE10">SAVE10 &#8212; 10% off your order</button>
+  <button class="cu-offer" type="button" data-code="FREESHIP">FREESHIP &#8212; free delivery</button>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.cu-card { max-width: 340px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 13px; }
+.cu-t { margin: 0 0 7px; font-size: 0.76rem; font-weight: 700; }
+.cu-row { display: flex; gap: 6px; }
+.cu-input { flex: 1; min-width: 0; border: 1px solid var(--border); border-radius: 4px; background: var(--bg); color: var(--text); font: inherit; font-size: 0.72rem; padding: 7px 9px; outline: none; text-transform: uppercase; }
+.cu-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.cu-apply { border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.68rem; font-weight: 700; padding: 7px 12px; border-radius: 4px; cursor: pointer; }
+.cu-apply:hover { opacity: 0.92; }
+.cu-apply:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cu-msg { min-height: 1em; margin: 5px 0 0; font-size: 0.62rem; color: var(--no); }
+.cu-msg.is-ok { color: var(--yes); }
+.cu-applied { display: flex; align-items: center; gap: 6px; border: 1px dashed var(--yes); background: rgba(34, 160, 107, 0.07); border-radius: 4px; padding: 6px 8px; margin-top: 6px; }
+.cu-tag { font-size: 0.56rem; font-weight: 800; letter-spacing: 0.05em; color: var(--yes); border: 1px solid currentColor; border-radius: 3px; padding: 1px 4px; }
+.cu-saved { flex: 1; font-size: 0.62rem; font-weight: 600; color: var(--yes); }
+.cu-remove { border: 0; background: transparent; color: var(--muted); font-size: 0.8rem; cursor: pointer; padding: 1px 3px; border-radius: 2px; line-height: 1; }
+.cu-remove:hover { color: var(--no); }
+.cu-remove:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cu-sub { margin: 10px 0 4px; font-size: 0.56rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.cu-offer { display: block; width: 100%; text-align: left; border: 0; background: transparent; color: var(--accent); font: inherit; font-size: 0.62rem; font-weight: 600; padding: 4px 2px; cursor: pointer; border-radius: 3px; }
+.cu-offer:hover { text-decoration: underline; }
+.cu-offer:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }</style>
+    <script data-block>(function () {
+  var input = document.getElementById("cuInput");
+  var msg = document.getElementById("cuMsg");
+  var applied = document.getElementById("cuApplied");
+  var tag = document.getElementById("cuTag");
+
+  function apply(code) {
+    var c = code.trim().toUpperCase();
+    if (c === "SAVE10") {
+      tag.textContent = "SAVE10";
+      applied.hidden = false;
+      msg.textContent = "Code applied — 10% off.";
+      msg.classList.add("is-ok");
+      input.value = "";
+    } else if (c === "FREESHIP") {
+      tag.textContent = "FREESHIP";
+      applied.hidden = false;
+      msg.textContent = "Code applied — free delivery.";
+      msg.classList.add("is-ok");
+      input.value = "";
+    } else {
+      applied.hidden = true;
+      msg.textContent = c ? "That code is not valid." : "Enter a promo code first.";
+      msg.classList.remove("is-ok");
+    }
+  }
+
+  document.getElementById("cuApply").addEventListener("click", function () { apply(input.value); });
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") apply(input.value);
+  });
+  document.querySelectorAll(".cu-offer").forEach(function (b) {
+    b.addEventListener("click", function () { apply(b.getAttribute("data-code")); });
+  });
+  document.getElementById("cuRemove").addEventListener("click", function () {
+    applied.hidden = true;
+    msg.textContent = "Promo removed.";
+    msg.classList.remove("is-ok");
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

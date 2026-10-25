@@ -1,0 +1,614 @@
+{
+ "cards": [
+  {
+   "cat": "navigation",
+   "href": "navigation/mega-menu.html",
+   "title": "Mega Menu",
+   "desc": "Wide dropdown with link columns and a featured card.",
+   "mini": "<div class=\"p-drop\"><span></span><span></span><span></span></div>"
+  },
+  {
+   "cat": "navigation",
+   "href": "navigation/tabs.html",
+   "title": "Tabs Navigation",
+   "desc": "Underline and pill tabs with keyboard support.",
+   "mini": "<div class=\"p-row\" style=\"gap: 6px;\"><span class=\"p-btn accent\" style=\"width: 34px;\"></span><span class=\"p-btn\" style=\"width: 34px;\"></span><span class=\"p-btn\" style=\"width: 34px;\"></span></div>"
+  },
+  {
+   "cat": "navigation",
+   "href": "navigation/bottom-nav.html",
+   "title": "Bottom Navigation Bar",
+   "desc": "App-style bottom bar with badge and center action.",
+   "mini": "<div class=\"p-nav\"><span class=\"p-logo\"></span><span class=\"p-line\" style=\"width: 20px;\"></span><span class=\"p-line\" style=\"width: 16px;\"></span><span class=\"p-pill\"></span></div>"
+  },
+  {
+   "cat": "navigation",
+   "href": "navigation/stepper.html",
+   "title": "Stepper / Progress Steps",
+   "desc": "Progress steps with next/back controls.",
+   "mini": "<div class=\"p-steps\"><i class=\"done\"></i><b class=\"done\"></b><i class=\"done\"></i><b></b><i></i><b></b><i></i></div>"
+  },
+  {
+   "cat": "layout",
+   "href": "layout/split-screen.html",
+   "title": "Split Screen Layout",
+   "desc": "Two-pane auth style layout, stacks on mobile.",
+   "mini": "<div class=\"p-frame\"><div class=\"p-sidebar\"></div><div class=\"p-content\"><span class=\"p-line\" style=\"width: 60%;\"></span><span class=\"p-line\" style=\"width: 40%;\"></span></div></div>"
+  },
+  {
+   "cat": "layout",
+   "href": "layout/accordion.html",
+   "title": "Accordion / Collapsible Sections",
+   "desc": "Collapsible sections, single or multi open.",
+   "mini": "<div class=\"p-table\"><span></span><span></span><span></span></div>"
+  },
+  {
+   "cat": "layout",
+   "href": "layout/responsive-table.html",
+   "title": "Responsive Table",
+   "desc": "Table with status pills that stacks on mobile.",
+   "mini": "<div class=\"p-table\"><span></span><span></span><span></span></div>"
+  },
+  {
+   "cat": "layout",
+   "href": "layout/masonry.html",
+   "title": "Masonry Layout",
+   "desc": "Multi-column masonry with varied heights.",
+   "mini": "<div class=\"p-gal\"><span></span><span></span><span></span><span></span></div>"
+  },
+  {
+   "cat": "layout",
+   "href": "layout/infinite-scroll.html",
+   "title": "Infinite Scroll",
+   "desc": "Auto-loading feed with sentinel and reset.",
+   "mini": "<div class=\"p-listrow\"><span class=\"p-avatar\"></span><span class=\"p-line\" style=\"width: 60px;\"></span></div>"
+  },
+  {
+   "cat": "interactive",
+   "href": "buttons/gradient.html",
+   "title": "Gradient Buttons",
+   "desc": "Four gradient button styles with hover shine.",
+   "mini": "<div class=\"p-row\" style=\"gap: 6px;\"><span class=\"p-btn accent\" style=\"width: 38px; background: linear-gradient(135deg, #4f6bed, #8b5cf6);\"></span><span class=\"p-btn\" style=\"width: 38px; background: linear-gradient(135deg, #22a06b, #0ea5e9);\"></span></div>"
+  },
+  {
+   "cat": "interactive",
+   "href": "buttons/button-groups.html",
+   "title": "Button Groups",
+   "desc": "Segmented, toolbar and vertical grouped buttons.",
+   "mini": "<div class=\"p-row-tight\"><span class=\"p-btn accent\" style=\"width: 26px;\"></span><span class=\"p-btn\" style=\"width: 26px;\"></span><span class=\"p-btn\" style=\"width: 26px;\"></span></div>"
+  },
+  {
+   "cat": "interactive",
+   "href": "buttons/split-button.html",
+   "title": "Split Button",
+   "desc": "Primary action plus attached action menu.",
+   "mini": "<div class=\"p-row-tight\"><span class=\"p-btn accent\" style=\"width: 40px;\"></span><span class=\"p-btn accent\" style=\"width: 16px;\"></span></div>"
+  },
+  {
+   "cat": "interactive",
+   "href": "buttons/social-login.html",
+   "title": "Social Login Buttons",
+   "desc": "Google, GitHub and Microsoft sign-in buttons.",
+   "mini": "<div class=\"p-row\" style=\"gap: 5px;\"><span class=\"p-btn\" style=\"width: 22px;\"></span><span class=\"p-btn\" style=\"width: 22px; background: #1f2430;\"></span><span class=\"p-btn\" style=\"width: 22px;\"></span></div>"
+  },
+  {
+   "cat": "interactive",
+   "href": "buttons/copy-button.html",
+   "title": "Copy Button",
+   "desc": "Clipboard buttons with copied feedback.",
+   "mini": "<div class=\"p-row\" style=\"gap: 6px;\"><span class=\"p-btn accent\" style=\"width: 44px;\"></span><span class=\"p-line\" style=\"width: 40px;\"></span></div>"
+  },
+  {
+   "cat": "interactive",
+   "href": "buttons/share-button.html",
+   "title": "Share Button",
+   "desc": "Share sheet with copy and social options.",
+   "mini": "<div class=\"p-row\" style=\"gap: 6px;\"><span class=\"p-iconbtn soft\"><span class=\"p-glyph\"></span></span><span class=\"p-drop\"><span></span></span></div>"
+  },
+  {
+   "cat": "interactive",
+   "href": "buttons/back-to-top.html",
+   "title": "Back-to-Top Button",
+   "desc": "Scroll-aware floating back-to-top button.",
+   "mini": "<div class=\"p-row\" style=\"gap: 6px;\"><span class=\"p-fab\" style=\"width: 24px; height: 24px; font-size: 13px;\">\u2191</span><span class=\"p-line\" style=\"width: 40px;\"></span></div>"
+  },
+  {
+   "cat": "forms",
+   "href": "forms/search-bar.html",
+   "title": "Search Bar",
+   "desc": "Pill search with live suggestions and clear.",
+   "mini": "<div class=\"p-search\" style=\"width: 60px;\"></div>"
+  },
+  {
+   "cat": "forms",
+   "href": "forms/email-phone.html",
+   "title": "Email & Phone Input",
+   "desc": "Email/phone toggle with inline validation.",
+   "mini": "<div class=\"p-page\" style=\"height: 46px;\"><span class=\"p-line\" style=\"width: 52px;\"></span></div>"
+  },
+  {
+   "cat": "forms",
+   "href": "forms/otp-input.html",
+   "title": "OTP Input",
+   "desc": "Six-digit OTP with auto-advance and paste.",
+   "mini": "<div class=\"p-row-tight\"><span class=\"p-box\"></span><span class=\"p-box\"></span><span class=\"p-box\"></span><span class=\"p-box\"></span></div>"
+  },
+  {
+   "cat": "forms",
+   "href": "forms/file-upload.html",
+   "title": "File Upload",
+   "desc": "Drag-and-drop upload with file list.",
+   "mini": "<div class=\"p-drop\" style=\"width: 58px; padding: 6px;\"><span class=\"p-line\" style=\"width: 30px;\"></span></div>"
+  },
+  {
+   "cat": "forms",
+   "href": "forms/image-upload.html",
+   "title": "Image Upload",
+   "desc": "Avatar uploader with local image preview.",
+   "mini": "<div class=\"p-av\" style=\"width: 28px; height: 28px;\"></div><div class=\"p-dot\" style=\"position: static;\"></div>"
+  },
+  {
+   "cat": "forms",
+   "href": "forms/date-picker.html",
+   "title": "Date Picker",
+   "desc": "Month calendar with navigation and selection.",
+   "mini": "<div class=\"p-cal\"><span></span><span></span></div>"
+  },
+  {
+   "cat": "forms",
+   "href": "forms/time-picker.html",
+   "title": "Time Picker",
+   "desc": "Scrollable hour, minute and period columns.",
+   "mini": "<div class=\"p-row-tight\"><span class=\"p-box\"></span><span class=\"p-box\"></span><span class=\"p-box\"></span></div>"
+  },
+  {
+   "cat": "forms",
+   "href": "forms/color-picker.html",
+   "title": "Color Picker",
+   "desc": "Swatch palette with hex value field.",
+   "mini": "<div class=\"p-row-tight\"><span class=\"p-dot\" style=\"position: static; background: #4f6bed;\"></span><span class=\"p-dot\" style=\"position: static; background: #22a06b;\"></span><span class=\"p-dot\" style=\"position: static; background: #e5484d;\"></span></div>"
+  },
+  {
+   "cat": "forms",
+   "href": "forms/range-slider.html",
+   "title": "Range Slider",
+   "desc": "Styled range input with live value.",
+   "mini": "<div class=\"p-line\" style=\"width: 48px; border-color: var(--accent);\"></div><div class=\"p-dot\" style=\"position: static; background: var(--accent);\"></div>"
+  },
+  {
+   "cat": "forms",
+   "href": "forms/rating-input.html",
+   "title": "Rating Input",
+   "desc": "Interactive star rating with reset.",
+   "mini": "<div class=\"p-row-tight\"><span class=\"p-star\">\u2605</span><span class=\"p-star\">\u2605</span><span class=\"p-star\">\u2605</span></div>"
+  },
+  {
+   "cat": "forms",
+   "href": "forms/multi-select.html",
+   "title": "Multi Select",
+   "desc": "Dropdown checkboxes with removable chips.",
+   "mini": "<div class=\"p-row-tight\"><span class=\"p-tag\">A</span><span class=\"p-tag\">B</span></div>"
+  },
+  {
+   "cat": "forms",
+   "href": "forms/autocomplete.html",
+   "title": "Autocomplete",
+   "desc": "Filtered suggestions with arrow-key navigation.",
+   "mini": "<div class=\"p-drop\" style=\"width: 60px; padding: 5px;\"><span class=\"p-line\" style=\"width: 38px;\"></span><span class=\"p-line\" style=\"width: 30px;\"></span></div>"
+  },
+  {
+   "cat": "feedback",
+   "href": "feedback/toast.html",
+   "title": "Toast Notifications",
+   "desc": "Stacked toasts with variants and auto-dismiss.",
+   "mini": "<div class=\"p-drop\" style=\"width: 64px; padding: 6px;\"><span class=\"p-line\" style=\"width: 40px;\"></span><span class=\"p-line\" style=\"width: 30px;\"></span></div>"
+  },
+  {
+   "cat": "feedback",
+   "href": "feedback/snackbar.html",
+   "title": "Snackbar",
+   "desc": "Bottom snackbar with undo action.",
+   "mini": "<div class=\"p-line\" style=\"width: 56px;\"></div><div class=\"p-line\" style=\"width: 34px; border-color: var(--yes);\"></div>"
+  },
+  {
+   "cat": "feedback",
+   "href": "feedback/empty-state.html",
+   "title": "Empty States",
+   "desc": "Illustrated empty states with clear actions.",
+   "mini": "<div class=\"p-page\" style=\"height: 48px;\"><span class=\"p-line\" style=\"width: 34px;\"></span><span class=\"p-line\" style=\"width: 24px;\"></span></div>"
+  },
+  {
+   "cat": "feedback",
+   "href": "feedback/error-state.html",
+   "title": "Error States",
+   "desc": "Inline retry error and friendly 404 state.",
+   "mini": "<div class=\"p-page\" style=\"height: 48px;\"><span class=\"p-line\" style=\"width: 20px;\"></span><span class=\"p-line\" style=\"width: 34px;\"></span></div>"
+  },
+  {
+   "cat": "feedback",
+   "href": "feedback/offline-indicator.html",
+   "title": "Offline Indicator",
+   "desc": "Connection banner driven by online/offline events.",
+   "mini": "<div class=\"p-line\" style=\"width: 56px; border-color: var(--warn);\"></div><div class=\"p-line\" style=\"width: 36px;\"></div>"
+  },
+  {
+   "cat": "feedback",
+   "href": "feedback/notification-center.html",
+   "title": "Notification Center",
+   "desc": "Bell, unread count and notification panel.",
+   "mini": "<div class=\"p-drop\" style=\"width: 62px; padding: 6px;\"><span class=\"p-row\" style=\"gap: 4px;\"><span class=\"p-dot\" style=\"background: var(--accent);\"></span><span class=\"p-line\" style=\"width: 28px;\"></span></span><span class=\"p-line\" style=\"width: 40px;\"></span></div>"
+  },
+  {
+   "cat": "data",
+   "href": "data/avatars.html",
+   "title": "Avatars",
+   "desc": "Initial avatars in sizes with status dots.",
+   "mini": "<div class=\"p-row-tight\"><span class=\"p-av\" style=\"width: 22px; height: 22px;\"></span><span class=\"p-av\" style=\"width: 26px; height: 26px;\"></span></div>"
+  },
+  {
+   "cat": "data",
+   "href": "data/avatar-groups.html",
+   "title": "Avatar Groups",
+   "desc": "Overlapping avatar stacks with plus count.",
+   "mini": "<div class=\"p-avgroup\"><span></span><span></span><span></span></div>"
+  },
+  {
+   "cat": "data",
+   "href": "data/stats-cards.html",
+   "title": "Stats Cards",
+   "desc": "KPI cards with trend deltas and sparklines.",
+   "mini": "<div class=\"p-row-tight\"><span class=\"p-card\" style=\"width: 30px; height: 24px;\"></span><span class=\"p-card\" style=\"width: 30px; height: 24px;\"></span></div>"
+  },
+  {
+   "cat": "data",
+   "href": "data/comparison-table.html",
+   "title": "Comparison Table",
+   "desc": "Three-plan feature comparison table.",
+   "mini": "<div class=\"p-table\" style=\"height: 46px;\"><span></span><span></span></div>"
+  },
+  {
+   "cat": "data",
+   "href": "data/data-table.html",
+   "title": "Data Table",
+   "desc": "Sortable table with search and row selection.",
+   "mini": "<div class=\"p-table\" style=\"height: 48px;\"><span></span><span></span><span></span></div>"
+  },
+  {
+   "cat": "data",
+   "href": "data/timeline.html",
+   "title": "Timeline",
+   "desc": "Vertical timeline with coloured markers.",
+   "mini": "<div class=\"p-tl\"><span></span><span></span><span></span></div>"
+  },
+  {
+   "cat": "data",
+   "href": "data/activity-feed.html",
+   "title": "Activity Feed",
+   "desc": "Team activity list with avatars and times.",
+   "mini": "<div class=\"p-row-tight\"><span class=\"p-av\" style=\"width: 18px; height: 18px;\"></span><span class=\"p-line\" style=\"width: 34px;\"></span></div>"
+  },
+  {
+   "cat": "data",
+   "href": "data/charts.html",
+   "title": "Charts",
+   "desc": "Bar chart, line sparkline and donut chart.",
+   "mini": "<div class=\"p-row-tight\" style=\"align-items: flex-end;\"><span class=\"p-bar\" style=\"height: 12px;\"></span><span class=\"p-bar\" style=\"height: 20px;\"></span><span class=\"p-bar\" style=\"height: 16px;\"></span></div>"
+  },
+  {
+   "cat": "data",
+   "href": "data/key-value.html",
+   "title": "Key-Value List",
+   "desc": "Definition list for order and account details.",
+   "mini": "<div class=\"p-row\"><span class=\"p-line\" style=\"width: 22px;\"></span><span class=\"p-line\" style=\"width: 34px;\"></span></div>"
+  },
+  {
+   "cat": "data",
+   "href": "data/rating-stars.html",
+   "title": "Rating Summary",
+   "desc": "Average score with star breakdown bars.",
+   "mini": "<div class=\"p-row-tight\"><span class=\"p-star\">\u2605</span><span class=\"p-star is-dim\">\u2605</span></div>"
+  },
+  {
+   "cat": "data",
+   "href": "data/gallery.html",
+   "title": "Image Gallery",
+   "desc": "Responsive gallery grid with hover captions.",
+   "mini": "<div class=\"p-gal\"><span></span><span></span><span></span></div>"
+  },
+  {
+   "cat": "data",
+   "href": "data/lightbox.html",
+   "title": "Lightbox",
+   "desc": "Thumbnail grid with full-size lightbox viewer.",
+   "mini": "<div class=\"p-gal\"><span></span><span></span></div><div class=\"p-drop\" style=\"width: 24px; height: 16px;\"></div>"
+  },
+  {
+   "cat": "data",
+   "href": "data/carousel.html",
+   "title": "Carousel",
+   "desc": "Sliding cards with arrows and dot navigation.",
+   "mini": "<div class=\"p-row-tight\"><span class=\"p-card\" style=\"width: 26px; height: 20px;\"></span><span class=\"p-card\" style=\"width: 26px; height: 20px; opacity: .5;\"></span></div>"
+  },
+  {
+   "cat": "overlays",
+   "href": "overlays/drawer.html",
+   "title": "Drawer",
+   "desc": "Slide-in side panel with left and right sides.",
+   "mini": "<div class=\"p-page\" style=\"height: 44px;\"><span class=\"p-line\" style=\"width: 20px;\"></span><span style=\"margin-left: auto; width: 20px; background: var(--accent-soft); border-radius: 3px;\"></span></div>"
+  },
+  {
+   "cat": "overlays",
+   "href": "overlays/bottom-sheet.html",
+   "title": "Bottom Sheet",
+   "desc": "Sheet sliding up from the bottom with actions.",
+   "mini": "<div class=\"p-page\" style=\"height: 44px;\"><span class=\"p-line\" style=\"width: 26px; margin: auto;\"></span><span class=\"p-line\" style=\"width: 40px; margin: auto;\"></span></div>"
+  },
+  {
+   "cat": "overlays",
+   "href": "overlays/popover.html",
+   "title": "Popover",
+   "desc": "Anchored popover card with outside-click close.",
+   "mini": "<div class=\"p-drop\" style=\"width: 52px; padding: 5px;\"><span class=\"p-line\" style=\"width: 34px;\"></span></div>"
+  },
+  {
+   "cat": "overlays",
+   "href": "overlays/context-menu.html",
+   "title": "Context Menu",
+   "desc": "Right-click or long-press style context menu.",
+   "mini": "<div class=\"p-drop\" style=\"width: 50px; padding: 5px;\"><span class=\"p-line\" style=\"width: 28px;\"></span><span class=\"p-line\" style=\"width: 34px;\"></span></div>"
+  },
+  {
+   "cat": "overlays",
+   "href": "overlays/command-palette.html",
+   "title": "Command Palette",
+   "desc": "Cmd+K style palette with fuzzy search.",
+   "mini": "<div class=\"p-drop\" style=\"width: 64px; padding: 6px;\"><span class=\"p-line\" style=\"width: 44px;\"></span><span class=\"p-line\" style=\"width: 32px;\"></span></div>"
+  },
+  {
+   "cat": "overlays",
+   "href": "overlays/fullscreen-modal.html",
+   "title": "Fullscreen Modal",
+   "desc": "Immersive overlay filling the demo surface.",
+   "mini": "<div class=\"p-page\" style=\"height: 44px;\"><span class=\"p-line\" style=\"width: 30px; margin: auto;\"></span></div>"
+  },
+  {
+   "cat": "overlays",
+   "href": "overlays/image-zoom.html",
+   "title": "Image Zoom",
+   "desc": "Hover magnifier lens over a product image.",
+   "mini": "<div class=\"p-gal\" style=\"grid-template-columns: 1fr;\"><span style=\"height: 30px;\"></span></div>"
+  },
+  {
+   "cat": "overlays",
+   "href": "overlays/video-player.html",
+   "title": "Video Player",
+   "desc": "Custom player chrome with progress and mute.",
+   "mini": "<div class=\"p-gal\" style=\"grid-template-columns: 1fr;\"><span style=\"height: 26px; display: flex; align-items: center; justify-content: center; color: white;\">\u25b6</span></div>"
+  },
+  {
+   "cat": "overlays",
+   "href": "overlays/dropdown-menu.html",
+   "title": "Dropdown Menu",
+   "desc": "Keyboard-friendly dropdown with selectable items.",
+   "mini": "<div class=\"p-drop\" style=\"width: 54px; padding: 5px;\"><span class=\"p-line\" style=\"width: 36px;\"></span><span class=\"p-line\" style=\"width: 26px;\"></span></div>"
+  },
+  {
+   "cat": "auth",
+   "href": "auth/login.html",
+   "title": "Login Form",
+   "desc": "Email and password sign-in with show/hide.",
+   "mini": "<div class=\"p-page\" style=\"height: 48px;\"><span class=\"p-line\" style=\"width: 40px;\"></span><span class=\"p-line\" style=\"width: 32px;\"></span></div>"
+  },
+  {
+   "cat": "auth",
+   "href": "auth/signup.html",
+   "title": "Signup Form",
+   "desc": "Signup form with live password strength.",
+   "mini": "<div class=\"p-page\" style=\"height: 48px;\"><span class=\"p-line\" style=\"width: 34px;\"></span><span class=\"p-line\" style=\"width: 40px;\"></span></div>"
+  },
+  {
+   "cat": "auth",
+   "href": "auth/forgot-password.html",
+   "title": "Forgot Password",
+   "desc": "Reset request form with sent confirmation.",
+   "mini": "<div class=\"p-page\" style=\"height: 46px;\"><span class=\"p-line\" style=\"width: 44px;\"></span></div>"
+  },
+  {
+   "cat": "auth",
+   "href": "auth/reset-password.html",
+   "title": "Reset Password",
+   "desc": "New password form with live rule checklist.",
+   "mini": "<div class=\"p-page\" style=\"height: 46px;\"><span class=\"p-line\" style=\"width: 38px;\"></span><span class=\"p-line\" style=\"width: 26px;\"></span></div>"
+  },
+  {
+   "cat": "auth",
+   "href": "auth/email-verify.html",
+   "title": "Email Verification",
+   "desc": "Verification notice with resend countdown.",
+   "mini": "<div class=\"p-page\" style=\"height: 46px;\"><span class=\"p-dot\" style=\"position: static; background: var(--accent);\"></span><span class=\"p-line\" style=\"width: 38px;\"></span></div>"
+  },
+  {
+   "cat": "auth",
+   "href": "auth/otp-verify.html",
+   "title": "OTP Verification",
+   "desc": "Four-digit OTP entry with verify feedback.",
+   "mini": "<div class=\"p-row-tight\"><span class=\"p-box\"></span><span class=\"p-box\"></span><span class=\"p-box\"></span><span class=\"p-box\"></span></div>"
+  },
+  {
+   "cat": "auth",
+   "href": "auth/two-factor.html",
+   "title": "Two-Factor Auth",
+   "desc": "2FA method picker with code entry.",
+   "mini": "<div class=\"p-row-tight\"><span class=\"p-box\"></span><span class=\"p-box\"></span><span class=\"p-box\"></span></div>"
+  },
+  {
+   "cat": "auth",
+   "href": "auth/profile-settings.html",
+   "title": "Profile Settings",
+   "desc": "Editable profile form with save feedback.",
+   "mini": "<div class=\"p-row-tight\"><span class=\"p-av\" style=\"width: 20px; height: 20px;\"></span><span class=\"p-line\" style=\"width: 36px;\"></span></div>"
+  },
+  {
+   "cat": "auth",
+   "href": "auth/change-password.html",
+   "title": "Change Password",
+   "desc": "Password change form with strength meter.",
+   "mini": "<div class=\"p-page\" style=\"height: 46px;\"><span class=\"p-line\" style=\"width: 40px;\"></span><span class=\"p-line\" style=\"width: 30px;\"></span></div>"
+  },
+  {
+   "cat": "dashboard",
+   "href": "dashboard/layout.html",
+   "title": "Dashboard Layout",
+   "desc": "Sidebar, topbar and content shell layout.",
+   "mini": "<div class=\"p-row\" style=\"gap: 3px;\"><div class=\"p-page\" style=\"width: 16px; height: 34px;\"></div><div class=\"p-page\" style=\"flex: 1; height: 34px;\"></div></div>"
+  },
+  {
+   "cat": "dashboard",
+   "href": "dashboard/analytics.html",
+   "title": "Analytics Overview",
+   "desc": "Analytics KPIs, bar chart and channel ranking.",
+   "mini": "<div class=\"p-bars\"><span></span><span></span><span></span><span></span></div>"
+  },
+  {
+   "cat": "dashboard",
+   "href": "dashboard/wallet.html",
+   "title": "Wallet Card",
+   "desc": "Wallet balance, virtual card and recent activity.",
+   "mini": "<div class=\"p-card\" style=\"width: 44px; height: 26px; background: linear-gradient(135deg, #4f6bed, #8b5cf6);\"></div>"
+  },
+  {
+   "cat": "dashboard",
+   "href": "dashboard/transactions.html",
+   "title": "Transactions List",
+   "desc": "Payment rows with status chips and filters.",
+   "mini": "<div class=\"p-table\" style=\"height: 44px;\"><span></span><span></span></div>"
+  },
+  {
+   "cat": "dashboard",
+   "href": "dashboard/search-filter.html",
+   "title": "Search & Filter",
+   "desc": "Live search with toggleable category filters.",
+   "mini": "<div class=\"p-search\" style=\"width: 48px;\"></div><div class=\"p-line\" style=\"width: 20px;\"></div>"
+  },
+  {
+   "cat": "dashboard",
+   "href": "dashboard/admin-panel.html",
+   "title": "Admin Panel",
+   "desc": "User administration rows with roles and actions.",
+   "mini": "<div class=\"p-table\" style=\"height: 44px;\"><span></span><span></span><span></span></div>"
+  },
+  {
+   "cat": "dashboard",
+   "href": "dashboard/settings-panel.html",
+   "title": "Settings Panel",
+   "desc": "Tabbed settings with toggle switches.",
+   "mini": "<div class=\"p-row\"><span class=\"p-line\" style=\"width: 24px;\"></span><span class=\"p-tog\"></span></div>"
+  },
+  {
+   "cat": "dashboard",
+   "href": "dashboard/user-table.html",
+   "title": "User Table",
+   "desc": "Member table with avatars and pagination.",
+   "mini": "<div class=\"p-table\" style=\"height: 44px;\"><span></span><span></span></div><div class=\"p-line\" style=\"width: 26px;\"></div>"
+  },
+  {
+   "cat": "dashboard",
+   "href": "dashboard/activity-logs.html",
+   "title": "Activity Logs",
+   "desc": "Audit log entries with type filters and times.",
+   "mini": "<div class=\"p-tl\"><span></span><span></span><span></span></div>"
+  },
+  {
+   "cat": "dashboard",
+   "href": "dashboard/file-manager.html",
+   "title": "File Manager",
+   "desc": "Folder rail, file tiles and storage usage.",
+   "mini": "<div class=\"p-gal\"><span></span><span></span></div>"
+  },
+  {
+   "cat": "dashboard",
+   "href": "dashboard/chat.html",
+   "title": "Chat Interface",
+   "desc": "Chat list, message bubbles and composer.",
+   "mini": "<div class=\"p-bubble\"></div><div class=\"p-bubble is-me\"></div>"
+  },
+  {
+   "cat": "dashboard",
+   "href": "dashboard/profile-page.html",
+   "title": "Profile Page",
+   "desc": "Cover, avatar, stats and tabbed profile content.",
+   "mini": "<div class=\"p-av\" style=\"width: 26px; height: 26px;\"></div><div class=\"p-line\" style=\"width: 30px;\"></div>"
+  },
+  {
+   "cat": "ecommerce",
+   "href": "ecommerce/product-card.html",
+   "title": "Product Card",
+   "desc": "Product tile with badge, rating and add action.",
+   "mini": "<div class=\"p-card\" style=\"width: 34px; height: 40px;\"></div><div class=\"p-line\" style=\"width: 26px;\"></div>"
+  },
+  {
+   "cat": "ecommerce",
+   "href": "ecommerce/product-details.html",
+   "title": "Product Details",
+   "desc": "Gallery with color, size and quantity selectors.",
+   "mini": "<div class=\"p-gal\" style=\"grid-template-columns: 1fr 1fr;\"><span style=\"height: 20px;\"></span><span style=\"height: 20px;\"></span><span style=\"height: 20px;\"></span><span style=\"height: 20px;\"></span></div>"
+  },
+  {
+   "cat": "ecommerce",
+   "href": "ecommerce/cart.html",
+   "title": "Shopping Cart",
+   "desc": "Cart lines with quantity steppers and live total.",
+   "mini": "<div class=\"p-row\"><span class=\"p-box\"></span><span class=\"p-line\" style=\"width: 30px;\"></span></div>"
+  },
+  {
+   "cat": "ecommerce",
+   "href": "ecommerce/checkout.html",
+   "title": "Checkout Form",
+   "desc": "Shipping and payment checkout form.",
+   "mini": "<div class=\"p-page\" style=\"height: 46px;\"><span class=\"p-line\" style=\"width: 44px;\"></span><span class=\"p-line\" style=\"width: 30px;\"></span></div>"
+  },
+  {
+   "cat": "ecommerce",
+   "href": "ecommerce/order-summary.html",
+   "title": "Order Summary",
+   "desc": "Compact summary with items, shipping and total.",
+   "mini": "<div class=\"p-line\" style=\"width: 40px;\"></div><div class=\"p-line\" style=\"width: 28px; border-color: var(--accent);\"></div>"
+  },
+  {
+   "cat": "ecommerce",
+   "href": "ecommerce/payment-method.html",
+   "title": "Payment Methods",
+   "desc": "Selectable cards, UPI and wallet options.",
+   "mini": "<div class=\"p-card\" style=\"width: 32px; height: 20px;\"></div><div class=\"p-dot\" style=\"position: static;\"></div>"
+  },
+  {
+   "cat": "ecommerce",
+   "href": "ecommerce/coupon-code.html",
+   "title": "Coupon Code",
+   "desc": "Promo input with valid and invalid states.",
+   "mini": "<div class=\"p-input\" style=\"width: 46px;\"></div><div class=\"p-tag\">10%</div>"
+  },
+  {
+   "cat": "ecommerce",
+   "href": "ecommerce/order-tracker.html",
+   "title": "Order Tracker",
+   "desc": "Horizontal order steps with delivery events.",
+   "mini": "<div class=\"p-steps\"><span></span><span></span><span></span></div>"
+  },
+  {
+   "cat": "ecommerce",
+   "href": "ecommerce/price-breakdown.html",
+   "title": "Price Breakdown",
+   "desc": "Itemised pricing with savings, tax and total.",
+   "mini": "<div class=\"p-line\" style=\"width: 44px;\"></div><div class=\"p-line\" style=\"width: 26px; border-color: var(--accent);\"></div>"
+  },
+  {
+   "cat": "ecommerce",
+   "href": "ecommerce/invoice.html",
+   "title": "Invoice",
+   "desc": "Printable invoice with billing info and totals.",
+   "mini": "<div class=\"p-page\" style=\"height: 48px;\"><span class=\"p-line\" style=\"width: 26px;\"></span><span class=\"p-line\" style=\"width: 40px;\"></span></div>"
+  }
+ ],
+ "sections": {}
+}

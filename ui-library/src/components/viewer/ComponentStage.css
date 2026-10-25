@@ -1,0 +1,45 @@
+.stage { display: flex; flex-direction: column; gap: 22px; }
+.stage__block {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+}
+.stage__head {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px;
+  padding: 14px 16px; border-bottom: 1px solid var(--border);
+}
+.stage__head h2 { font-size: var(--fs-md); }
+.stage__tools { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.stage__seg {
+  display: inline-flex; border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden; background: var(--bg);
+}
+.stage__seg button {
+  appearance: none; border: 0; background: transparent; color: var(--muted);
+  font: inherit; font-size: var(--fs-xs); font-weight: 600;
+  padding: 7px 12px; cursor: pointer; transition: background var(--t-fast), color var(--t-fast);
+}
+.stage__seg button + button { border-left: 1px solid var(--border); }
+.stage__seg button:hover { color: var(--text); }
+.stage__seg button[aria-pressed='true'] { background: var(--accent); color: var(--on-accent); }
+.stage__code-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: inherit; font-size: var(--fs-xs); font-weight: 600;
+  padding: 8px 13px; border-radius: var(--radius);
+  border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer;
+}
+.stage__code-btn:hover { border-color: var(--accent); color: var(--accent); }
+.stage__code-btn.is-on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.stage__area { padding: clamp(16px, 3vw, 28px); overflow: auto; }
+.stage__size-tag {
+  display: block; text-align: center; margin: 0 0 10px;
+  color: var(--muted); font-size: var(--fs-xs); font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.stage__frame { width: 100%; margin: 0 auto; transition: max-width 0.25s ease; }
+.stage__render { display: flex; flex-direction: column; gap: 18px; }
+
+@media (max-width: 640px) {
+  .stage__tools { margin-left: 0; width: 100%; }
+  .stage__seg { flex: 1; }
+  .stage__seg button { flex: 1; }
+}

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Breadcrumbs</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    --accent: #4f6bed;
+  }
+
+  [data-theme="dark"] {
+    --bg: #12141a;
+    --card: #1c1f28;
+    --text: #eceef3;
+    --muted: #9aa1b2;
+    --border: #2a2e3a;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --accent: #7b92ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: 80px 16px 40px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .theme-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 60;
+    width: 46px;
+    height: 46px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, background 0.3s;
+  }
+  .theme-toggle:hover { transform: scale(1.08); }
+  .theme-toggle svg { width: 22px; height: 22px; }
+  .theme-toggle .icon-sun { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+  .wrap {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    padding: 28px 24px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .panel > h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .panel-note { color: var(--muted); font-size: 0.85rem; margin-bottom: 4px; }
+
+  .section { padding: 22px 0; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: 0; padding-bottom: 0; }
+  .section h3 { font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-bottom: 14px; }
+
+  /* ---------- Breadcrumbs ---------- */
+  .crumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2px;
+    list-style: none;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  .crumbs li { display: flex; align-items: center; gap: 2px; min-width: 0; }
+
+  .crumb-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 7px;
+    border-radius: 6px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .crumb-link:hover { background: var(--bg); color: var(--text); }
+  .crumb-link svg { width: 15px; height: 15px; }
+
+  .crumb-current {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 7px;
+    color: var(--text);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .sep {
+    display: flex;
+    align-items: center;
+    color: var(--muted);
+    opacity: 0.55;
+    flex: 0 0 auto;
+  }
+  .sep svg { width: 14px; height: 14px; }
+
+  /* Pill / boxed style */
+  .crumbs.pill { gap: 6px; }
+  .crumbs.pill .crumb-link,
+  .crumbs.pill .crumb-current {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+  }
+  .crumbs.pill .crumb-link:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+  .crumbs.pill .crumb-current { border-color: var(--accent); color: var(--accent); background: transparent; }
+  .crumbs.pill .sep { opacity: 1; }
+
+  /* Collapsed variant */
+  .crumb-more { position: relative; }
+  .more-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 30px;
+    padding: 0 6px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .more-btn:hover { background: var(--bg); color: var(--text); }
+  .more-btn.active { background: var(--bg); color: var(--accent); border-color: var(--border); }
+
+  .more-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 10;
+    min-width: 170px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    padding: 6px;
+    display: none;
+  }
+  .more-menu.open { display: block; }
+  .more-menu a {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 6px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.86rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  .more-menu a:hover { background: var(--bg); color: var(--text); }
+
+  .hint {
+    margin-top: 12px;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 520px) {
+    .panel { padding: 22px 18px; }
+    .crumbs { font-size: 0.84rem; }
+    .crumb-link, .crumb-current { padding: 4px 5px; }
+    .crumbs.pill { gap: 4px; }
+    .crumbs.pill .crumb-link, .crumbs.pill .crumb-current { padding: 5px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+</button>
+
+<main class="wrap">
+  <section class="panel">
+    <h2>Breadcrumbs</h2>
+    <p class="panel-note">Secondary navigation that shows the current page location inside a hierarchy.</p>
+
+    <div class="section">
+      <h3>Standard</h3>
+      <ol class="crumbs" aria-label="Breadcrumb">
+        <li><a class="crumb-link" href="#">Home</a></li>
+        <li class="sep" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></li>
+        <li><a class="crumb-link" href="#">Products</a></li>
+        <li class="sep" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></li>
+        <li><a class="crumb-link" href="#">Design System</a></li>
+        <li class="sep" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></li>
+        <li><span class="crumb-current" aria-current="page">Breadcrumbs</span></li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <h3>With home icon</h3>
+      <ol class="crumbs" aria-label="Breadcrumb">
+        <li>
+          <a class="crumb-link" href="#" aria-label="Home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>
+            Home
+          </a>
+        </li>
+        <li class="sep" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></li>
+        <li><a class="crumb-link" href="#">Library</a></li>
+        <li class="sep" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></li>
+        <li><span class="crumb-current" aria-current="page">Components</span></li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <h3>Collapsed with menu</h3>
+      <ol class="crumbs" aria-label="Breadcrumb">
+        <li><a class="crumb-link" href="#">Home</a></li>
+        <li class="sep" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></li>
+        <li class="crumb-more">
+          <button class="more-btn" id="moreBtn" aria-haspopup="true" aria-expanded="false" aria-label="Show hidden breadcrumb links">···</button>
+          <div class="more-menu" id="moreMenu" role="menu">
+            <a href="#" role="menuitem">Dashboard</a>
+            <a href="#" role="menuitem">Workspace</a>
+            <a href="#" role="menuitem">Projects</a>
+            <a href="#" role="menuitem">Archive</a>
+          </div>
+        </li>
+        <li class="sep" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></li>
+        <li><a class="crumb-link" href="#">Settings</a></li>
+        <li class="sep" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></li>
+        <li><span class="crumb-current" aria-current="page">Profile</span></li>
+      </ol>
+      <p class="hint">Click the “···” button to open the hidden links.</p>
+    </div>
+
+    <div class="section">
+      <h3>Pill / boxed</h3>
+      <ol class="crumbs pill" aria-label="Breadcrumb">
+        <li><a class="crumb-link" href="#">Home</a></li>
+        <li class="sep" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></li>
+        <li><a class="crumb-link" href="#">Orders</a></li>
+        <li class="sep" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></li>
+        <li><a class="crumb-link" href="#">#1024</a></li>
+        <li class="sep" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></li>
+        <li><span class="crumb-current" aria-current="page">Invoice</span></li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.getElementById("themeToggle");
+
+  function setTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    try { localStorage.setItem("theme", theme); } catch (e) {}
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem("theme"); } catch (e) {}
+  setTheme(saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+
+  toggle.addEventListener("click", () => {
+    setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  const moreBtn = document.getElementById("moreBtn");
+  const moreMenu = document.getElementById("moreMenu");
+
+  moreBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    const open = moreMenu.classList.toggle("open");
+    moreBtn.classList.toggle("active", open);
+    moreBtn.setAttribute("aria-expanded", open);
+  });
+
+  document.addEventListener("click", e => {
+    if (!moreMenu.contains(e.target) && e.target !== moreBtn) {
+      moreMenu.classList.remove("open");
+      moreBtn.classList.remove("active");
+      moreBtn.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      moreMenu.classList.remove("open");
+      moreBtn.classList.remove("active");
+      moreBtn.setAttribute("aria-expanded", "false");
+    }
+  });
+</script>
+</body>
+</html>

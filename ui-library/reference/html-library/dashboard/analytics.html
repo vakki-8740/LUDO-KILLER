@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Analytics Overview · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Dashboard &amp; App</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Analytics Overview</h1>
+    <p>Range picker, KPI row, bar chart and channel ranking.</p>
+  </div>
+  <section class="vw-block" id="analytics-overview" aria-labelledby="analytics-overview-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="analytics-overview-t">Analytics</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="an-card">
+  <div class="an-head">
+    <span class="an-t">Analytics</span>
+    <div class="an-range" role="group" aria-label="Date range">
+      <button class="an-r is-on" type="button">7d</button>
+      <button class="an-r" type="button">30d</button>
+      <button class="an-r" type="button">90d</button>
+    </div>
+  </div>
+  <div class="an-kpis">
+    <div class="an-k"><span class="an-kl">Visitors</span><span class="an-kv">12.4k</span><span class="an-kd is-up">+8.2%</span></div>
+    <div class="an-k"><span class="an-kl">Sessions</span><span class="an-kv">18.1k</span><span class="an-kd is-up">+4.6%</span></div>
+    <div class="an-k"><span class="an-kl">Bounce</span><span class="an-kv">32%</span><span class="an-kd is-down">-1.4%</span></div>
+  </div>
+  <p class="an-sub">Sessions this week</p>
+  <div class="an-bars" role="img" aria-label="Sessions by day, highest on Saturday">
+    <span class="an-bar" style="height: 40%"></span><span class="an-bar" style="height: 55%"></span><span class="an-bar" style="height: 48%"></span><span class="an-bar" style="height: 66%"></span><span class="an-bar" style="height: 58%"></span><span class="an-bar is-hot" style="height: 86%"></span><span class="an-bar" style="height: 72%"></span>
+  </div>
+  <div class="an-days" aria-hidden="true"><span class="an-d">M</span><span class="an-d">T</span><span class="an-d">W</span><span class="an-d">T</span><span class="an-d">F</span><span class="an-d">S</span><span class="an-d">S</span></div>
+  <p class="an-sub">Top channels</p>
+  <div class="an-ch"><span class="an-cn">Direct</span><span class="an-ct"><span class="an-cf" style="width: 62%"></span></span><span class="an-cp">62%</span></div>
+  <div class="an-ch"><span class="an-cn">Search</span><span class="an-ct"><span class="an-cf" style="width: 26%"></span></span><span class="an-cp">26%</span></div>
+  <div class="an-ch"><span class="an-cn">Social</span><span class="an-ct"><span class="an-cf" style="width: 12%"></span></span><span class="an-cp">12%</span></div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.an-card { max-width: 400px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 14px; }
+.an-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.an-t { font-size: 0.86rem; font-weight: 700; }
+.an-range { display: flex; gap: 2px; background: var(--bg); border-radius: 999px; padding: 2px; }
+.an-r { border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 999px; cursor: pointer; }
+.an-r.is-on { background: var(--accent); color: #fff; }
+.an-r:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.an-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+.an-k { border: 1px solid var(--border); border-radius: 4px; padding: 7px; display: flex; flex-direction: column; gap: 1px; }
+.an-kl { font-size: 0.58rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.an-kv { font-size: 0.95rem; font-weight: 800; }
+.an-kd { font-size: 0.6rem; font-weight: 600; }
+.an-kd.is-up { color: var(--yes); }
+.an-kd.is-down { color: var(--no); }
+.an-sub { margin: 10px 0 6px; font-size: 0.66rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.an-bars { display: flex; align-items: flex-end; gap: 6px; height: 90px; }
+.an-bar { flex: 1; background: var(--accent-soft); border-radius: 2px 2px 0 0; }
+.an-bar.is-hot { background: var(--accent); }
+.an-days { display: flex; justify-content: space-between; margin-top: 4px; }
+.an-d { flex: 1; text-align: center; font-size: 0.58rem; color: var(--muted); }
+.an-ch { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.an-cn { width: 44px; font-size: 0.66rem; color: var(--muted); }
+.an-ct { flex: 1; height: 5px; border-radius: 999px; background: var(--bg); overflow: hidden; }
+.an-cf { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.an-cp { width: 28px; text-align: right; font-size: 0.64rem; font-weight: 700; }</style>
+    <script data-block>(function () {
+  var btns = Array.prototype.slice.call(document.querySelectorAll(".an-r"));
+  btns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      btns.forEach(function (x) { x.classList.remove("is-on"); });
+      b.classList.add("is-on");
+    });
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Time Picker · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Forms &amp; Inputs</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Time Picker</h1>
+    <p>Scrollable hour, minute and period columns.</p>
+  </div>
+  <section class="vw-block" id="time-picker" aria-labelledby="time-picker-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="time-picker-t">Pick a time</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="tm-card">
+  <p class="tm-lbl">Select reminder time</p>
+  <div class="tm-cols">
+    <div class="tm-col" role="group" aria-label="Hour">
+      <button class="tm-opt is-on" type="button">09</button>
+      <button class="tm-opt" type="button">10</button>
+      <button class="tm-opt" type="button">11</button>
+      <button class="tm-opt" type="button">12</button>
+      <button class="tm-opt" type="button">01</button>
+    </div>
+    <div class="tm-col" role="group" aria-label="Minute">
+      <button class="tm-opt is-on" type="button">00</button>
+      <button class="tm-opt" type="button">15</button>
+      <button class="tm-opt" type="button">30</button>
+      <button class="tm-opt" type="button">45</button>
+    </div>
+    <div class="tm-col" role="group" aria-label="Period">
+      <button class="tm-opt is-on" type="button">AM</button>
+      <button class="tm-opt" type="button">PM</button>
+    </div>
+  </div>
+  <div class="tm-out">
+    <span class="tm-val" id="tmVal">09:00 AM</span>
+    <button class="tm-now" type="button" id="tmNow">Use current time</button>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.tm-card { max-width: 300px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 14px; }
+.tm-lbl { margin: 0 0 10px; font-size: 0.76rem; font-weight: 600; color: var(--muted); }
+.tm-cols { display: grid; grid-template-columns: 1fr 1fr 0.8fr; gap: 6px; }
+.tm-col { height: 112px; overflow: auto; border: 1px solid var(--border); border-radius: var(--radius); padding: 4px; display: flex; flex-direction: column; gap: 2px; background: var(--bg); }
+.tm-opt { border: 0; background: transparent; color: var(--text); font: inherit; font-size: 0.78rem; padding: 7px 4px; border-radius: 4px; cursor: pointer; flex: 0 0 auto; }
+.tm-opt:hover { background: var(--accent-soft); color: var(--accent); }
+.tm-opt.is-on { background: var(--accent); color: #fff; font-weight: 700; }
+.tm-opt:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.tm-out { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.tm-val { font-size: 0.9rem; font-weight: 700; color: var(--accent); }
+.tm-now { border: 1px solid var(--border); background: transparent; color: var(--muted); font: inherit; font-size: 0.7rem; font-weight: 600; padding: 5px 9px; border-radius: 4px; cursor: pointer; }
+.tm-now:hover { border-color: var(--accent); color: var(--accent); }
+.tm-now:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }</style>
+    <script data-block>(function () {
+  var cols = Array.prototype.slice.call(document.querySelectorAll(".tm-col"));
+  var val = document.getElementById("tmVal");
+  var state = { 0: "09", 1: "00", 2: "AM" };
+
+  function render() {
+    val.textContent = state[0] + ":" + state[1] + " " + state[2];
+  }
+
+  cols.forEach(function (col, ci) {
+    var opts = Array.prototype.slice.call(col.querySelectorAll(".tm-opt"));
+    opts.forEach(function (opt) {
+      opt.addEventListener("click", function () {
+        opts.forEach(function (o) { o.classList.remove("is-on"); });
+        opt.classList.add("is-on");
+        state[ci] = opt.textContent;
+        render();
+      });
+    });
+  });
+
+  document.getElementById("tmNow").addEventListener("click", function () {
+    var d = new Date();
+    var h = d.getHours();
+    var period = h >= 12 ? "PM" : "AM";
+    h = h % 12 || 12;
+    var m = Math.floor(d.getMinutes() / 15) * 15;
+    state[0] = String(h).padStart(2, "0");
+    state[1] = String(m).padStart(2, "0");
+    state[2] = period;
+    cols.forEach(function (col, ci) {
+      col.querySelectorAll(".tm-opt").forEach(function (o) {
+        o.classList.toggle("is-on", o.textContent === state[ci]);
+      });
+    });
+    render();
+  });
+
+  render();
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

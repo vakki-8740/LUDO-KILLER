@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Carousel · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Data Display</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Carousel</h1>
+    <p>Sliding cards with arrows, dots and wrap-around.</p>
+  </div>
+  <section class="vw-block" id="carousel" aria-labelledby="carousel-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="carousel-t">Feature carousel</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="cr-wrap">
+  <div class="cr-view">
+    <div class="cr-track" id="crTrack">
+      <article class="cr-slide cr-s1"><span class="cr-k">01</span><p class="cr-t">Design tokens</p><p class="cr-d">One source of truth for colour, spacing and radius.</p></article>
+      <article class="cr-slide cr-s2"><span class="cr-k">02</span><p class="cr-t">Reusable blocks</p><p class="cr-d">Copy a block, paste it, then adjust the content.</p></article>
+      <article class="cr-slide cr-s3"><span class="cr-k">03</span><p class="cr-t">Dark mode ready</p><p class="cr-d">Every component responds to the theme attribute.</p></article>
+    </div>
+  </div>
+  <div class="cr-ctrl">
+    <button class="cr-arrow" type="button" id="crPrev" aria-label="Previous slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+    </button>
+    <div class="cr-dots" id="crDots" role="tablist" aria-label="Slides">
+      <button class="cr-dot is-on" type="button" role="tab" aria-selected="true" aria-label="Slide 1"></button>
+      <button class="cr-dot" type="button" role="tab" aria-selected="false" aria-label="Slide 2"></button>
+      <button class="cr-dot" type="button" role="tab" aria-selected="false" aria-label="Slide 3"></button>
+    </div>
+    <button class="cr-arrow" type="button" id="crNext" aria-label="Next slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.cr-wrap { max-width: 380px; }
+.cr-view { overflow: hidden; border-radius: var(--radius); }
+.cr-track { display: flex; transition: transform 0.3s ease; }
+.cr-slide { flex: 0 0 100%; min-height: 160px; padding: 18px; display: flex; flex-direction: column; justify-content: flex-end; color: #fff; }
+.cr-s1 { background: linear-gradient(150deg, #4f6bed, #8b5cf6); }
+.cr-s2 { background: linear-gradient(150deg, #22a06b, #0ea5e9); }
+.cr-s3 { background: linear-gradient(150deg, #242833, #4f6bed); }
+.cr-k { font-size: 0.66rem; font-weight: 700; opacity: 0.7; letter-spacing: 0.1em; }
+.cr-t { margin: 4px 0 4px; font-size: 1.05rem; font-weight: 800; }
+.cr-d { margin: 0; font-size: 0.78rem; line-height: 1.5; opacity: 0.88; }
+.cr-ctrl { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; }
+.cr-arrow { width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 999px; background: var(--card); color: var(--muted); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.cr-arrow svg { width: 15px; height: 15px; }
+.cr-arrow:hover { border-color: var(--accent); color: var(--accent); }
+.cr-arrow:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cr-dots { display: flex; gap: 5px; }
+.cr-dot { width: 7px; height: 7px; border-radius: 999px; border: 0; background: var(--border); cursor: pointer; padding: 0; }
+.cr-dot.is-on { background: var(--accent); width: 18px; }
+.cr-dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .cr-track { transition: none; } }</style>
+    <script data-block>(function () {
+  var track = document.getElementById("crTrack");
+  var dots = Array.prototype.slice.call(document.querySelectorAll(".cr-dot"));
+  var index = 0;
+  var total = track.children.length;
+
+  function go(i) {
+    index = (i + total) % total;
+    track.style.transform = "translateX(-" + index * 100 + "%)";
+    dots.forEach(function (d, k) {
+      d.classList.toggle("is-on", k === index);
+      d.setAttribute("aria-selected", String(k === index));
+    });
+  }
+
+  document.getElementById("crPrev").addEventListener("click", function () { go(index - 1); });
+  document.getElementById("crNext").addEventListener("click", function () { go(index + 1); });
+  dots.forEach(function (d, k) { d.addEventListener("click", function () { go(k); }); });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

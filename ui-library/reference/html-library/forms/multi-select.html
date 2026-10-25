@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Multi Select · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Forms &amp; Inputs</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Multi Select</h1>
+    <p>Dropdown with checkboxes and removable chips.</p>
+  </div>
+  <section class="vw-block" id="multi-select" aria-labelledby="multi-select-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="multi-select-t">Choose tags</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="ms-wrap">
+  <label class="ms-lbl" id="msLabel">Topics</label>
+  <div class="ms-box" id="msBox">
+    <div class="ms-chips" id="msChips"></div>
+    <button class="ms-toggle" type="button" id="msToggle" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="msLabel" aria-controls="msMenu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </div>
+  <div class="ms-menu" id="msMenu" role="listbox" aria-multiselectable="true" hidden>
+    <label class="ms-opt"><input class="ms-check" type="checkbox" value="Design"> <span class="ms-text">Design</span></label>
+    <label class="ms-opt"><input class="ms-check" type="checkbox" value="Development"> <span class="ms-text">Development</span></label>
+    <label class="ms-opt"><input class="ms-check" type="checkbox" value="Marketing"> <span class="ms-text">Marketing</span></label>
+    <label class="ms-opt"><input class="ms-check" type="checkbox" value="Research"> <span class="ms-text">Research</span></label>
+  </div>
+  <p class="ms-count" id="msCount">0 selected</p>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.ms-wrap { position: relative; max-width: 340px; }
+.ms-lbl { display: block; margin-bottom: 6px; font-size: 0.74rem; font-weight: 600; color: var(--muted); }
+.ms-box { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); padding: 6px 8px; min-height: 42px; }
+.ms-box:focus-within, .ms-box.is-open { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.ms-chips { display: flex; gap: 5px; flex-wrap: wrap; flex: 1; }
+.ms-chip { display: inline-flex; align-items: center; gap: 4px; background: var(--accent-soft); color: var(--accent); border-radius: 999px; font-size: 0.72rem; font-weight: 600; padding: 3px 4px 3px 9px; }
+.ms-chip button { border: 0; background: transparent; color: inherit; cursor: pointer; font-size: 0.85rem; line-height: 1; padding: 1px 4px; border-radius: 999px; }
+.ms-chip button:hover { background: rgba(79, 107, 237, 0.18); }
+.ms-chip button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.ms-toggle { border: 0; background: transparent; color: var(--muted); cursor: pointer; padding: 5px; border-radius: 4px; display: flex; }
+.ms-toggle svg { width: 15px; height: 15px; }
+.ms-toggle:hover { color: var(--accent); }
+.ms-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ms-menu { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 5px; z-index: 20; }
+.ms-opt { display: flex; align-items: center; gap: 8px; padding: 8px 9px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
+.ms-opt:hover { background: var(--bg); }
+.ms-check { accent-color: var(--accent); width: 15px; height: 15px; }
+.ms-text { flex: 1; }
+.ms-count { margin: 6px 2px 0; font-size: 0.72rem; color: var(--muted); }</style>
+    <script data-block>(function () {
+  var box = document.getElementById("msBox");
+  var toggle = document.getElementById("msToggle");
+  var menu = document.getElementById("msMenu");
+  var chips = document.getElementById("msChips");
+  var count = document.getElementById("msCount");
+  var checks = Array.prototype.slice.call(document.querySelectorAll(".ms-check"));
+
+  function selected() { return checks.filter(function (c) { return c.checked; }).map(function (c) { return c.value; }); }
+
+  function render() {
+    var vals = selected();
+    chips.innerHTML = "";
+    vals.forEach(function (v) {
+      var chip = document.createElement("span");
+      chip.className = "ms-chip";
+      chip.textContent = v;
+      var x = document.createElement("button");
+      x.type = "button";
+      x.setAttribute("aria-label", "Remove " + v);
+      x.innerHTML = "&times;";
+      x.addEventListener("click", function () {
+        checks.forEach(function (c) { if (c.value === v) c.checked = false; });
+        render();
+      });
+      chip.appendChild(x);
+      chips.appendChild(chip);
+    });
+    count.textContent = vals.length + " selected";
+  }
+
+  function set(open) {
+    menu.hidden = !open;
+    toggle.setAttribute("aria-expanded", String(open));
+    box.classList.toggle("is-open", open);
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); set(menu.hidden); });
+
+  document.addEventListener("click", function (e) {
+    if (!menu.hidden && !box.contains(e.target)) set(false);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !menu.hidden) { set(false); toggle.focus(); }
+  });
+
+  checks.forEach(function (c) { c.addEventListener("change", render); });
+  render();
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

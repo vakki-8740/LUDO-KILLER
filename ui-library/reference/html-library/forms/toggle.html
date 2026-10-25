@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Toggle Switch</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    --accent: #4f6bed;
+    --yes: #22a06b;
+    --no: #e5484d;
+    --accent-soft: rgba(79, 107, 237, 0.10);
+    --track-off: #d8dce3;
+  }
+
+  [data-theme="dark"] {
+    --bg: #12141a;
+    --card: #1c1f28;
+    --text: #eceef3;
+    --muted: #9aa1b2;
+    --border: #2a2e3a;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --accent: #7b92ff;
+    --accent-soft: rgba(123, 146, 255, 0.14);
+    --track-off: #3a4050;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: 80px 16px 40px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .theme-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 60;
+    width: 46px;
+    height: 46px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, background 0.3s;
+  }
+  .theme-toggle:hover { transform: scale(1.08); }
+  .theme-toggle svg { width: 22px; height: 22px; }
+  .theme-toggle .icon-sun { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+  .wrap {
+    width: 100%;
+    max-width: 780px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .panel h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .panel-note { color: var(--muted); font-size: 0.85rem; margin-bottom: 18px; }
+
+  /* ---------- Switch ---------- */
+  .switch {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+    cursor: pointer;
+  }
+  .switch input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+  }
+
+  .track {
+    position: relative;
+    width: 42px;
+    height: 24px;
+    border-radius: 999px;
+    background: var(--track-off);
+    transition: background 0.22s;
+  }
+  .track::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
+    transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  }
+
+  .switch input:checked + .track { background: var(--accent); }
+  .switch input:checked + .track::after { transform: translateX(18px); }
+  .switch:hover .track { filter: brightness(0.96); }
+  .switch input:focus-visible + .track { box-shadow: 0 0 0 3px var(--accent-soft); }
+  .switch input:disabled + .track { opacity: 0.45; }
+  .switch.disabled { cursor: not-allowed; }
+  .switch.disabled:hover .track { filter: none; }
+
+  .switch.sm .track { width: 34px; height: 20px; }
+  .switch.sm .track::after { top: 3px; left: 3px; width: 14px; height: 14px; }
+  .switch.sm input:checked + .track::after { transform: translateX(14px); }
+
+  .switch.lg .track { width: 50px; height: 28px; }
+  .switch.lg .track::after { top: 3px; left: 3px; width: 22px; height: 22px; }
+  .switch.lg input:checked + .track::after { transform: translateX(22px); }
+
+  /* ---------- Demo rows ---------- */
+  .size-list { display: flex; flex-direction: column; }
+  .size-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .size-row:first-child { padding-top: 0; }
+  .size-row:last-child { border-bottom: 0; padding-bottom: 0; }
+  .size-info { min-width: 0; }
+  .size-info strong { display: block; font-size: 0.9rem; font-weight: 600; }
+  .size-info span { display: block; color: var(--muted); font-size: 0.78rem; margin-top: 2px; }
+
+  .state-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .state {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    padding: 13px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .state span { font-size: 0.8rem; color: var(--muted); }
+
+  /* ---------- Settings list ---------- */
+  .settings { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .setting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 15px 16px;
+    border-top: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .setting:first-child { border-top: 0; }
+  .setting:hover { background: var(--bg); }
+  .setting-text { min-width: 0; }
+  .setting-text strong { display: block; font-size: 0.9rem; font-weight: 600; }
+  .setting-text span { display: block; color: var(--muted); font-size: 0.79rem; margin-top: 3px; line-height: 1.45; }
+  .setting.disabled { cursor: not-allowed; opacity: 0.75; }
+  .setting.disabled:hover { background: transparent; }
+
+  .setting-text .status-inline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    color: var(--yes);
+    font-weight: 600;
+    margin-top: 6px;
+  }
+  .status-inline .dot { width: 6px; height: 6px; border-radius: 999px; background: currentColor; }
+
+  @media (max-width: 520px) {
+    .panel { padding: 18px; }
+    .state-grid { grid-template-columns: 1fr 1fr; }
+    .setting { padding: 13px 14px; }
+  }
+  @media (max-width: 380px) {
+    .state-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+</button>
+
+<main class="wrap">
+
+  <section class="panel">
+    <h2>Toggle sizes &amp; states</h2>
+    <p class="panel-note">Instant on/off controls. Click any switch to see the transition.</p>
+
+    <div class="size-list">
+      <div class="size-row">
+        <div class="size-info"><strong>Small</strong><span>Compact lists and table rows</span></div>
+        <label class="switch sm" aria-label="Small switch">
+          <input type="checkbox" checked />
+          <span class="track"></span>
+        </label>
+      </div>
+
+      <div class="size-row">
+        <div class="size-info"><strong>Medium</strong><span>Default size for forms and settings</span></div>
+        <label class="switch" aria-label="Medium switch">
+          <input type="checkbox" checked />
+          <span class="track"></span>
+        </label>
+      </div>
+
+      <div class="size-row">
+        <div class="size-info"><strong>Large</strong><span>Prominent feature switches</span></div>
+        <label class="switch lg" aria-label="Large switch">
+          <input type="checkbox" />
+          <span class="track"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="state-grid">
+      <div class="state">
+        <span>On</span>
+        <label class="switch" aria-label="On example"><input type="checkbox" checked /><span class="track"></span></label>
+      </div>
+      <div class="state">
+        <span>Off</span>
+        <label class="switch" aria-label="Off example"><input type="checkbox" /><span class="track"></span></label>
+      </div>
+      <div class="state">
+        <span>Disabled on</span>
+        <label class="switch disabled" aria-label="Disabled on example"><input type="checkbox" checked disabled /><span class="track"></span></label>
+      </div>
+      <div class="state">
+        <span>Disabled off</span>
+        <label class="switch disabled" aria-label="Disabled off example"><input type="checkbox" disabled /><span class="track"></span></label>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Settings list</h2>
+    <p class="panel-note">Common pattern for preferences — label, description and a switch on the right.</p>
+
+    <div class="settings">
+      <label class="setting">
+        <span class="setting-text">
+          <strong>Email notifications</strong>
+          <span>Get an email when someone mentions you.</span>
+        </span>
+        <span class="switch"><input type="checkbox" checked aria-label="Email notifications" /><span class="track"></span></span>
+      </label>
+
+      <label class="setting">
+        <span class="setting-text">
+          <strong>Auto-save drafts</strong>
+          <span>Save changes automatically while you type.</span>
+          <span class="status-inline"><span class="dot"></span> Saved just now</span>
+        </span>
+        <span class="switch"><input type="checkbox" checked aria-label="Auto-save drafts" /><span class="track"></span></span>
+      </label>
+
+      <label class="setting">
+        <span class="setting-text">
+          <strong>Public profile</strong>
+          <span>Allow others to find your profile in search.</span>
+        </span>
+        <span class="switch"><input type="checkbox" aria-label="Public profile" /><span class="track"></span></span>
+      </label>
+
+      <label class="setting disabled">
+        <span class="setting-text">
+          <strong>Two-factor authentication</strong>
+          <span>Required by your organization. Contact an admin to change it.</span>
+        </span>
+        <span class="switch disabled"><input type="checkbox" checked disabled aria-label="Two-factor authentication" /><span class="track"></span></span>
+      </label>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.getElementById("themeToggle");
+
+  function setTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    try { localStorage.setItem("theme", theme); } catch (e) {}
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem("theme"); } catch (e) {}
+  setTheme(saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+
+  toggle.addEventListener("click", () => {
+    setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Drawer · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Overlays</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Drawer</h1>
+    <p>Slide-in side panel with overlay and left/right sides.</p>
+  </div>
+  <section class="vw-block" id="drawer" aria-labelledby="drawer-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="drawer-t">Side drawer</h2>
+      <span class="vw-note">Right ya Left button se drawer kholein. Escape se band hota hai.</span>
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="dr-demo">
+  <div class="dr-btns">
+    <button class="dr-open" type="button" data-side="right">Open right drawer</button>
+    <button class="dr-open" type="button" data-side="left">Open left drawer</button>
+  </div>
+  <div class="dr-scrim" id="drScrim" hidden></div>
+  <aside class="dr-panel" id="drPanel" role="dialog" aria-modal="true" aria-labelledby="drTitle" aria-hidden="true">
+    <div class="dr-head">
+      <span class="dr-title" id="drTitle">Filters</span>
+      <button class="dr-x" type="button" id="drClose" aria-label="Close drawer">&times;</button>
+    </div>
+    <div class="dr-body">
+      <label class="dr-lbl" for="drRange">Price range</label>
+      <input class="dr-range" id="drRange" type="range" min="0" max="100" value="60">
+      <p class="dr-note">Up to $600</p>
+      <div class="dr-tags">
+        <button class="dr-chip is-on" type="button">In stock</button>
+        <button class="dr-chip" type="button">On sale</button>
+        <button class="dr-chip" type="button">New</button>
+      </div>
+    </div>
+    <div class="dr-foot">
+      <button class="dr-reset" type="button">Reset</button>
+      <button class="dr-apply" type="button" id="drApply">Apply</button>
+    </div>
+  </aside>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.dr-demo { position: relative; height: 300px; border: 1px dashed var(--border); border-radius: var(--radius); overflow: hidden; padding: 14px; }
+.dr-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.dr-open { border: 1px solid var(--border); background: var(--card); color: var(--text); font: inherit; font-size: 0.78rem; font-weight: 600; padding: 8px 12px; border-radius: var(--radius); cursor: pointer; }
+.dr-open:hover { border-color: var(--accent); color: var(--accent); }
+.dr-open:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dr-scrim { position: absolute; inset: 0; background: rgba(10, 12, 18, 0.45); z-index: 10; }
+.dr-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: min(240px, 78%);
+  background: var(--card);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  z-index: 11;
+  transform: translateX(105%);
+  transition: transform 0.25s ease;
+}
+.dr-panel.is-left { right: auto; left: 0; border-left: 0; border-right: 1px solid var(--border); transform: translateX(-105%); }
+.dr-panel.is-open { transform: translateX(0); }
+.dr-head { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+.dr-title { font-size: 0.84rem; font-weight: 700; }
+.dr-x { border: 0; background: transparent; color: var(--muted); font-size: 1.1rem; cursor: pointer; padding: 0 3px; border-radius: 3px; }
+.dr-x:hover { color: var(--text); }
+.dr-x:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dr-body { flex: 1; padding: 12px; overflow: auto; }
+.dr-lbl { display: block; font-size: 0.72rem; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+.dr-range { width: 100%; accent-color: var(--accent); }
+.dr-note { margin: 4px 0 12px; font-size: 0.7rem; color: var(--muted); }
+.dr-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+.dr-chip { border: 1px solid var(--border); background: var(--bg); color: var(--text); font: inherit; font-size: 0.7rem; font-weight: 600; padding: 4px 9px; border-radius: 999px; cursor: pointer; }
+.dr-chip.is-on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.dr-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dr-foot { display: flex; gap: 7px; padding: 10px 12px; border-top: 1px solid var(--border); }
+.dr-reset { flex: 1; border: 1px solid var(--border); background: transparent; color: var(--muted); font: inherit; font-size: 0.75rem; font-weight: 600; padding: 7px; border-radius: var(--radius); cursor: pointer; }
+.dr-apply { flex: 1; border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.75rem; font-weight: 600; padding: 7px; border-radius: var(--radius); cursor: pointer; }
+.dr-reset:focus-visible, .dr-apply:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .dr-panel { transition: none; } }</style>
+    <script data-block>(function () {
+  var panel = document.getElementById("drPanel");
+  var scrim = document.getElementById("drScrim");
+  var close = document.getElementById("drClose");
+  var last = null;
+
+  function open(side, trigger) {
+    panel.classList.remove("is-left");
+    if (side === "left") panel.classList.add("is-left");
+    panel.classList.add("is-open");
+    panel.setAttribute("aria-hidden", "false");
+    scrim.hidden = false;
+    last = trigger;
+    close.focus();
+  }
+
+  function hide() {
+    panel.classList.remove("is-open");
+    panel.setAttribute("aria-hidden", "true");
+    scrim.hidden = true;
+    if (last) last.focus();
+  }
+
+  document.querySelectorAll(".dr-open").forEach(function (b) {
+    b.addEventListener("click", function () { open(b.getAttribute("data-side"), b); });
+  });
+
+  scrim.addEventListener("click", hide);
+  close.addEventListener("click", hide);
+  document.getElementById("drApply").addEventListener("click", hide);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && panel.classList.contains("is-open")) hide();
+  });
+  document.querySelectorAll(".dr-chip").forEach(function (c) {
+    c.addEventListener("click", function () { c.classList.toggle("is-on"); });
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

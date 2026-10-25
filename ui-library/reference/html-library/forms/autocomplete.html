@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Autocomplete · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Forms &amp; Inputs</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Autocomplete</h1>
+    <p>Filtered suggestion list with keyboard navigation.</p>
+  </div>
+  <section class="vw-block" id="autocomplete" aria-labelledby="autocomplete-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="autocomplete-t">City autocomplete</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="ac-wrap">
+  <label class="ac-lbl" for="acInput">Destination</label>
+  <div class="ac-field">
+    <svg class="ac-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input class="ac-input" id="acInput" type="text" placeholder="Start typing a city" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="acList" aria-autocomplete="list">
+  </div>
+  <ul class="ac-list" id="acList" role="listbox" aria-label="Cities" hidden></ul>
+  <p class="ac-hint" id="acHint">Use arrow keys to move, Enter to select.</p>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.ac-wrap { position: relative; max-width: 340px; }
+.ac-lbl { display: block; margin-bottom: 6px; font-size: 0.74rem; font-weight: 600; color: var(--muted); }
+.ac-field { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); padding: 0 11px; }
+.ac-field:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.ac-ic { width: 16px; height: 16px; color: var(--muted); flex: 0 0 auto; }
+.ac-input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--text); font: inherit; font-size: 0.85rem; padding: 10px 0; outline: none; }
+.ac-list { position: absolute; top: calc(100% + 6px); left: 0; right: 0; list-style: none; margin: 0; padding: 4px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); max-height: 190px; overflow: auto; z-index: 20; }
+.ac-opt { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; border: 0; background: transparent; color: var(--text); font: inherit; font-size: 0.81rem; text-align: left; padding: 8px 9px; border-radius: 4px; cursor: pointer; }
+.ac-opt:hover, .ac-opt.is-active { background: var(--accent-soft); color: var(--accent); }
+.ac-opt:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.ac-country { font-size: 0.68rem; color: var(--muted); }
+.ac-hint { margin: 6px 2px 0; font-size: 0.72rem; color: var(--muted); }</style>
+    <script data-block>(function () {
+  var cities = [
+    ["Mumbai", "India"], ["Delhi", "India"], ["Bengaluru", "India"], ["Pune", "India"],
+    ["Tokyo", "Japan"], ["Osaka", "Japan"], ["Paris", "France"], ["Lyon", "France"],
+    ["Berlin", "Germany"], ["Munich", "Germany"], ["London", "UK"], ["Toronto", "Canada"]
+  ];
+  var input = document.getElementById("acInput");
+  var list = document.getElementById("acList");
+  var hint = document.getElementById("acHint");
+  var active = -1;
+  var shown = [];
+
+  function close() {
+    list.hidden = true;
+    list.innerHTML = "";
+    input.setAttribute("aria-expanded", "false");
+    active = -1;
+  }
+
+  function choose(name) {
+    input.value = name;
+    close();
+    hint.textContent = "Selected " + name + ".";
+  }
+
+  function render(q) {
+    list.innerHTML = "";
+    active = -1;
+    if (!q) { close(); return; }
+    shown = cities.filter(function (c) { return c[0].toLowerCase().indexOf(q.toLowerCase()) === 0; }).slice(0, 6);
+    if (!shown.length) { close(); hint.textContent = "No city matches “" + q + "”."; return; }
+    shown.forEach(function (c) {
+      var li = document.createElement("li");
+      li.setAttribute("role", "option");
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "ac-opt";
+      b.innerHTML = "<span>" + c[0] + "</span><span class=\"ac-country\">" + c[1] + "</span>";
+      b.addEventListener("click", function () { choose(c[0]); });
+      li.appendChild(b);
+      list.appendChild(li);
+    });
+    list.hidden = false;
+    input.setAttribute("aria-expanded", "true");
+    hint.textContent = shown.length + " suggestion" + (shown.length > 1 ? "s" : "") + ".";
+  }
+
+  input.addEventListener("input", function () { render(input.value.trim()); });
+
+  input.addEventListener("keydown", function (e) {
+    var opts = Array.prototype.slice.call(list.querySelectorAll(".ac-opt"));
+    if (list.hidden || !opts.length) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      active = (active + 1) % opts.length;
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      active = (active - 1 + opts.length) % opts.length;
+    } else if (e.key === "Enter" && active > -1) {
+      e.preventDefault();
+      choose(shown[active][0]);
+      return;
+    } else if (e.key === "Escape") {
+      close();
+      return;
+    } else {
+      return;
+    }
+    opts.forEach(function (o, i) { o.classList.toggle("is-active", i === active); });
+    opts[active].scrollIntoView({ block: "nearest" });
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!list.hidden && !list.contains(e.target) && e.target !== input) close();
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

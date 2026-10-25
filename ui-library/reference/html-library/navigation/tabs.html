@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tabs Navigation · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Navigation &amp; Layout</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Tabs Navigation</h1>
+    <p>ARIA tabs with underline and pill variants.</p>
+  </div>
+  <section class="vw-block" id="tabs-underline" aria-labelledby="tabs-underline-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="tabs-underline-t">Underline tabs</h2>
+      <span class="vw-note">Arrow keys se tab badlein.</span>
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="tu-wrap">
+  <div class="tu-bar" role="tablist" aria-label="Account sections">
+    <button class="tu-tab is-on" type="button" role="tab" id="tuT1" aria-selected="true" aria-controls="tuP1" tabindex="0">Profile</button>
+    <button class="tu-tab" type="button" role="tab" id="tuT2" aria-selected="false" aria-controls="tuP2" tabindex="-1">Security</button>
+    <button class="tu-tab" type="button" role="tab" id="tuT3" aria-selected="false" aria-controls="tuP3" tabindex="-1">Billing</button>
+    <button class="tu-tab" type="button" role="tab" id="tuT4" aria-selected="false" aria-controls="tuP4" tabindex="-1">Team</button>
+  </div>
+  <div class="tu-panel" role="tabpanel" id="tuP1" aria-labelledby="tuT1" tabindex="0">
+    <p class="tu-h">Public profile</p>
+    <p class="tu-d">Name, avatar aur bio jo sabko dikhti hai.</p>
+    <div class="tu-rows"><span></span><span></span></div>
+  </div>
+  <div class="tu-panel" role="tabpanel" id="tuP2" aria-labelledby="tuT2" tabindex="0" hidden>
+    <p class="tu-h">Security</p>
+    <p class="tu-d">Password badlein aur 2FA enable karein.</p>
+    <div class="tu-rows"><span></span><span></span></div>
+  </div>
+  <div class="tu-panel" role="tabpanel" id="tuP3" aria-labelledby="tuT3" tabindex="0" hidden>
+    <p class="tu-h">Billing</p>
+    <p class="tu-d">Plan, invoices aur payment methods.</p>
+    <div class="tu-rows"><span></span><span></span></div>
+  </div>
+  <div class="tu-panel" role="tabpanel" id="tuP4" aria-labelledby="tuT4" tabindex="0" hidden>
+    <p class="tu-h">Team</p>
+    <p class="tu-d">Members invite karein aur roles manage karein.</p>
+    <div class="tu-rows"><span></span><span></span></div>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.tu-bar {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tu-tab {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.tu-tab:hover { color: var(--text); }
+.tu-tab.is-on { color: var(--accent); border-bottom-color: var(--accent); }
+.tu-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.tu-panel { padding: 16px 4px 4px; }
+.tu-h { margin: 0 0 4px; font-size: 0.95rem; font-weight: 700; }
+.tu-d { margin: 0 0 12px; font-size: 0.84rem; color: var(--muted); }
+.tu-rows { display: flex; flex-direction: column; gap: 8px; }
+.tu-rows span { height: 10px; border-radius: 4px; background: var(--border); }
+.tu-rows span:nth-child(2) { width: 70%; }</style>
+    <script data-block>(function () {
+"use strict";
+  document.querySelectorAll(".tu-wrap").forEach(function (wrap) {
+    var tabs = Array.prototype.slice.call(wrap.querySelectorAll('[role="tab"]'));
+    var panels = Array.prototype.slice.call(wrap.querySelectorAll('[role="tabpanel"]'));
+
+    function activate(i) {
+      tabs.forEach(function (t, j) {
+        var on = i === j;
+        t.classList.toggle("is-on", on);
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        panels[j].hidden = !on;
+      });
+      tabs[i].focus();
+    }
+
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener("click", function () { activate(i); });
+      tab.addEventListener("keydown", function (e) {
+        var n = null;
+        if (e.key === "ArrowRight") n = (i + 1) % tabs.length;
+        else if (e.key === "ArrowLeft") n = (i - 1 + tabs.length) % tabs.length;
+        else if (e.key === "Home") n = 0;
+        else if (e.key === "End") n = tabs.length - 1;
+        if (n !== null) { e.preventDefault(); activate(n); }
+      });
+    });
+  });
+})();</script>
+  </section>
+
+  <section class="vw-block" id="tabs-pills" aria-labelledby="tabs-pills-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="tabs-pills-t">Pill tabs</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="tp-wrap">
+  <div class="tp-bar" role="tablist" aria-label="Project views">
+    <button class="tp-tab is-on" type="button" role="tab" id="tpT1" aria-selected="true" aria-controls="tpP1" tabindex="0">Overview</button>
+    <button class="tp-tab" type="button" role="tab" id="tpT2" aria-selected="false" aria-controls="tpP2" tabindex="-1">Activity</button>
+    <button class="tp-tab" type="button" role="tab" id="tpT3" aria-selected="false" aria-controls="tpP3" tabindex="-1">Documents</button>
+  </div>
+  <div class="tp-panel" role="tabpanel" id="tpP1" aria-labelledby="tpT1" tabindex="0">
+    <p class="tp-d">Project stats, milestones aur quick links ek jagah.</p>
+    <div class="tp-stats"><span><strong>24</strong>Tasks</span><span><strong>8</strong>Members</span><span><strong>92%</strong>Done</span></div>
+  </div>
+  <div class="tp-panel" role="tabpanel" id="tpP2" aria-labelledby="tpT2" tabindex="0" hidden>
+    <p class="tp-d">Recent updates from the team.</p>
+    <div class="tp-rows"><span></span><span></span><span></span></div>
+  </div>
+  <div class="tp-panel" role="tabpanel" id="tpP3" aria-labelledby="tpT3" tabindex="0" hidden>
+    <p class="tp-d">Shared files and specs.</p>
+    <div class="tp-rows"><span></span><span></span></div>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.tp-bar {
+  display: inline-flex;
+  gap: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px;
+  overflow-x: auto;
+  max-width: 100%;
+  scrollbar-width: none;
+}
+.tp-tab {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tp-tab:hover { color: var(--text); }
+.tp-tab.is-on { background: var(--accent); color: #fff; }
+.tp-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tp-panel { padding-top: 14px; }
+.tp-d { margin: 0 0 12px; font-size: 0.85rem; color: var(--muted); }
+.tp-stats { display: flex; gap: 10px; flex-wrap: wrap; }
+.tp-stats span {
+  flex: 1;
+  min-width: 90px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px;
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-align: center;
+}
+.tp-stats strong { display: block; font-size: 1rem; color: var(--text); }
+.tp-rows { display: flex; flex-direction: column; gap: 8px; }
+.tp-rows span { height: 10px; border-radius: 4px; background: var(--border); }
+.tp-rows span:nth-child(2) { width: 80%; }
+.tp-rows span:nth-child(3) { width: 60%; }</style>
+    <script data-block>(function () {
+"use strict";
+  document.querySelectorAll(".tp-wrap").forEach(function (wrap) {
+    var tabs = Array.prototype.slice.call(wrap.querySelectorAll('[role="tab"]'));
+    var panels = Array.prototype.slice.call(wrap.querySelectorAll('[role="tabpanel"]'));
+
+    function activate(i) {
+      tabs.forEach(function (t, j) {
+        var on = i === j;
+        t.classList.toggle("is-on", on);
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        panels[j].hidden = !on;
+      });
+      tabs[i].focus();
+    }
+
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener("click", function () { activate(i); });
+      tab.addEventListener("keydown", function (e) {
+        var n = null;
+        if (e.key === "ArrowRight") n = (i + 1) % tabs.length;
+        else if (e.key === "ArrowLeft") n = (i - 1 + tabs.length) % tabs.length;
+        if (n !== null) { e.preventDefault(); activate(n); }
+      });
+    });
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

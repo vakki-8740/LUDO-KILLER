@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Activity Logs · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Dashboard &amp; App</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Activity Logs</h1>
+    <p>Audit log entries with type filters and times.</p>
+  </div>
+  <section class="vw-block" id="activity-logs" aria-labelledby="activity-logs-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="activity-logs-t">Audit log</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="al-card">
+  <div class="al-head">
+    <span class="al-t">Activity log</span>
+    <button class="al-clear" type="button" id="alClear">Clear view</button>
+  </div>
+  <div class="al-chips" role="group" aria-label="Log type">
+    <button class="al-chip is-on" type="button" data-l="all">All</button>
+    <button class="al-chip" type="button" data-l="auth">Auth</button>
+    <button class="al-chip" type="button" data-l="billing">Billing</button>
+    <button class="al-chip" type="button" data-l="system">System</button>
+  </div>
+  <ul class="al-list" id="alList">
+    <li class="al-item" data-l="auth"><span class="al-ic is-auth" aria-hidden="true">A</span><div class="al-m"><p class="al-x">Ayesha signed in from Chrome</p><p class="al-d">IP 103.44.2.18 &#183; 2 minutes ago</p></div></li>
+    <li class="al-item" data-l="billing"><span class="al-ic is-bill" aria-hidden="true">$</span><div class="al-m"><p class="al-x">Invoice #2841 paid</p><p class="al-d">$48.00 &#183; 26 minutes ago</p></div></li>
+    <li class="al-item" data-l="system"><span class="al-ic is-sys" aria-hidden="true">S</span><div class="al-m"><p class="al-x">Nightly backup completed</p><p class="al-d">142 MB synced &#183; 3 hours ago</p></div></li>
+    <li class="al-item" data-l="auth"><span class="al-ic is-auth" aria-hidden="true">A</span><div class="al-m"><p class="al-x">New device approved</p><p class="al-d">macOS &#183; Yesterday</p></div></li>
+    <li class="al-item" data-l="billing"><span class="al-ic is-bill" aria-hidden="true">$</span><div class="al-m"><p class="al-x">Plan upgraded to Pro</p><p class="al-d">Monthly billing &#183; 2 days ago</p></div></li>
+  </ul>
+  <p class="al-msg" id="alMsg" aria-live="polite"></p>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.al-card { max-width: 400px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 12px; }
+.al-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
+.al-t { font-size: 0.8rem; font-weight: 700; }
+.al-clear { border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 0.62rem; font-weight: 600; cursor: pointer; padding: 2px 4px; border-radius: 3px; }
+.al-clear:hover { color: var(--no); }
+.al-clear:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.al-chips { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 7px; }
+.al-chip { border: 1px solid var(--border); background: transparent; color: var(--muted); font: inherit; font-size: 0.62rem; font-weight: 600; padding: 2px 7px; border-radius: 999px; cursor: pointer; }
+.al-chip.is-on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.al-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.al-list { list-style: none; margin: 0; padding: 0; }
+.al-item { display: flex; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border); }
+.al-item:last-child { border-bottom: 0; }
+.al-ic { width: 22px; height: 22px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 0.58rem; font-weight: 800; flex: 0 0 auto; }
+.al-ic.is-auth { background: var(--accent-soft); color: var(--accent); }
+.al-ic.is-bill { background: rgba(34, 160, 107, 0.12); color: var(--yes); }
+.al-ic.is-sys { background: rgba(194, 116, 10, 0.12); color: var(--warn); }
+.al-m { min-width: 0; }
+.al-x { margin: 0; font-size: 0.7rem; font-weight: 600; }
+.al-d { margin: 1px 0 0; font-size: 0.6rem; color: var(--muted); }
+.al-msg { min-height: 1em; margin: 6px 0 0; font-size: 0.62rem; color: var(--muted); }</style>
+    <script data-block>(function () {
+  var items = Array.prototype.slice.call(document.querySelectorAll(".al-item"));
+  var chips = Array.prototype.slice.call(document.querySelectorAll(".al-chip"));
+  var msg = document.getElementById("alMsg");
+
+  chips.forEach(function (c) {
+    c.addEventListener("click", function () {
+      chips.forEach(function (x) { x.classList.remove("is-on"); });
+      c.classList.add("is-on");
+      var f = c.getAttribute("data-l");
+      var n = 0;
+      items.forEach(function (it) {
+        var show = f === "all" || it.getAttribute("data-l") === f;
+        it.hidden = !show;
+        if (show) n += 1;
+      });
+      msg.textContent = n + " entr" + (n === 1 ? "y" : "ies") + " shown.";
+    });
+  });
+
+  document.getElementById("alClear").addEventListener("click", function () {
+    items.forEach(function (it) { it.hidden = false; });
+    chips.forEach(function (x) { x.classList.remove("is-on"); });
+    chips[0].classList.add("is-on");
+    msg.textContent = "View cleared.";
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

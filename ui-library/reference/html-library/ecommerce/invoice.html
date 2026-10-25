@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Invoice · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">E-commerce</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Invoice</h1>
+    <p>Printable invoice with billing info and line items.</p>
+  </div>
+  <section class="vw-block" id="invoice" aria-labelledby="invoice-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="invoice-t">Invoice preview</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="iv-card">
+  <div class="iv-head">
+    <div><p class="iv-logo">OWN<span class="iv-logoD">studio</span></p><p class="iv-tag">Design systems &amp; components</p></div>
+    <div class="iv-meta"><p class="iv-inv">Invoice #INV-2841</p><p class="iv-date">Issued 18 Oct 2026</p><p class="iv-date">Due 01 Nov 2026</p></div>
+  </div>
+  <div class="iv-bill">
+    <div><p class="iv-lb">Billed to</p><p class="iv-bn">Ayesha Khan</p><p class="iv-bd">14 Marine Drive<br>Mumbai 400020</p></div>
+    <div><p class="iv-lb">Payment</p><p class="iv-bn">Visa ending 4242</p><p class="iv-bd">Paid 18 Oct 2026</p></div>
+  </div>
+  <div class="iv-scroll">
+    <table class="iv-table">
+      <thead><tr><th class="iv-th">Item</th><th class="iv-th iv-qty">Qty</th><th class="iv-th iv-amt">Amount</th></tr></thead>
+      <tbody>
+        <tr class="iv-tr"><td class="iv-td">UI library license</td><td class="iv-td iv-qty">1</td><td class="iv-td iv-amt">$96.00</td></tr>
+        <tr class="iv-tr"><td class="iv-td">Component audit</td><td class="iv-td iv-qty">2</td><td class="iv-td iv-amt">$40.00</td></tr>
+        <tr class="iv-tr"><td class="iv-td">Priority support</td><td class="iv-td iv-qty">1</td><td class="iv-td iv-amt">$12.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="iv-totals">
+    <div class="iv-line"><span class="iv-k">Subtotal</span><span class="iv-v">$148.00</span></div>
+    <div class="iv-line"><span class="iv-k">Tax (8%)</span><span class="iv-v">$11.84</span></div>
+    <div class="iv-grand"><span class="iv-gk">Total paid</span><span class="iv-gv">$159.84</span></div>
+  </div>
+  <div class="iv-foot">
+    <span class="iv-thanks">Thank you for your business.</span>
+    <button class="iv-print" type="button" id="ivPrint">Print invoice</button>
+  </div>
+  <p class="iv-msg" id="ivMsg" aria-live="polite"></p>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.iv-card { max-width: 430px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 14px; }
+.iv-head { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.iv-logo { margin: 0; font-size: 0.86rem; font-weight: 800; letter-spacing: 0.02em; }
+.iv-logoD { color: var(--accent); }
+.iv-tag { margin: 1px 0 0; font-size: 0.56rem; color: var(--muted); }
+.iv-meta { text-align: right; }
+.iv-inv { margin: 0; font-size: 0.66rem; font-weight: 700; }
+.iv-date { margin: 1px 0 0; font-size: 0.56rem; color: var(--muted); }
+.iv-bill { display: flex; gap: 18px; flex-wrap: wrap; padding: 10px 0; }
+.iv-lb { margin: 0; font-size: 0.52rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.iv-bn { margin: 2px 0 0; font-size: 0.66rem; font-weight: 600; }
+.iv-bd { margin: 1px 0 0; font-size: 0.56rem; color: var(--muted); line-height: 1.4; }
+.iv-scroll { overflow-x: auto; }
+.iv-table { width: 100%; border-collapse: collapse; min-width: 300px; }
+.iv-th { text-align: left; font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); padding: 5px 4px; border-bottom: 1px solid var(--border); }
+.iv-td { font-size: 0.64rem; padding: 6px 4px; border-bottom: 1px solid var(--border); }
+.iv-qty { text-align: center; width: 36px; }
+.iv-amt { text-align: right; white-space: nowrap; }
+.iv-totals { margin-left: auto; max-width: 180px; padding-top: 7px; }
+.iv-line { display: flex; justify-content: space-between; padding: 2px 0; }
+.iv-k { font-size: 0.6rem; color: var(--muted); }
+.iv-v { font-size: 0.6rem; font-weight: 600; }
+.iv-grand { display: flex; justify-content: space-between; border-top: 1px solid var(--border); margin-top: 4px; padding-top: 5px; }
+.iv-gk { font-size: 0.66rem; font-weight: 800; }
+.iv-gv { font-size: 0.8rem; font-weight: 800; color: var(--accent); }
+.iv-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+.iv-thanks { font-size: 0.56rem; color: var(--muted); }
+.iv-print { border: 1px solid var(--border); background: transparent; color: var(--accent); font: inherit; font-size: 0.6rem; font-weight: 700; padding: 4px 9px; border-radius: 3px; cursor: pointer; }
+.iv-print:hover { border-color: var(--accent); }
+.iv-print:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.iv-msg { min-height: 1em; margin: 5px 0 0; font-size: 0.58rem; color: var(--muted); }</style>
+    <script data-block>(function () {
+  document.getElementById("ivPrint").addEventListener("click", function () {
+    document.getElementById("ivMsg").textContent = "Use your browser print dialog to save as PDF.";
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

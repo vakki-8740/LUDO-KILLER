@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Back-to-Top Button · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Buttons &amp; Actions</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Back-to-Top Button</h1>
+    <p>Scroll-aware floating action inside a scrollable panel.</p>
+  </div>
+  <section class="vw-block" id="back-to-top" aria-labelledby="back-to-top-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="back-to-top-t">Back to top</h2>
+      <span class="vw-note">Panel ke andar neeche scroll karein.</span>
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="bt-panel" id="btPanel">
+  <section class="bt-sec"><h4 class="bt-h">Overview</h4><p class="bt-p">Panel ke andar content scroll hota hai. Neeche jaate hi button dikhega.</p></section>
+  <section class="bt-sec"><h4 class="bt-h">Usage</h4><p class="bt-p">Long pages par back-to-top button user ko turant upar le jata hai.</p></section>
+  <section class="bt-sec"><h4 class="bt-h">Accessibility</h4><p class="bt-p">Hidden state me button tabindex -1 aur aria-hidden hota hai.</p></section>
+  <section class="bt-sec"><h4 class="bt-h">Motion</h4><p class="bt-p">prefers-reduced-motion on hone par smooth scroll off ho jata hai.</p></section>
+  <button class="bt-top" type="button" id="btTop" aria-label="Back to top" aria-hidden="true" tabindex="-1">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+  </button>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.bt-panel {
+  position: relative;
+  height: 340px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  padding: 16px 16px 70px;
+}
+.bt-sec { border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 12px; background: var(--bg); }
+.bt-h { margin: 0 0 4px; font-size: 0.9rem; }
+.bt-p { margin: 0; font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+.bt-top {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.bt-top svg { width: 18px; height: 18px; }
+.bt-top.is-vis { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.bt-top:hover { border-color: var(--accent); }
+.bt-top:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .bt-top { transition: none; }
+}</style>
+    <script data-block>(function () {
+  var panel = document.getElementById("btPanel");
+  var btn = document.getElementById("btTop");
+
+  function sync() {
+    var show = panel.scrollTop > 120;
+    btn.classList.toggle("is-vis", show);
+    btn.setAttribute("aria-hidden", String(!show));
+    btn.tabIndex = show ? 0 : -1;
+  }
+
+  panel.addEventListener("scroll", sync);
+  btn.addEventListener("click", function () {
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    panel.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+  });
+  sync();
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Data Table · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Data Display</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Data Table</h1>
+    <p>Sortable, searchable table with row selection.</p>
+  </div>
+  <section class="vw-block" id="data-table" aria-labelledby="data-table-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="data-table-t">Team members</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="dtx-card">
+  <div class="dtx-top">
+    <input class="dtx-search" id="dtxSearch" type="search" placeholder="Search members..." aria-label="Search members">
+    <span class="dtx-sel" id="dtxSel">0 selected</span>
+  </div>
+  <div class="dtx-scroll">
+    <table class="dtx-table">
+      <thead>
+        <tr>
+          <th class="dtx-th dtx-checkcol"><input class="dtx-check" id="dtxAll" type="checkbox" aria-label="Select all rows"></th>
+          <th class="dtx-th"><button class="dtx-sort" type="button" data-key="0">Name <span class="dtx-ind" aria-hidden="true"></span></button></th>
+          <th class="dtx-th"><button class="dtx-sort" type="button" data-key="1">Role <span class="dtx-ind" aria-hidden="true"></span></button></th>
+          <th class="dtx-th"><button class="dtx-sort" type="button" data-key="2">Status <span class="dtx-ind" aria-hidden="true"></span></button></th>
+        </tr>
+      </thead>
+      <tbody id="dtxBody">
+        <tr class="dtx-tr"><td class="dtx-td dtx-checkcol"><input class="dtx-check dtx-row" type="checkbox" aria-label="Select Ayesha Khan"></td><td class="dtx-td">Ayesha Khan</td><td class="dtx-td">Designer</td><td class="dtx-td"><span class="dtx-tag is-active">Active</span></td></tr>
+        <tr class="dtx-tr"><td class="dtx-td dtx-checkcol"><input class="dtx-check dtx-row" type="checkbox" aria-label="Select Rohan Shah"></td><td class="dtx-td">Rohan Shah</td><td class="dtx-td">Engineer</td><td class="dtx-td"><span class="dtx-tag is-active">Active</span></td></tr>
+        <tr class="dtx-tr"><td class="dtx-td dtx-checkcol"><input class="dtx-check dtx-row" type="checkbox" aria-label="Select Mira Patel"></td><td class="dtx-td">Mira Patel</td><td class="dtx-td">Manager</td><td class="dtx-td"><span class="dtx-tag is-away">Away</span></td></tr>
+        <tr class="dtx-tr"><td class="dtx-td dtx-checkcol"><input class="dtx-check dtx-row" type="checkbox" aria-label="Select Tarun Nair"></td><td class="dtx-td">Tarun Nair</td><td class="dtx-td">Engineer</td><td class="dtx-td"><span class="dtx-tag is-off">Offline</span></td></tr>
+        <tr class="dtx-tr"><td class="dtx-td dtx-checkcol"><input class="dtx-check dtx-row" type="checkbox" aria-label="Select Sana Iqbal"></td><td class="dtx-td">Sana Iqbal</td><td class="dtx-td">Marketing</td><td class="dtx-td"><span class="dtx-tag is-active">Active</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.dtx-card { border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); overflow: hidden; }
+.dtx-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.dtx-search { flex: 1; min-width: 140px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font: inherit; font-size: 0.79rem; padding: 7px 10px; outline: none; }
+.dtx-search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.dtx-sel { font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
+.dtx-scroll { overflow-x: auto; }
+.dtx-table { width: 100%; border-collapse: collapse; min-width: 420px; }
+.dtx-th { text-align: left; padding: 8px 10px; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
+.dtx-checkcol { width: 34px; }
+.dtx-check { accent-color: var(--accent); width: 14px; height: 14px; cursor: pointer; }
+.dtx-sort { border: 0; background: transparent; color: inherit; font: inherit; font-size: inherit; text-transform: inherit; letter-spacing: inherit; cursor: pointer; padding: 0; display: inline-flex; align-items: center; gap: 4px; }
+.dtx-sort:hover { color: var(--accent); }
+.dtx-sort:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dtx-ind { font-size: 0.6rem; color: var(--accent); }
+.dtx-tr:hover { background: var(--bg); }
+.dtx-td { padding: 9px 10px; font-size: 0.78rem; border-bottom: 1px solid var(--border); }
+.dtx-tag { font-size: 0.64rem; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
+.dtx-tag.is-active { background: rgba(34, 160, 107, 0.12); color: var(--yes); }
+.dtx-tag.is-away { background: rgba(194, 116, 10, 0.12); color: var(--warn); }
+.dtx-tag.is-off { background: var(--bg); color: var(--muted); }</style>
+    <script data-block>(function () {
+  var body = document.getElementById("dtxBody");
+  var rows = Array.prototype.slice.call(body.querySelectorAll(".dtx-tr"));
+  var all = document.getElementById("dtxAll");
+  var selLabel = document.getElementById("dtxSel");
+  var search = document.getElementById("dtxSearch");
+  var dir = {};
+
+  function visible() { return rows.filter(function (r) { return !r.hidden; }); }
+
+  function syncSel() {
+    var checked = rows.filter(function (r) { return r.querySelector(".dtx-row").checked; });
+    selLabel.textContent = checked.length + " selected";
+    var vis = visible();
+    all.checked = vis.length > 0 && vis.every(function (r) { return r.querySelector(".dtx-row").checked; });
+  }
+
+  all.addEventListener("change", function () {
+    visible().forEach(function (r) { r.querySelector(".dtx-row").checked = all.checked; });
+    syncSel();
+  });
+
+  rows.forEach(function (r) {
+    r.querySelector(".dtx-row").addEventListener("change", syncSel);
+  });
+
+  search.addEventListener("input", function () {
+    var q = search.value.toLowerCase();
+    rows.forEach(function (r) { r.hidden = r.textContent.toLowerCase().indexOf(q) === -1; });
+    syncSel();
+  });
+
+  document.querySelectorAll(".dtx-sort").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var key = Number(btn.getAttribute("data-key"));
+      dir[key] = !dir[key];
+      document.querySelectorAll(".dtx-ind").forEach(function (i) { i.textContent = ""; });
+      btn.querySelector(".dtx-ind").textContent = dir[key] ? "\u25B2" : "\u25BC";
+      rows.sort(function (a, b) {
+        var at = a.children[key].textContent.trim().toLowerCase();
+        var bt = b.children[key].textContent.trim().toLowerCase();
+        return at < bt ? (dir[key] ? -1 : 1) : at > bt ? (dir[key] ? 1 : -1) : 0;
+      });
+      rows.forEach(function (r) { body.appendChild(r); });
+    });
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Error States · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Feedback</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Error States</h1>
+    <p>Inline retry block and a friendly 404 page.</p>
+  </div>
+  <section class="vw-block" id="error-inline" aria-labelledby="error-inline-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="error-inline-t">Inline retry</h2>
+      <span class="vw-note">Retry dabaiye — pehle load hoga, phir error wapas aayega.</span>
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="er-box" id="erBox">
+  <span class="er-ic" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 4.3a2 2 0 0 1 3.4 0l7.2 12.4a2 2 0 0 1-1.7 3H4.8a2 2 0 0 1-1.7-3z"/><path d="M12 9v4M12 16.5v.5"/></svg>
+  </span>
+  <div class="er-txt">
+    <p class="er-t">Could not load activity</p>
+    <p class="er-d" id="erDesc">The server did not respond. Check your connection and retry.</p>
+  </div>
+  <button class="er-btn" type="button" id="erBtn">Retry</button>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.er-box { display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; border: 1px solid rgba(229, 72, 77, 0.35); background: rgba(229, 72, 77, 0.06); border-radius: var(--radius); padding: 14px; }
+.er-ic { width: 22px; height: 22px; color: var(--no); flex: 0 0 auto; }
+.er-ic svg { width: 100%; height: 100%; }
+.er-txt { flex: 1; min-width: 180px; }
+.er-t { margin: 0 0 2px; font-size: 0.86rem; font-weight: 700; }
+.er-d { margin: 0; font-size: 0.79rem; color: var(--muted); line-height: 1.45; }
+.er-btn { border: 1px solid rgba(229, 72, 77, 0.4); background: var(--card); color: var(--no); font: inherit; font-size: 0.78rem; font-weight: 600; padding: 7px 12px; border-radius: var(--radius); cursor: pointer; }
+.er-btn:hover { border-color: var(--no); }
+.er-btn:focus-visible { outline: 2px solid var(--no); outline-offset: 2px; }
+.er-btn[disabled] { opacity: 0.6; cursor: progress; }</style>
+    <script data-block>(function () {
+  var btn = document.getElementById("erBtn");
+  var desc = document.getElementById("erDesc");
+  btn.addEventListener("click", function () {
+    btn.disabled = true;
+    btn.textContent = "Retrying...";
+    desc.textContent = "Contacting the server...";
+    setTimeout(function () {
+      btn.disabled = false;
+      btn.textContent = "Retry";
+      desc.textContent = "Still offline. The demo error returns on purpose.";
+    }, 1400);
+  });
+})();</script>
+  </section>
+
+  <section class="vw-block" id="error-404" aria-labelledby="error-404-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="error-404-t">Not found</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="er-p404">
+  <p class="er-code">404</p>
+  <h4 class="er-404t">This page took a wrong turn</h4>
+  <p class="er-404d">The link may be broken, or the page was moved. Let us get you back on track.</p>
+  <div class="er-actions">
+    <button class="er-home" type="button">Back to dashboard</button>
+    <button class="er-plain" type="button">Contact support</button>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.er-p404 { text-align: center; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 36px 20px; }
+.er-code { margin: 0; font-size: 2.6rem; font-weight: 800; letter-spacing: 0.06em; color: var(--accent); line-height: 1; }
+.er-404t { margin: 10px 0 4px; font-size: 1.05rem; }
+.er-404d { margin: 0 auto 18px; max-width: 300px; font-size: 0.83rem; color: var(--muted); line-height: 1.5; }
+.er-actions { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.er-home { border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.82rem; font-weight: 600; padding: 9px 16px; border-radius: var(--radius); cursor: pointer; }
+.er-home:hover { opacity: 0.92; }
+.er-home:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.er-plain { border: 1px solid var(--border); background: transparent; color: var(--text); font: inherit; font-size: 0.82rem; font-weight: 600; padding: 9px 16px; border-radius: var(--radius); cursor: pointer; }
+.er-plain:hover { border-color: var(--accent); color: var(--accent); }
+.er-plain:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }</style>
+    <script data-block></script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

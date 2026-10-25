@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alerts</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    --accent: #4f6bed;
+    --yes: #22a06b;
+    --no: #e5484d;
+    --warn: #c2740a;
+    --accent-soft: rgba(79, 107, 237, 0.10);
+  }
+
+  [data-theme="dark"] {
+    --bg: #12141a;
+    --card: #1c1f28;
+    --text: #eceef3;
+    --muted: #9aa1b2;
+    --border: #2a2e3a;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --accent: #7b92ff;
+    --accent-soft: rgba(123, 146, 255, 0.14);
+    --warn: #f0b543;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: 80px 16px 40px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .theme-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 60;
+    width: 46px;
+    height: 46px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, background 0.3s;
+  }
+  .theme-toggle:hover { transform: scale(1.08); }
+  .theme-toggle svg { width: 22px; height: 22px; }
+  .theme-toggle .icon-sun { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+  .wrap {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .panel h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .panel-note { color: var(--muted); font-size: 0.85rem; margin-bottom: 18px; }
+
+  .stack { display: flex; flex-direction: column; gap: 10px; }
+
+  /* ---------- Alert ---------- */
+  .alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    padding: 13px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .alert.hidden { display: none; }
+
+  .alert-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+  .alert-icon svg { width: 17px; height: 17px; }
+
+  .alert-body { flex: 1; min-width: 0; }
+  .alert-body strong { display: block; font-size: 0.87rem; margin-bottom: 2px; }
+  .alert-body p { font-size: 0.8rem; line-height: 1.45; color: var(--muted); }
+
+  .alert-link {
+    display: inline-block;
+    margin-top: 7px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .alert-close {
+    width: 28px;
+    height: 28px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex: 0 0 auto;
+    transition: background 0.2s, color 0.2s;
+  }
+  .alert-close:hover { background: rgba(0, 0, 0, 0.06); color: var(--text); }
+  .alert-close svg { width: 15px; height: 15px; }
+
+  .alert.info { border-color: rgba(79, 107, 237, 0.28); background: rgba(79, 107, 237, 0.07); }
+  .alert.info .alert-icon { background: var(--accent-soft); color: var(--accent); }
+
+  .alert.success { border-color: rgba(34, 160, 107, 0.28); background: rgba(34, 160, 107, 0.07); }
+  .alert.success .alert-icon { background: rgba(34, 160, 107, 0.14); color: var(--yes); }
+
+  .alert.warning { border-color: rgba(194, 116, 10, 0.30); background: rgba(194, 116, 10, 0.08); }
+  .alert.warning .alert-icon { background: rgba(194, 116, 10, 0.14); color: var(--warn); }
+  .alert.warning .alert-link { color: var(--warn); }
+
+  .alert.danger { border-color: rgba(229, 72, 77, 0.28); background: rgba(229, 72, 77, 0.07); }
+  .alert.danger .alert-icon { background: rgba(229, 72, 77, 0.14); color: var(--no); }
+  .alert.danger .alert-link { color: var(--no); }
+
+  [data-theme="dark"] .alert.info { background: rgba(79, 107, 237, 0.12); }
+  [data-theme="dark"] .alert.success { background: rgba(34, 160, 107, 0.11); }
+  [data-theme="dark"] .alert.warning { background: rgba(240, 181, 67, 0.10); }
+  [data-theme="dark"] .alert.danger { background: rgba(229, 72, 77, 0.11); }
+  [data-theme="dark"] .alert-close:hover { background: rgba(255, 255, 255, 0.08); }
+
+  /* ---------- Compact ---------- */
+  .alert.compact { align-items: center; padding: 10px 12px; }
+  .alert.compact .alert-icon { width: 26px; height: 26px; }
+  .alert.compact .alert-icon svg { width: 15px; height: 15px; }
+  .alert.compact .alert-body { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .alert.compact .alert-body p { font-size: 0.82rem; color: var(--text); }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .toolbar span { color: var(--muted); font-size: 0.8rem; }
+  .reset-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, transform 0.15s;
+  }
+  .reset-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+  .reset-btn svg { width: 14px; height: 14px; }
+
+  @media (max-width: 520px) {
+    .panel { padding: 18px; }
+    .alert { padding: 12px; }
+    .alert-icon { width: 29px; height: 29px; }
+    .alert-body strong { font-size: 0.84rem; }
+    .alert-body p { font-size: 0.78rem; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+</button>
+
+<main class="wrap">
+
+  <section class="panel">
+    <h2>Alert variants</h2>
+    <p class="panel-note">Soft tinted backgrounds with an icon, title, message and close action.</p>
+
+    <div class="stack">
+      <div class="alert info">
+        <span class="alert-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+        </span>
+        <div class="alert-body">
+          <strong>New version available</strong>
+          <p>Reload the page to get the latest components and fixes.</p>
+        </div>
+        <button class="alert-close" aria-label="Dismiss alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="alert success">
+        <span class="alert-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>
+        </span>
+        <div class="alert-body">
+          <strong>Changes saved</strong>
+          <p>Your design tokens were updated successfully.</p>
+        </div>
+        <button class="alert-close" aria-label="Dismiss alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="alert warning">
+        <span class="alert-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 4.3L2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+        </span>
+        <div class="alert-body">
+          <strong>Storage almost full</strong>
+          <p>You have used 92% of your plan. Free up space to keep uploading.</p>
+          <a href="#" class="alert-link">Manage storage</a>
+        </div>
+        <button class="alert-close" aria-label="Dismiss alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="alert danger">
+        <span class="alert-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+        </span>
+        <div class="alert-body">
+          <strong>Payment failed</strong>
+          <p>We could not process your card. Update your billing details to retry.</p>
+          <a href="#" class="alert-link">Update payment method</a>
+        </div>
+        <button class="alert-close" aria-label="Dismiss alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Compact &amp; dismissible</h2>
+    <div class="toolbar">
+      <span>Close an alert, then restore it to preview again.</span>
+      <button class="reset-btn" id="resetAlerts">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+        Restore
+      </button>
+    </div>
+
+    <div class="stack">
+      <div class="alert success compact">
+        <span class="alert-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </span>
+        <div class="alert-body"><p>Profile updated successfully.</p></div>
+        <button class="alert-close" aria-label="Dismiss alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="alert info compact">
+        <span class="alert-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+        </span>
+        <div class="alert-body"><p>Maintenance is scheduled for Sunday, 02:00 UTC.</p></div>
+        <button class="alert-close" aria-label="Dismiss alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="alert danger compact">
+        <span class="alert-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+        </span>
+        <div class="alert-body"><p>Upload failed. Please check the file type and try again.</p></div>
+        <button class="alert-close" aria-label="Dismiss alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.getElementById("themeToggle");
+
+  function setTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    try { localStorage.setItem("theme", theme); } catch (e) {}
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem("theme"); } catch (e) {}
+  setTheme(saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+
+  toggle.addEventListener("click", () => {
+    setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  document.querySelectorAll(".alert-close").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const alert = btn.closest(".alert");
+      alert.style.opacity = "0";
+      alert.style.transform = "translateY(-4px)";
+      setTimeout(() => {
+        alert.classList.add("hidden");
+        alert.style.opacity = "";
+        alert.style.transform = "";
+      }, 180);
+    });
+  });
+
+  document.getElementById("resetAlerts").addEventListener("click", () => {
+    document.querySelectorAll(".alert.hidden").forEach(alert => {
+      alert.classList.remove("hidden");
+    });
+  });
+</script>
+</body>
+</html>

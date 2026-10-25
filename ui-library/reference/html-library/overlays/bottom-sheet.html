@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bottom Sheet · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Overlays</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Bottom Sheet</h1>
+    <p>Mobile-style sheet that slides up from the bottom.</p>
+  </div>
+  <section class="vw-block" id="bottom-sheet" aria-labelledby="bottom-sheet-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="bottom-sheet-t">Action sheet</h2>
+      <span class="vw-note">Share button se sheet khulegi.</span>
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="bs-demo">
+  <div class="bs-page">
+    <p class="bs-context">Article preview</p>
+    <button class="bs-open" type="button" id="bsOpen">Share article</button>
+  </div>
+  <div class="bs-scrim" id="bsScrim" hidden></div>
+  <div class="bs-sheet" id="bsSheet" role="dialog" aria-modal="true" aria-labelledby="bsTitle" aria-hidden="true">
+    <span class="bs-grip" aria-hidden="true"></span>
+    <p class="bs-title" id="bsTitle">Share article</p>
+    <div class="bs-actions">
+      <button class="bs-act" type="button"><span class="bs-ai" aria-hidden="true">WA</span>WhatsApp</button>
+      <button class="bs-act" type="button"><span class="bs-ai" aria-hidden="true">X</span>Post on X</button>
+      <button class="bs-act" type="button"><span class="bs-ai" aria-hidden="true">@</span>Email</button>
+      <button class="bs-act" type="button"><span class="bs-ai" aria-hidden="true">&#128279;</span>Copy link</button>
+    </div>
+    <button class="bs-cancel" type="button" id="bsClose">Cancel</button>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.bs-demo { position: relative; height: 320px; border: 1px dashed var(--border); border-radius: var(--radius); overflow: hidden; }
+.bs-page { padding: 18px; }
+.bs-context { margin: 0 0 10px; font-size: 0.8rem; color: var(--muted); }
+.bs-open { border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.8rem; font-weight: 600; padding: 9px 14px; border-radius: var(--radius); cursor: pointer; }
+.bs-open:hover { opacity: 0.92; }
+.bs-open:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.bs-scrim { position: absolute; inset: 0; background: rgba(10, 12, 18, 0.45); z-index: 10; }
+.bs-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--card);
+  border-radius: 12px 12px 0 0;
+  padding: 8px 14px 14px;
+  z-index: 11;
+  transform: translateY(105%);
+  transition: transform 0.26s ease;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.14);
+}
+.bs-sheet.is-open { transform: translateY(0); }
+.bs-grip { display: block; width: 36px; height: 4px; border-radius: 999px; background: var(--border); margin: 0 auto 10px; }
+.bs-title { margin: 0 0 10px; font-size: 0.84rem; font-weight: 700; text-align: center; }
+.bs-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.bs-act { display: flex; flex-direction: column; align-items: center; gap: 5px; border: 0; background: transparent; color: var(--text); font: inherit; font-size: 0.66rem; font-weight: 600; padding: 6px 2px; border-radius: var(--radius); cursor: pointer; }
+.bs-act:hover { background: var(--bg); }
+.bs-act:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.bs-ai { width: 32px; height: 32px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 700; }
+.bs-cancel { width: 100%; margin-top: 10px; border: 1px solid var(--border); background: transparent; color: var(--muted); font: inherit; font-size: 0.78rem; font-weight: 600; padding: 8px; border-radius: var(--radius); cursor: pointer; }
+.bs-cancel:hover { border-color: var(--muted); }
+.bs-cancel:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .bs-sheet { transition: none; } }</style>
+    <script data-block>(function () {
+  var sheet = document.getElementById("bsSheet");
+  var scrim = document.getElementById("bsScrim");
+  var openBtn = document.getElementById("bsOpen");
+  var closeBtn = document.getElementById("bsClose");
+
+  function set(open) {
+    sheet.classList.toggle("is-open", open);
+    sheet.setAttribute("aria-hidden", String(!open));
+    scrim.hidden = !open;
+    if (open) closeBtn.focus();
+    else openBtn.focus();
+  }
+
+  openBtn.addEventListener("click", function () { set(true); });
+  closeBtn.addEventListener("click", function () { set(false); });
+  scrim.addEventListener("click", function () { set(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && sheet.classList.contains("is-open")) set(false);
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

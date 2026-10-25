@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Select Menu</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    --accent: #4f6bed;
+    --yes: #22a06b;
+    --no: #e5484d;
+    --accent-soft: rgba(79, 107, 237, 0.10);
+  }
+
+  [data-theme="dark"] {
+    --bg: #12141a;
+    --card: #1c1f28;
+    --text: #eceef3;
+    --muted: #9aa1b2;
+    --border: #2a2e3a;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --accent: #7b92ff;
+    --accent-soft: rgba(123, 146, 255, 0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: 80px 16px 40px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .theme-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 60;
+    width: 46px;
+    height: 46px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, background 0.3s;
+  }
+  .theme-toggle:hover { transform: scale(1.08); }
+  .theme-toggle svg { width: 22px; height: 22px; }
+  .theme-toggle .icon-sun { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+  .wrap {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .panel h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .panel-note { color: var(--muted); font-size: 0.85rem; margin-bottom: 18px; }
+
+  .fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 18px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .field > label { font-size: 0.82rem; font-weight: 600; }
+
+  .select-wrap { position: relative; }
+  .select {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 44px;
+    padding: 0 40px 0 13px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  .select:hover { border-color: var(--muted); }
+  .select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .select:disabled { background: var(--bg); color: var(--muted); cursor: not-allowed; }
+  .select option { background: var(--card); color: var(--text); }
+
+  .chev {
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+    display: flex;
+  }
+  .chev svg { width: 16px; height: 16px; }
+
+  .help { font-size: 0.75rem; color: var(--muted); line-height: 1.4; }
+  .help.error { color: var(--no); }
+
+  .field.has-error .select { border-color: var(--no); }
+  .field.has-error .select:focus { box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.15); }
+  .field.has-error .chev { color: var(--no); }
+
+  /* ---------- Custom open menu ---------- */
+  .stage {
+    position: relative;
+    min-height: 280px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+  }
+  .stage h3 { font-size: 0.95rem; margin-bottom: 4px; }
+  .stage p { color: var(--muted); font-size: 0.8rem; margin-bottom: 14px; }
+
+  .custom { position: relative; max-width: 300px; }
+
+  .custom-btn {
+    width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 13px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .custom-btn:hover { border-color: var(--muted); }
+  .custom.open .custom-btn {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .custom-btn .chev { position: static; transform: none; transition: transform 0.2s; }
+  .custom.open .custom-btn .chev { transform: rotate(180deg); }
+
+  .custom-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    z-index: 6;
+    display: none;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    padding: 6px;
+  }
+  .custom.open .custom-menu { display: block; }
+
+  .custom-option {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 10px;
+    border-radius: 6px;
+    font-size: 0.87rem;
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .custom-option:hover { background: var(--bg); }
+  .custom-option .tick {
+    width: 16px;
+    height: 16px;
+    color: var(--accent);
+    opacity: 0;
+    flex: 0 0 auto;
+  }
+  .custom-option.selected { color: var(--accent); font-weight: 600; }
+  .custom-option.selected .tick { opacity: 1; }
+  .custom-option .tag {
+    margin-left: auto;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--muted);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 2px 7px;
+  }
+
+  @media (max-width: 640px) {
+    .panel { padding: 18px; }
+    .fields { grid-template-columns: 1fr; }
+    .stage { padding: 16px; }
+    .custom { max-width: none; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+</button>
+
+<main class="wrap">
+
+  <section class="panel">
+    <h2>Select fields</h2>
+    <p class="panel-note">Native select styled to match the inputs, with helper, error and disabled states.</p>
+
+    <div class="fields">
+      <div class="field">
+        <label for="country">Country</label>
+        <div class="select-wrap">
+          <select class="select" id="country">
+            <option>India</option>
+            <option>United States</option>
+            <option>United Kingdom</option>
+            <option>Germany</option>
+            <option>Australia</option>
+          </select>
+          <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </div>
+        <span class="help">Used for billing and tax.</span>
+      </div>
+
+      <div class="field">
+        <label for="team">Team size</label>
+        <div class="select-wrap">
+          <select class="select" id="team">
+            <option>1 – 5 people</option>
+            <option selected>6 – 20 people</option>
+            <option>21 – 50 people</option>
+            <option>50+ people</option>
+          </select>
+          <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </div>
+        <span class="help">You can change this later.</span>
+      </div>
+
+      <div class="field has-error">
+        <label for="role">Role</label>
+        <div class="select-wrap">
+          <select class="select" id="role" aria-invalid="true" aria-describedby="roleError">
+            <option value="">Select a role…</option>
+            <option>Designer</option>
+            <option>Developer</option>
+            <option>Product manager</option>
+          </select>
+          <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </div>
+        <span class="help error" id="roleError">Please choose a role to continue.</span>
+      </div>
+
+      <div class="field">
+        <label for="plan">Plan</label>
+        <div class="select-wrap">
+          <select class="select" id="plan" disabled>
+            <option>Pro plan (current)</option>
+          </select>
+          <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </div>
+        <span class="help">Contact sales to change your plan.</span>
+      </div>
+
+      <div class="field">
+        <label for="category">Category</label>
+        <div class="select-wrap">
+          <select class="select" id="category">
+            <optgroup label="Design">
+              <option>UI design</option>
+              <option>UX research</option>
+            </optgroup>
+            <optgroup label="Development">
+              <option>Frontend</option>
+              <option>Backend</option>
+            </optgroup>
+            <optgroup label="Content">
+              <option>Copywriting</option>
+              <option>Documentation</option>
+            </optgroup>
+          </select>
+          <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </div>
+        <span class="help">Options are grouped by section.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Custom select · open state</h2>
+    <p class="panel-note">A fully styled dropdown for cases where native select styling is not enough.</p>
+
+    <div class="stage">
+      <h3>Choose a template</h3>
+      <p>Select one option from the menu.</p>
+
+      <div class="custom open" id="customSelect">
+        <button class="custom-btn" id="customBtn" aria-haspopup="listbox" aria-expanded="true">
+          <span id="customLabel">Design system</span>
+          <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </button>
+
+        <div class="custom-menu" role="listbox" aria-label="Templates">
+          <div class="custom-option selected" role="option" aria-selected="true" tabindex="0">
+            <svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Design system
+            <span class="tag">Default</span>
+          </div>
+          <div class="custom-option" role="option" aria-selected="false" tabindex="0">
+            <svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Marketing site
+          </div>
+          <div class="custom-option" role="option" aria-selected="false" tabindex="0">
+            <svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Dashboard app
+          </div>
+          <div class="custom-option" role="option" aria-selected="false" tabindex="0">
+            <svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Blog / docs
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.getElementById("themeToggle");
+
+  function setTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    try { localStorage.setItem("theme", theme); } catch (e) {}
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem("theme"); } catch (e) {}
+  setTheme(saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+
+  toggle.addEventListener("click", () => {
+    setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  const custom = document.getElementById("customSelect");
+  const customBtn = document.getElementById("customBtn");
+  const customLabel = document.getElementById("customLabel");
+
+  customBtn.addEventListener("click", () => {
+    const open = custom.classList.toggle("open");
+    customBtn.setAttribute("aria-expanded", open);
+  });
+
+  custom.querySelectorAll(".custom-option").forEach(option => {
+    option.addEventListener("click", () => {
+      custom.querySelectorAll(".custom-option").forEach(o => {
+        o.classList.remove("selected");
+        o.setAttribute("aria-selected", "false");
+      });
+      option.classList.add("selected");
+      option.setAttribute("aria-selected", "true");
+      customLabel.textContent = option.textContent.trim().replace(/\s+/g, " ").replace(/ Default$/, "");
+      custom.classList.remove("open");
+      customBtn.setAttribute("aria-expanded", "false");
+      customBtn.focus();
+    });
+    option.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        option.click();
+      }
+    });
+  });
+
+  document.addEventListener("click", e => {
+    if (!custom.contains(e.target)) {
+      custom.classList.remove("open");
+      customBtn.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      custom.classList.remove("open");
+      customBtn.setAttribute("aria-expanded", "false");
+    }
+  });
+</script>
+</body>
+</html>

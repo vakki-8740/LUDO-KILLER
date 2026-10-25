@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Timeline · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Data Display</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Timeline</h1>
+    <p>Vertical timeline with coloured markers and dates.</p>
+  </div>
+  <section class="vw-block" id="timeline" aria-labelledby="timeline-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="timeline-t">Project timeline</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<ol class="tl-list">
+  <li class="tl-item">
+    <span class="tl-dot is-done" aria-hidden="true"></span>
+    <div class="tl-box">
+      <span class="tl-date">12 Oct 2026</span>
+      <p class="tl-t">Project kickoff</p>
+      <p class="tl-d">Scope approved and the team was assigned.</p>
+    </div>
+  </li>
+  <li class="tl-item">
+    <span class="tl-dot is-done" aria-hidden="true"></span>
+    <div class="tl-box">
+      <span class="tl-date">18 Oct 2026</span>
+      <p class="tl-t">Design handoff</p>
+      <p class="tl-d">Final screens and tokens were delivered to engineering.</p>
+    </div>
+  </li>
+  <li class="tl-item">
+    <span class="tl-dot is-now" aria-hidden="true"></span>
+    <div class="tl-box is-now">
+      <span class="tl-date">22 Oct 2026</span>
+      <p class="tl-t">Build in progress</p>
+      <p class="tl-d">Components are being assembled and reviewed daily.</p>
+    </div>
+  </li>
+  <li class="tl-item">
+    <span class="tl-dot" aria-hidden="true"></span>
+    <div class="tl-box">
+      <span class="tl-date">05 Nov 2026</span>
+      <p class="tl-t">Launch</p>
+      <p class="tl-d">Public release with the first documentation pass.</p>
+    </div>
+  </li>
+</ol>
+        </div>
+      </div>
+    </div>
+    <style data-block>.tl-list { list-style: none; margin: 0; padding: 0 0 0 4px; }
+.tl-item { position: relative; padding: 0 0 18px 22px; border-left: 2px solid var(--border); }
+.tl-item:last-child { border-left-color: transparent; padding-bottom: 0; }
+.tl-dot { position: absolute; left: -7px; top: 2px; width: 12px; height: 12px; border-radius: 999px; background: var(--card); border: 2px solid var(--border); }
+.tl-dot.is-done { background: var(--yes); border-color: var(--yes); }
+.tl-dot.is-now { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.tl-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; }
+.tl-box.is-now { border-color: var(--accent); }
+.tl-date { display: inline-block; font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 2px; }
+.tl-t { margin: 0 0 2px; font-size: 0.83rem; font-weight: 700; }
+.tl-d { margin: 0; font-size: 0.75rem; color: var(--muted); line-height: 1.45; }</style>
+    <script data-block></script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

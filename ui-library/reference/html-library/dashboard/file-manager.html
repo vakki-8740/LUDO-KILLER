@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>File Manager · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Dashboard &amp; App</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>File Manager</h1>
+    <p>Folder rail, breadcrumb, file tiles and storage bar.</p>
+  </div>
+  <section class="vw-block" id="file-manager" aria-labelledby="file-manager-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="file-manager-t">Files</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="fl-frame">
+  <aside class="fl-side">
+    <p class="fl-sideT">Folders</p>
+    <button class="fl-folder is-on" type="button"><span class="fl-fi" aria-hidden="true"></span>Design</button>
+    <button class="fl-folder" type="button"><span class="fl-fi" aria-hidden="true"></span>Documents</button>
+    <button class="fl-folder" type="button"><span class="fl-fi" aria-hidden="true"></span>Media</button>
+    <button class="fl-folder" type="button"><span class="fl-fi" aria-hidden="true"></span>Archive</button>
+    <div class="fl-store"><span class="fl-storeT">Storage</span><span class="fl-track"><span class="fl-fill"></span></span><span class="fl-storeD">6.4 of 10 GB</span></div>
+  </aside>
+  <div class="fl-main">
+    <div class="fl-top">
+      <span class="fl-crumb">Files <span class="fl-sep">/</span> <strong>Design</strong></span>
+      <button class="fl-upload" type="button" id="flUpload">Upload</button>
+    </div>
+    <div class="fl-grid">
+      <button class="fl-tile" type="button"><span class="fl-ft is-fig">FIG</span><span class="fl-n">Brand kit</span><span class="fl-s">12.4 MB</span></button>
+      <button class="fl-tile" type="button"><span class="fl-ft is-img">PNG</span><span class="fl-n">Hero shots</span><span class="fl-s">8.1 MB</span></button>
+      <button class="fl-tile" type="button"><span class="fl-ft is-pdf">PDF</span><span class="fl-n">Guidelines</span><span class="fl-s">2.3 MB</span></button>
+      <button class="fl-tile" type="button"><span class="fl-ft is-zip">ZIP</span><span class="fl-n">Assets</span><span class="fl-s">44.0 MB</span></button>
+    </div>
+    <p class="fl-msg" id="flMsg" aria-live="polite"></p>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.fl-frame { display: grid; grid-template-columns: 120px 1fr; height: 290px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--card); }
+.fl-side { background: var(--bg); border-right: 1px solid var(--border); padding: 9px 7px; display: flex; flex-direction: column; gap: 2px; }
+.fl-sideT { margin: 0 0 4px; padding: 0 4px; font-size: 0.56rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.fl-folder { display: flex; align-items: center; gap: 5px; border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 0.66rem; font-weight: 600; text-align: left; padding: 5px 6px; border-radius: 4px; cursor: pointer; }
+.fl-folder:hover { color: var(--text); }
+.fl-folder.is-on { background: var(--accent-soft); color: var(--accent); }
+.fl-folder:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.fl-fi { width: 9px; height: 7px; border-radius: 1px; background: currentColor; opacity: 0.7; flex: 0 0 auto; }
+.fl-store { margin-top: auto; padding: 6px 4px 2px; }
+.fl-storeT { display: block; font-size: 0.56rem; font-weight: 700; color: var(--muted); margin-bottom: 3px; }
+.fl-track { display: block; height: 4px; border-radius: 999px; background: var(--border); overflow: hidden; margin-bottom: 3px; }
+.fl-fill { display: block; width: 64%; height: 100%; background: var(--accent); border-radius: 999px; }
+.fl-storeD { font-size: 0.54rem; color: var(--muted); }
+.fl-main { padding: 9px; overflow: auto; min-width: 0; }
+.fl-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.fl-crumb { font-size: 0.64rem; color: var(--muted); }
+.fl-sep { margin: 0 3px; }
+.fl-crumb strong { color: var(--text); }
+.fl-upload { border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.6rem; font-weight: 700; padding: 4px 8px; border-radius: 3px; cursor: pointer; }
+.fl-upload:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.fl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); gap: 6px; }
+.fl-tile { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; border: 1px solid var(--border); background: var(--bg); border-radius: 4px; padding: 7px; cursor: pointer; text-align: left; font: inherit; }
+.fl-tile:hover { border-color: var(--accent); }
+.fl-tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.fl-ft { width: 28px; height: 22px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 0.46rem; font-weight: 800; margin-bottom: 2px; }
+.fl-ft.is-fig { background: rgba(139, 92, 246, 0.16); color: #8b5cf6; }
+.fl-ft.is-img { background: rgba(14, 165, 233, 0.14); color: #0ea5e9; }
+.fl-ft.is-pdf { background: rgba(229, 72, 77, 0.12); color: var(--no); }
+.fl-ft.is-zip { background: rgba(194, 116, 10, 0.14); color: var(--warn); }
+.fl-n { font-size: 0.64rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.fl-s { font-size: 0.56rem; color: var(--muted); }
+.fl-msg { min-height: 1em; margin: 6px 0 0; font-size: 0.6rem; color: var(--muted); }
+@media (max-width: 480px) { .fl-frame { grid-template-columns: 44px 1fr; } .fl-folder { font-size: 0; justify-content: center; } .fl-sideT, .fl-store { display: none; } }</style>
+    <script data-block>(function () {
+  var folders = Array.prototype.slice.call(document.querySelectorAll(".fl-folder"));
+  var msg = document.getElementById("flMsg");
+  var crumb = document.querySelector(".fl-crumb strong");
+  folders.forEach(function (f) {
+    f.addEventListener("click", function () {
+      folders.forEach(function (x) { x.classList.remove("is-on"); });
+      f.classList.add("is-on");
+      var name = f.textContent.trim();
+      crumb.textContent = name;
+      msg.textContent = "Opened " + name + " (demo).";
+    });
+  });
+  document.getElementById("flUpload").addEventListener("click", function () {
+    msg.textContent = "Upload dialog would open here.";
+  });
+  document.querySelectorAll(".fl-tile").forEach(function (t) {
+    t.addEventListener("click", function () {
+      msg.textContent = t.querySelector(".fl-n").textContent + " selected.";
+    });
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

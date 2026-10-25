@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Panel · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Dashboard &amp; App</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Admin Panel</h1>
+    <p>User administration rows with roles and actions.</p>
+  </div>
+  <section class="vw-block" id="admin-panel" aria-labelledby="admin-panel-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="admin-panel-t">Admin users</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="ad-card">
+  <div class="ad-head">
+    <div><p class="ad-t">Team members</p><p class="ad-s">Manage roles and access</p></div>
+    <button class="ad-invite" type="button" id="adInvite">Invite</button>
+  </div>
+  <div class="ad-scroll">
+    <table class="ad-table">
+      <thead><tr><th class="ad-th">Member</th><th class="ad-th">Role</th><th class="ad-th">Last active</th><th class="ad-th ad-actcol">Actions</th></tr></thead>
+      <tbody>
+        <tr class="ad-tr"><td class="ad-td"><div class="ad-user"><span class="ad-av a1">AK</span><div><p class="ad-n">Ayesha Khan</p><p class="ad-e">ayesha@own.dev</p></div></div></td><td class="ad-td"><span class="ad-role is-admin">Admin</span></td><td class="ad-td ad-mut">2 min ago</td><td class="ad-td ad-actcol"><button class="ad-manage" type="button">Manage</button></td></tr>
+        <tr class="ad-tr"><td class="ad-td"><div class="ad-user"><span class="ad-av a2">RS</span><div><p class="ad-n">Rohan Shah</p><p class="ad-e">rohan@own.dev</p></div></div></td><td class="ad-td"><span class="ad-role is-editor">Editor</span></td><td class="ad-td ad-mut">1 hour ago</td><td class="ad-td ad-actcol"><button class="ad-manage" type="button">Manage</button></td></tr>
+        <tr class="ad-tr"><td class="ad-td"><div class="ad-user"><span class="ad-av a3">MP</span><div><p class="ad-n">Mira Patel</p><p class="ad-e">mira@own.dev</p></div></div></td><td class="ad-td"><span class="ad-role is-viewer">Viewer</span></td><td class="ad-td ad-mut">Yesterday</td><td class="ad-td ad-actcol"><button class="ad-manage" type="button">Manage</button></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="ad-msg" id="adMsg" aria-live="polite"></p>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.ad-card { max-width: 430px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 12px; }
+.ad-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.ad-t { margin: 0; font-size: 0.8rem; font-weight: 700; }
+.ad-s { margin: 1px 0 0; font-size: 0.62rem; color: var(--muted); }
+.ad-invite { border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.68rem; font-weight: 700; padding: 5px 11px; border-radius: 4px; cursor: pointer; }
+.ad-invite:hover { opacity: 0.92; }
+.ad-invite:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ad-scroll { overflow-x: auto; }
+.ad-table { width: 100%; border-collapse: collapse; min-width: 390px; }
+.ad-th { text-align: left; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); padding: 6px 5px; border-bottom: 1px solid var(--border); }
+.ad-td { padding: 7px 5px; border-bottom: 1px solid var(--border); font-size: 0.7rem; }
+.ad-actcol { text-align: right; }
+.ad-user { display: flex; align-items: center; gap: 6px; }
+.ad-av { width: 24px; height: 24px; border-radius: 999px; color: #fff; font-size: 0.52rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.a1 { background: linear-gradient(135deg, #4f6bed, #8b5cf6); }
+.a2 { background: linear-gradient(135deg, #22a06b, #0ea5e9); }
+.a3 { background: linear-gradient(135deg, #e5484d, #f0b543); }
+.ad-n { margin: 0; font-size: 0.7rem; font-weight: 600; }
+.ad-e { margin: 0; font-size: 0.58rem; color: var(--muted); }
+.ad-role { font-size: 0.56rem; font-weight: 700; padding: 2px 6px; border-radius: 999px; }
+.ad-role.is-admin { background: var(--accent-soft); color: var(--accent); }
+.ad-role.is-editor { background: rgba(34, 160, 107, 0.12); color: var(--yes); }
+.ad-role.is-viewer { background: var(--bg); color: var(--muted); }
+.ad-mut { color: var(--muted); font-size: 0.64rem; white-space: nowrap; }
+.ad-manage { border: 1px solid var(--border); background: transparent; color: var(--muted); font: inherit; font-size: 0.58rem; font-weight: 600; padding: 3px 7px; border-radius: 4px; cursor: pointer; }
+.ad-manage:hover { border-color: var(--accent); color: var(--accent); }
+.ad-manage:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ad-msg { min-height: 1em; margin: 6px 0 0; font-size: 0.64rem; color: var(--muted); }</style>
+    <script data-block>(function () {
+  var msg = document.getElementById("adMsg");
+  document.getElementById("adInvite").addEventListener("click", function () {
+    msg.textContent = "Invite link copied (demo).";
+  });
+  document.querySelectorAll(".ad-manage").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var name = b.closest(".ad-tr").querySelector(".ad-n").textContent;
+      msg.textContent = "Managing " + name + " (demo).";
+    });
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

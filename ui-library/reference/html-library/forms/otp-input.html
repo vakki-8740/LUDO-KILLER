@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OTP Input · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Forms &amp; Inputs</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>OTP Input</h1>
+    <p>Six-box one-time code with auto-advance and paste.</p>
+  </div>
+  <section class="vw-block" id="otp-input" aria-labelledby="otp-input-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="otp-input-t">One-time code</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="ot-card">
+  <p class="ot-title">Enter verification code</p>
+  <p class="ot-sub">We sent a 6-digit code to +91 98765 43210.</p>
+  <div class="ot-row" id="otRow" role="group" aria-label="Verification code">
+    <input class="ot-cell" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 1" autocomplete="one-time-code">
+    <input class="ot-cell" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+    <input class="ot-cell" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+    <input class="ot-cell" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4">
+    <input class="ot-cell" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5">
+    <input class="ot-cell" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+  </div>
+  <p class="ot-msg" id="otMsg" role="status"></p>
+  <button class="ot-btn" type="button" id="otVerify">Verify code</button>
+  <button class="ot-resend" type="button" id="otResend">Resend code (30s)</button>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.ot-card { max-width: 380px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 20px; }
+.ot-title { margin: 0 0 3px; font-size: 0.95rem; font-weight: 700; }
+.ot-sub { margin: 0 0 16px; font-size: 0.78rem; color: var(--muted); }
+.ot-row { display: flex; gap: 7px; margin-bottom: 10px; }
+.ot-cell { width: 100%; min-width: 0; aspect-ratio: 1; text-align: center; font: inherit; font-size: 1.05rem; font-weight: 700; color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+.ot-cell:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.ot-cell.is-full { border-color: var(--accent); }
+.ot-msg { min-height: 1.1em; margin: 0 0 8px; font-size: 0.74rem; color: var(--no); }
+.ot-msg.is-ok { color: var(--yes); }
+.ot-btn { width: 100%; border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.84rem; font-weight: 600; padding: 10px; border-radius: var(--radius); cursor: pointer; }
+.ot-btn:hover { opacity: 0.92; }
+.ot-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ot-resend { display: block; margin: 10px auto 0; border: 0; background: transparent; color: var(--accent); font: inherit; font-size: 0.75rem; font-weight: 600; cursor: pointer; }
+.ot-resend[disabled] { color: var(--muted); cursor: default; }
+.ot-resend:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }</style>
+    <script data-block>(function () {
+  var cells = Array.prototype.slice.call(document.querySelectorAll(".ot-cell"));
+  var msg = document.getElementById("otMsg");
+  var resend = document.getElementById("otResend");
+  var left = 30;
+  var timer;
+
+  function value() { return cells.map(function (c) { return c.value; }).join(""); }
+  function sync() {
+    cells.forEach(function (c) { c.classList.toggle("is-full", !!c.value); });
+  }
+
+  cells.forEach(function (cell, i) {
+    cell.addEventListener("input", function () {
+      cell.value = cell.value.replace(/[^0-9]/g, "").slice(0, 1);
+      sync();
+      if (cell.value && i < cells.length - 1) cells[i + 1].focus();
+    });
+    cell.addEventListener("keydown", function (e) {
+      if (e.key === "Backspace" && !cell.value && i > 0) {
+        cells[i - 1].value = "";
+        cells[i - 1].focus();
+        sync();
+      }
+      if (e.key === "ArrowLeft" && i > 0) { e.preventDefault(); cells[i - 1].focus(); }
+      if (e.key === "ArrowRight" && i < cells.length - 1) { e.preventDefault(); cells[i + 1].focus(); }
+    });
+    cell.addEventListener("paste", function (e) {
+      var text = (e.clipboardData || window.clipboardData).getData("text").replace(/[^0-9]/g, "").slice(0, 6);
+      if (!text) return;
+      e.preventDefault();
+      text.split("").forEach(function (ch, k) { if (cells[k]) cells[k].value = ch; });
+      sync();
+      cells[Math.min(text.length, cells.length - 1)].focus();
+    });
+  });
+
+  document.getElementById("otVerify").addEventListener("click", function () {
+    var v = value();
+    if (v.length < 6) {
+      msg.textContent = "Please enter all 6 digits.";
+      msg.classList.remove("is-ok");
+      return;
+    }
+    if (v === "123456") {
+      msg.textContent = "Code verified. Redirecting...";
+      msg.classList.add("is-ok");
+    } else {
+      msg.textContent = "Incorrect code. Demo code is 123456.";
+      msg.classList.remove("is-ok");
+    }
+  });
+
+  function tick() {
+    left -= 1;
+    if (left <= 0) {
+      clearInterval(timer);
+      resend.disabled = false;
+      resend.textContent = "Resend code";
+    } else {
+      resend.textContent = "Resend code (" + left + "s)";
+    }
+  }
+
+  resend.disabled = true;
+  timer = setInterval(tick, 1000);
+  resend.addEventListener("click", function () {
+    if (resend.disabled) return;
+    left = 30;
+    resend.disabled = true;
+    resend.textContent = "Resend code (30s)";
+    timer = setInterval(tick, 1000);
+    msg.textContent = "A new code was sent.";
+    msg.classList.add("is-ok");
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

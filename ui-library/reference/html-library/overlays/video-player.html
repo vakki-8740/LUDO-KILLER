@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Video Player · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Overlays</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Video Player</h1>
+    <p>Custom player chrome with progress and mute toggle.</p>
+  </div>
+  <section class="vw-block" id="video-player" aria-labelledby="video-player-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="video-player-t">Player controls</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="vp-wrap">
+  <div class="vp-stage" id="vpStage">
+    <span class="vp-art" aria-hidden="true"></span>
+    <button class="vp-big" type="button" id="vpBig" aria-label="Play video">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+    </button>
+    <div class="vp-controls">
+      <button class="vp-play" type="button" id="vpPlay" aria-label="Play">
+        <svg id="vpIcon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <span class="vp-time" id="vpTime">0:00 / 2:34</span>
+      <div class="vp-track" id="vpTrack" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="154" aria-valuenow="0">
+        <span class="vp-fill" id="vpFill"></span>
+      </div>
+      <button class="vp-mute" type="button" id="vpMute" aria-label="Mute">
+        <svg id="vpMuteIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M19 6a8 8 0 0 1 0 12"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.vp-wrap { max-width: 380px; }
+.vp-stage { position: relative; height: 210px; border-radius: var(--radius); overflow: hidden; background: #12141a; }
+.vp-art { position: absolute; inset: 0; background: radial-gradient(circle at 75% 20%, rgba(139, 92, 246, 0.6), transparent 42%), radial-gradient(circle at 22% 78%, rgba(14, 165, 233, 0.45), transparent 40%), linear-gradient(140deg, #1a1f33, #2a2350); }
+.vp-big { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 48px; height: 48px; border-radius: 999px; border: 0; background: rgba(255, 255, 255, 0.92); color: #1f2430; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: opacity 0.2s; }
+.vp-big svg { width: 22px; height: 22px; margin-left: 2px; }
+.vp-big:hover { background: #fff; }
+.vp-big:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.vp-stage.is-playing .vp-big { opacity: 0; pointer-events: none; }
+.vp-controls { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.68)); }
+.vp-play, .vp-mute { border: 0; background: transparent; color: #fff; padding: 2px; cursor: pointer; display: flex; }
+.vp-play svg, .vp-mute svg { width: 17px; height: 17px; }
+.vp-play:focus-visible, .vp-mute:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.vp-time { font-size: 0.64rem; color: rgba(255, 255, 255, 0.85); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.vp-track { flex: 1; height: 4px; border-radius: 999px; background: rgba(255, 255, 255, 0.25); cursor: pointer; min-width: 40px; }
+.vp-track:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.vp-fill { display: block; height: 100%; width: 0; border-radius: 999px; background: var(--accent); }
+.vp-wrap.is-muted .vp-mute { color: var(--warn); }</style>
+    <script data-block>(function () {
+  var stage = document.getElementById("vpStage");
+  var play = document.getElementById("vpPlay");
+  var big = document.getElementById("vpBig");
+  var icon = document.getElementById("vpIcon");
+  var fill = document.getElementById("vpFill");
+  var time = document.getElementById("vpTime");
+  var track = document.getElementById("vpTrack");
+  var total = 154;
+  var pos = 0;
+  var timer = null;
+
+  function fmt(s) {
+    var m = Math.floor(s / 60);
+    var r = Math.floor(s % 60);
+    return m + ":" + (r < 10 ? "0" : "") + r;
+  }
+
+  function paint() {
+    fill.style.width = (pos / total) * 100 + "%";
+    time.textContent = fmt(pos) + " / " + fmt(total);
+    track.setAttribute("aria-valuenow", String(Math.round(pos)));
+  }
+
+  function setPlaying(on) {
+    stage.classList.toggle("is-playing", on);
+    play.setAttribute("aria-label", on ? "Pause" : "Play");
+    icon.innerHTML = on
+      ? '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>'
+      : '<path d="M8 5v14l11-7z"/>';
+    if (on) {
+      if (pos >= total) pos = 0;
+      timer = setInterval(function () {
+        pos = Math.min(total, pos + 1);
+        paint();
+        if (pos >= total) { clearInterval(timer); timer = null; setPlaying(false); }
+      }, 400);
+    } else if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  play.addEventListener("click", function () { setPlaying(!timer); });
+  big.addEventListener("click", function () { setPlaying(true); });
+
+  function seek(x) {
+    var r = track.getBoundingClientRect();
+    if (!r.width) return;
+    pos = Math.max(0, Math.min(total, ((x - r.left) / r.width) * total));
+    paint();
+  }
+
+  track.addEventListener("click", function (e) { seek(e.clientX); });
+  track.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight") { e.preventDefault(); pos = Math.min(total, pos + 5); paint(); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); pos = Math.max(0, pos - 5); paint(); }
+  });
+
+  document.getElementById("vpMute").addEventListener("click", function () {
+    var muted = this.parentNode.parentNode.parentNode.classList.toggle("is-muted");
+    this.setAttribute("aria-label", muted ? "Unmute" : "Mute");
+    document.getElementById("vpMuteIcon").innerHTML = muted
+      ? '<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M22 9l-6 6M16 9l6 6"/>'
+      : '<path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M19 6a8 8 0 0 1 0 12"/>';
+  });
+
+  stage.classList.add("vp-wrap");
+  paint();
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

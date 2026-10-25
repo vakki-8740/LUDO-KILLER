@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Offline Indicator · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Feedback</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Offline Indicator</h1>
+    <p>Connection banner that reacts to real online/offline events.</p>
+  </div>
+  <section class="vw-block" id="offline-indicator" aria-labelledby="offline-indicator-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="offline-indicator-t">Connection banner</h2>
+      <span class="vw-note">Simulate buttons se banner test karein. Wapas online hote hi auto-hide.</span>
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="of-demo">
+  <div class="of-banner" id="ofBanner" role="status" aria-live="polite" hidden>
+    <span class="of-dot" aria-hidden="true"></span>
+    <span class="of-txt" id="ofTxt">You are offline. Changes will sync when you reconnect.</span>
+    <button class="of-retry" type="button" id="ofRetry">Retry</button>
+  </div>
+  <div class="of-body">
+    <p class="of-state">Status: <strong id="ofState">Online</strong></p>
+    <div class="of-actions">
+      <button class="of-sim" type="button" id="ofOff">Simulate offline</button>
+      <button class="of-sim of-on" type="button" id="ofOn">Simulate online</button>
+    </div>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.of-demo { border: 1px dashed var(--border); border-radius: var(--radius); padding: 14px; min-height: 180px; }
+.of-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: rgba(194, 116, 10, 0.12);
+  border: 1px solid rgba(194, 116, 10, 0.4);
+  color: var(--warn);
+  border-radius: var(--radius);
+  padding: 9px 12px;
+  margin-bottom: 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.of-dot { width: 8px; height: 8px; border-radius: 999px; background: currentColor; flex: 0 0 auto; animation: ofPulse 1.4s ease-in-out infinite; }
+.of-txt { flex: 1; min-width: 150px; }
+.of-retry { border: 1px solid currentColor; background: transparent; color: inherit; font: inherit; font-size: 0.74rem; font-weight: 700; padding: 4px 9px; border-radius: 3px; cursor: pointer; }
+.of-retry:hover { background: rgba(194, 116, 10, 0.12); }
+.of-retry:focus-visible { outline: 2px solid var(--warn); outline-offset: 2px; }
+.of-state { margin: 0 0 10px; font-size: 0.85rem; }
+.of-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.of-sim { border: 1px solid var(--border); background: var(--card); color: var(--text); font: inherit; font-size: 0.78rem; font-weight: 600; padding: 7px 12px; border-radius: var(--radius); cursor: pointer; }
+.of-sim:hover { border-color: var(--accent); color: var(--accent); }
+.of-sim:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.of-on { border-color: rgba(34, 160, 107, 0.4); color: var(--yes); }
+@keyframes ofPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) { .of-dot { animation: none; } }</style>
+    <script data-block>(function () {
+  var banner = document.getElementById("ofBanner");
+  var txt = document.getElementById("ofTxt");
+  var state = document.getElementById("ofState");
+  var online = true;
+
+  function render() {
+    banner.hidden = online;
+    state.textContent = online ? "Online" : "Offline";
+    state.style.color = online ? "var(--yes)" : "var(--no)";
+    if (!online) txt.textContent = "You are offline. Changes will sync when you reconnect.";
+  }
+
+  document.getElementById("ofOff").addEventListener("click", function () { online = false; render(); });
+  document.getElementById("ofOn").addEventListener("click", function () { online = true; render(); });
+  document.getElementById("ofRetry").addEventListener("click", function () {
+    txt.textContent = "Reconnecting...";
+    setTimeout(function () { online = true; render(); }, 900);
+  });
+
+  window.addEventListener("online", function () { online = true; render(); });
+  window.addEventListener("offline", function () { online = false; render(); });
+  render();
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

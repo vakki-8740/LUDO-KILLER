@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lightbox · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Data Display</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Lightbox</h1>
+    <p>Thumbnail grid that opens a full-size viewer.</p>
+  </div>
+  <section class="vw-block" id="lightbox" aria-labelledby="lightbox-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="lightbox-t">Gallery viewer</h2>
+      <span class="vw-note">Thumbnail par click karein — overlay khulega, Escape se band hoga.</span>
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="lb-wrap">
+  <div class="lb-grid">
+    <button class="lb-thumb lb-a" type="button" data-label="Aurora over the ridge" aria-label="Open Aurora over the ridge"></button>
+    <button class="lb-thumb lb-b" type="button" data-label="Warm studio corner" aria-label="Open Warm studio corner"></button>
+    <button class="lb-thumb lb-c" type="button" data-label="Tide at blue hour" aria-label="Open Tide at blue hour"></button>
+  </div>
+  <div class="lb-overlay" id="lbOverlay" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
+    <div class="lb-stage" id="lbStage">
+      <button class="lb-close" type="button" id="lbClose" aria-label="Close viewer">&times;</button>
+      <p class="lb-caption" id="lbCaption"></p>
+    </div>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.lb-wrap { position: relative; border: 1px dashed var(--border); border-radius: var(--radius); padding: 12px; }
+.lb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.lb-thumb { height: 80px; border: 0; border-radius: var(--radius); cursor: pointer; padding: 0; position: relative; }
+.lb-thumb::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18); }
+.lb-thumb:hover { transform: scale(1.02); }
+.lb-thumb:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lb-a { background: linear-gradient(140deg, #22305e, #4f6bed 55%, #8b5cf6); }
+.lb-b { background: linear-gradient(140deg, #6b3d10, #c2740a 60%, #f5d0a9); }
+.lb-c { background: linear-gradient(140deg, #0b4f3c, #22a06b 55%, #9be7d8); }
+.lb-overlay { position: absolute; inset: 0; background: rgba(10, 12, 18, 0.72); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; padding: 12px; z-index: 10; }
+.lb-stage { position: relative; width: 100%; height: 190px; border-radius: var(--radius); overflow: hidden; transition: background 0.2s; }
+.lb-close { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 999px; border: 0; background: rgba(0, 0, 0, 0.4); color: #fff; font-size: 1.1rem; cursor: pointer; line-height: 1; }
+.lb-close:hover { background: rgba(0, 0, 0, 0.6); }
+.lb-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.lb-caption { position: absolute; left: 0; right: 0; bottom: 0; margin: 0; padding: 22px 12px 10px; color: #fff; font-size: 0.78rem; font-weight: 600; background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.55)); }</style>
+    <script data-block>(function () {
+  var overlay = document.getElementById("lbOverlay");
+  var stage = document.getElementById("lbStage");
+  var caption = document.getElementById("lbCaption");
+  var close = document.getElementById("lbClose");
+  var last = null;
+
+  function open(bg, label, trigger) {
+    stage.style.background = bg;
+    caption.textContent = label;
+    overlay.hidden = false;
+    last = trigger;
+    close.focus();
+  }
+
+  function hide() {
+    overlay.hidden = true;
+    if (last) last.focus();
+  }
+
+  document.querySelectorAll(".lb-thumb").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var bg = window.getComputedStyle(b).backgroundImage;
+      open(bg, b.getAttribute("data-label"), b);
+    });
+  });
+
+  close.addEventListener("click", hide);
+  overlay.addEventListener("click", function (e) { if (e.target === overlay) hide(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !overlay.hidden) hide();
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

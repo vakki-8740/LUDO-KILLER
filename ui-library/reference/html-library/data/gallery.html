@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Image Gallery · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Data Display</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Image Gallery</h1>
+    <p>Responsive masonry-style grid with hover captions.</p>
+  </div>
+  <section class="vw-block" id="gallery" aria-labelledby="gallery-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="gallery-t">Photo grid</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="gl-grid">
+  <figure class="gl-item gl-tall gl-g1">
+    <figcaption class="gl-cap"><span class="gl-t">Mountain trail</span><span class="gl-s">Landscape</span></figcaption>
+  </figure>
+  <figure class="gl-item gl-g2">
+    <figcaption class="gl-cap"><span class="gl-t">Studio light</span><span class="gl-s">Interior</span></figcaption>
+  </figure>
+  <figure class="gl-item gl-g3">
+    <figcaption class="gl-cap"><span class="gl-t">Coastline</span><span class="gl-s">Travel</span></figcaption>
+  </figure>
+  <figure class="gl-item gl-wide gl-g4">
+    <figcaption class="gl-cap"><span class="gl-t">Night market</span><span class="gl-s">Street</span></figcaption>
+  </figure>
+  <figure class="gl-item gl-g5">
+    <figcaption class="gl-cap"><span class="gl-t">Desert dunes</span><span class="gl-s">Nature</span></figcaption>
+  </figure>
+  <figure class="gl-item gl-g6">
+    <figcaption class="gl-cap"><span class="gl-t">City lines</span><span class="gl-s">Architecture</span></figcaption>
+  </figure>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.gl-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 92px; gap: 8px; }
+.gl-item { position: relative; margin: 0; border-radius: var(--radius); overflow: hidden; display: flex; align-items: flex-end; }
+.gl-item::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(10, 12, 18, 0.72)); opacity: 0.75; transition: opacity 0.2s; }
+.gl-item:hover::after { opacity: 1; }
+.gl-tall { grid-row: span 2; }
+.gl-wide { grid-column: span 2; }
+.gl-g1 { background: linear-gradient(150deg, #7c9cff, #4f6bed 55%, #24306b); }
+.gl-g2 { background: linear-gradient(160deg, #f5d0a9, #c2740a 60%, #6b3d10); }
+.gl-g3 { background: linear-gradient(150deg, #9be7d8, #22a06b 60%, #0b4f3c); }
+.gl-g4 { background: linear-gradient(150deg, #f3a6b6, #8b5cf6 60%, #3b1d6b); }
+.gl-g5 { background: linear-gradient(150deg, #f7e2a1, #e5484d 65%, #6b1a1d); }
+.gl-g6 { background: linear-gradient(150deg, #b9c4d8, #5d6b85 60%, #232a3a); }
+.gl-cap { position: relative; z-index: 2; padding: 9px; display: flex; flex-direction: column; opacity: 0; transform: translateY(6px); transition: opacity 0.2s, transform 0.2s; }
+.gl-item:hover .gl-cap, .gl-item:focus-within .gl-cap { opacity: 1; transform: translateY(0); }
+.gl-t { font-size: 0.74rem; font-weight: 700; color: #fff; }
+.gl-s { font-size: 0.62rem; color: rgba(255, 255, 255, 0.72); }</style>
+    <script data-block></script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

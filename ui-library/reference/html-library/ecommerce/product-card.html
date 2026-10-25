@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Product Card · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">E-commerce</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Product Card</h1>
+    <p>Product tile with badge, rating and add action.</p>
+  </div>
+  <section class="vw-block" id="product-card" aria-labelledby="product-card-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="product-card-t">Product cards</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="pc-grid">
+  <article class="pc-card">
+    <div class="pc-art pc-a"><span class="pc-badge">-20%</span><button class="pc-heart" type="button" aria-label="Save Ceramic mug" aria-pressed="false">&#9825;</button></div>
+    <div class="pc-body">
+      <p class="pc-cat">Home</p>
+      <p class="pc-name">Ceramic mug</p>
+      <p class="pc-rate"><span class="pc-star">&#9733;</span> 4.8 <span class="pc-rev">(124)</span></p>
+      <div class="pc-buy"><span class="pc-price">$18.00</span><span class="pc-old">$22.50</span><button class="pc-add" type="button">Add</button></div>
+    </div>
+  </article>
+  <article class="pc-card">
+    <div class="pc-art pc-b"><span class="pc-badge is-new">New</span><button class="pc-heart" type="button" aria-label="Save Canvas tote" aria-pressed="false">&#9825;</button></div>
+    <div class="pc-body">
+      <p class="pc-cat">Bags</p>
+      <p class="pc-name">Canvas tote</p>
+      <p class="pc-rate"><span class="pc-star">&#9733;</span> 4.6 <span class="pc-rev">(89)</span></p>
+      <div class="pc-buy"><span class="pc-price">$26.00</span><button class="pc-add" type="button">Add</button></div>
+    </div>
+  </article>
+</div>
+<p class="pc-msg" id="pcMsg" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+    <style data-block>.pc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; max-width: 380px; }
+.pc-card { border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); overflow: hidden; }
+.pc-art { position: relative; height: 110px; display: flex; align-items: center; justify-content: center; }
+.pc-a { background: linear-gradient(140deg, #e8d5c4, #c98b5e 65%, #6b3d10); }
+.pc-b { background: linear-gradient(140deg, #d6e4d2, #6aa87a 65%, #23503a); }
+.pc-badge { position: absolute; top: 7px; left: 7px; font-size: 0.56rem; font-weight: 800; color: #fff; background: var(--no); border-radius: 999px; padding: 2px 7px; }
+.pc-badge.is-new { background: var(--yes); }
+.pc-heart { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; border-radius: 999px; border: 0; background: rgba(255, 255, 255, 0.88); color: #6b7280; font-size: 0.8rem; cursor: pointer; line-height: 1; }
+.pc-heart.is-on { color: var(--no); }
+.pc-heart:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pc-body { padding: 8px; }
+.pc-cat { margin: 0; font-size: 0.54rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.pc-name { margin: 1px 0 2px; font-size: 0.76rem; font-weight: 700; }
+.pc-rate { margin: 0; font-size: 0.6rem; color: var(--muted); }
+.pc-star { color: #f0b543; }
+.pc-rev { color: var(--muted); }
+.pc-buy { display: flex; align-items: center; gap: 5px; margin-top: 6px; }
+.pc-price { font-size: 0.8rem; font-weight: 800; }
+.pc-old { font-size: 0.6rem; color: var(--muted); text-decoration: line-through; }
+.pc-add { margin-left: auto; border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.6rem; font-weight: 700; padding: 4px 9px; border-radius: 999px; cursor: pointer; }
+.pc-add:hover { opacity: 0.92; }
+.pc-add:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pc-msg { min-height: 1em; margin: 7px 0 0; font-size: 0.66rem; color: var(--yes); }</style>
+    <script data-block>(function () {
+  var msg = document.getElementById("pcMsg");
+  document.querySelectorAll(".pc-add").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var card = b.closest(".pc-card");
+      msg.textContent = card.querySelector(".pc-name").textContent + " added to cart.";
+    });
+  });
+  document.querySelectorAll(".pc-heart").forEach(function (h) {
+    h.addEventListener("click", function () {
+      var on = h.classList.toggle("is-on");
+      h.setAttribute("aria-pressed", String(on));
+      h.innerHTML = on ? "&#9829;" : "&#9825;";
+    });
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

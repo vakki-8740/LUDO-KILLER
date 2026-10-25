@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Color Picker · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Forms &amp; Inputs</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Color Picker</h1>
+    <p>Swatch palette with native picker and hex value.</p>
+  </div>
+  <section class="vw-block" id="color-picker" aria-labelledby="color-picker-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="color-picker-t">Pick a color</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="cl-card">
+  <div class="cl-top">
+    <span class="cl-swatch is-on" id="clSwatch"></span>
+    <div>
+      <p class="cl-name" id="clName">Indigo</p>
+      <p class="cl-hex" id="clHex">#4F6BED</p>
+    </div>
+  </div>
+  <div class="cl-row" id="clRow">
+    <button class="cl-dot" type="button" data-color="#4f6bed" data-name="Indigo" aria-label="Indigo" style="background: #4f6bed;"></button>
+    <button class="cl-dot" type="button" data-color="#8b5cf6" data-name="Violet" aria-label="Violet" style="background: #8b5cf6;"></button>
+    <button class="cl-dot" type="button" data-color="#22a06b" data-name="Green" aria-label="Green" style="background: #22a06b;"></button>
+    <button class="cl-dot" type="button" data-color="#e5484d" data-name="Red" aria-label="Red" style="background: #e5484d;"></button>
+    <button class="cl-dot" type="button" data-color="#f0b543" data-name="Amber" aria-label="Amber" style="background: #f0b543;"></button>
+    <label class="cl-custom" aria-label="Custom color">
+      <input class="cl-input" id="clInput" type="color" value="#4f6bed">
+    </label>
+  </div>
+  <label class="cl-lbl" for="clText">Hex value</label>
+  <input class="cl-text" id="clText" type="text" value="#4F6BED" maxlength="7" spellcheck="false">
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.cl-card { max-width: 300px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 14px; }
+.cl-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.cl-swatch { width: 40px; height: 40px; border-radius: var(--radius); background: #4f6bed; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12); }
+.cl-name { margin: 0; font-size: 0.84rem; font-weight: 700; }
+.cl-hex { margin: 1px 0 0; font-size: 0.74rem; color: var(--muted); font-family: ui-monospace, Menlo, Consolas, monospace; }
+.cl-row { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; margin-bottom: 12px; }
+.cl-dot { width: 24px; height: 24px; border-radius: 999px; border: 2px solid var(--card); box-shadow: 0 0 0 1px var(--border); cursor: pointer; padding: 0; }
+.cl-dot.is-on { box-shadow: 0 0 0 2px var(--accent); }
+.cl-dot:hover { transform: scale(1.1); }
+.cl-dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cl-custom { width: 26px; height: 26px; border-radius: 999px; border: 1px dashed var(--muted); overflow: hidden; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.cl-input { width: 34px; height: 34px; border: 0; background: transparent; padding: 0; cursor: pointer; }
+.cl-lbl { display: block; margin-bottom: 4px; font-size: 0.72rem; font-weight: 600; color: var(--muted); }
+.cl-text { width: 100%; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font: inherit; font-size: 0.8rem; font-family: ui-monospace, Menlo, Consolas, monospace; padding: 8px 10px; outline: none; }
+.cl-text:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }</style>
+    <script data-block>(function () {
+  var swatch = document.getElementById("clSwatch");
+  var name = document.getElementById("clName");
+  var hex = document.getElementById("clHex");
+  var text = document.getElementById("clText");
+  var input = document.getElementById("clInput");
+  var dots = Array.prototype.slice.call(document.querySelectorAll(".cl-dot"));
+
+  function apply(color, label) {
+    swatch.style.background = color;
+    hex.textContent = color.toUpperCase();
+    text.value = color.toUpperCase();
+    input.value = color;
+    name.textContent = label || "Custom";
+    dots.forEach(function (d) { d.classList.toggle("is-on", d.getAttribute("data-color") === color.toLowerCase()); });
+  }
+
+  dots.forEach(function (d) {
+    d.addEventListener("click", function () { apply(d.getAttribute("data-color"), d.getAttribute("data-name")); });
+  });
+
+  input.addEventListener("input", function () { apply(input.value, "Custom"); });
+
+  text.addEventListener("change", function () {
+    var v = text.value.trim();
+    if (/^#[0-9a-fA-F]{6}$/.test(v)) apply(v.toLowerCase(), "Custom");
+    else text.value = hex.textContent;
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

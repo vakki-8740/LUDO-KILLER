@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OTP Verification · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Authentication</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>OTP Verification</h1>
+    <p>Four-digit code entry with verify feedback.</p>
+  </div>
+  <section class="vw-block" id="otp-verify" aria-labelledby="otp-verify-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="otp-verify-t">Verify your number</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="ov-card">
+  <h4 class="ov-t">Check your phone</h4>
+  <p class="ov-s">Enter the 4-digit code sent to +91 98765 43210.</p>
+  <div class="ov-row" id="ovRow" role="group" aria-label="Verification code">
+    <input class="ov-cell" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 1" autocomplete="one-time-code">
+    <input class="ov-cell" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+    <input class="ov-cell" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+    <input class="ov-cell" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4">
+  </div>
+  <button class="ov-submit" type="button" id="ovSubmit">Verify</button>
+  <p class="ov-msg" id="ovMsg" role="status"></p>
+  <div class="ov-foot">
+    <button class="ov-resend" type="button" id="ovResend">Resend code</button>
+    <button class="ov-help" type="button">Need help?</button>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.ov-card { max-width: 330px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 22px; text-align: center; }
+.ov-t { margin: 0 0 4px; font-size: 0.98rem; }
+.ov-s { margin: 0 0 14px; font-size: 0.76rem; color: var(--muted); line-height: 1.45; }
+.ov-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 12px; }
+.ov-cell { width: 44px; height: 48px; text-align: center; font: inherit; font-size: 1.1rem; font-weight: 700; color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); outline: none; }
+.ov-cell:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.ov-cell.is-full { border-color: var(--accent); }
+.ov-submit { width: 100%; border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.82rem; font-weight: 600; padding: 9px; border-radius: var(--radius); cursor: pointer; }
+.ov-submit:hover { opacity: 0.92; }
+.ov-submit:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ov-msg { min-height: 1em; margin: 8px 0 0; font-size: 0.73rem; color: var(--no); }
+.ov-msg.is-ok { color: var(--yes); }
+.ov-foot { display: flex; justify-content: space-between; gap: 8px; margin-top: 8px; }
+.ov-resend, .ov-help { border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 0.71rem; font-weight: 600; cursor: pointer; padding: 2px; border-radius: 3px; }
+.ov-resend:hover, .ov-help:hover { color: var(--accent); }
+.ov-resend:focus-visible, .ov-help:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }</style>
+    <script data-block>(function () {
+  var cells = Array.prototype.slice.call(document.querySelectorAll(".ov-cell"));
+  var msg = document.getElementById("ovMsg");
+
+  cells.forEach(function (c, i) {
+    c.addEventListener("input", function () {
+      c.value = c.value.replace(/[^0-9]/g, "").slice(0, 1);
+      c.classList.toggle("is-full", !!c.value);
+      if (c.value && i < cells.length - 1) cells[i + 1].focus();
+    });
+    c.addEventListener("keydown", function (e) {
+      if (e.key === "Backspace" && !c.value && i > 0) {
+        cells[i - 1].value = "";
+        cells[i - 1].focus();
+        cells[i - 1].classList.remove("is-full");
+      }
+    });
+  });
+
+  document.getElementById("ovSubmit").addEventListener("click", function () {
+    var v = cells.map(function (c) { return c.value; }).join("");
+    if (v.length < 4) { msg.textContent = "Enter all 4 digits."; msg.classList.remove("is-ok"); return; }
+    if (v === "1234") { msg.textContent = "Verified. Welcome back!"; msg.classList.add("is-ok"); }
+    else { msg.textContent = "Wrong code. Demo code is 1234."; msg.classList.remove("is-ok"); }
+  });
+
+  document.getElementById("ovResend").addEventListener("click", function () {
+    msg.textContent = "A new code was sent.";
+    msg.classList.add("is-ok");
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

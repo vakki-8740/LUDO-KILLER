@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Split Button · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Buttons &amp; Actions</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Split Button</h1>
+    <p>Primary action with an attached dropdown menu.</p>
+  </div>
+  <section class="vw-block" id="split-button" aria-labelledby="split-button-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="split-button-t">Split button</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="sp-wrap">
+  <div class="sp-group">
+    <button class="sp-main" type="button">Publish</button>
+    <button class="sp-arrow" type="button" id="spToggle" aria-expanded="false" aria-haspopup="menu" aria-controls="spMenu" aria-label="More publish options">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="sp-menu" id="spMenu" role="menu" aria-labelledby="spToggle" hidden>
+      <button class="sp-item" type="button" role="menuitem">Publish and copy link</button>
+      <button class="sp-item" type="button" role="menuitem">Schedule for later</button>
+      <button class="sp-item" type="button" role="menuitem">Save as draft</button>
+      <button class="sp-item sp-danger" type="button" role="menuitem">Discard changes</button>
+    </div>
+  </div>
+  <div class="sp-group sp-outline">
+    <button class="sp-main" type="button">Preview</button>
+    <button class="sp-arrow" type="button" aria-label="Preview options">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </div>
+  <p class="sp-msg" id="spMsg" aria-live="polite"></p>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.sp-wrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.sp-group { position: relative; display: inline-flex; }
+.sp-main {
+  border: 1px solid var(--accent);
+  border-right: 0;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  padding: 9px 16px;
+  border-radius: var(--radius) 0 0 var(--radius);
+  cursor: pointer;
+}
+.sp-arrow {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  padding: 0 9px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.sp-arrow svg { width: 15px; height: 15px; }
+.sp-main:hover, .sp-arrow:hover { opacity: 0.92; }
+.sp-main:focus-visible, .sp-arrow:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sp-outline .sp-main { background: var(--card); border-color: var(--border); color: var(--text); }
+.sp-outline .sp-arrow { background: var(--card); border-color: var(--border); color: var(--text); }
+.sp-outline .sp-main:hover, .sp-outline .sp-arrow:hover { border-color: var(--accent); color: var(--accent); opacity: 1; }
+.sp-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 210px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 5px;
+  z-index: 20;
+}
+.sp-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.82rem;
+  padding: 8px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.sp-item:hover, .sp-item:focus-visible { background: var(--bg); outline: none; }
+.sp-danger { color: var(--no); }
+.sp-msg { width: 100%; margin: 6px 0 0; font-size: 0.78rem; color: var(--yes); min-height: 1.1em; }</style>
+    <script data-block>(function () {
+  var toggle = document.getElementById("spToggle");
+  var menu = document.getElementById("spMenu");
+  var msg = document.getElementById("spMsg");
+
+  function set(open) {
+    menu.hidden = !open;
+    toggle.setAttribute("aria-expanded", String(open));
+  }
+
+  toggle.addEventListener("click", function (e) {
+    e.stopPropagation();
+    set(menu.hidden);
+  });
+
+  menu.querySelectorAll(".sp-item").forEach(function (item) {
+    item.addEventListener("click", function () {
+      msg.textContent = item.textContent + " selected.";
+      set(false);
+      toggle.focus();
+    });
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!menu.hidden && !menu.contains(e.target) && e.target !== toggle) set(false);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !menu.hidden) { set(false); toggle.focus(); }
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

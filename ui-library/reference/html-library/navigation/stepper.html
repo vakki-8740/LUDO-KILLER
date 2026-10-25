@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stepper / Progress Steps · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Navigation &amp; Layout</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Stepper / Progress Steps</h1>
+    <p>Horizontal and vertical step indicators with working controls.</p>
+  </div>
+  <section class="vw-block" id="stepper-horizontal" aria-labelledby="stepper-horizontal-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="stepper-horizontal-t">Horizontal stepper</h2>
+      <span class="vw-note">Next / Back se state badlein.</span>
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="sh-wrap">
+  <ol class="sh-steps" id="shSteps">
+    <li class="sh-step is-now" aria-current="step">
+      <span class="sh-dot">1</span>
+      <span class="sh-lb">Cart</span>
+    </li>
+    <li class="sh-step">
+      <span class="sh-dot">2</span>
+      <span class="sh-lb">Shipping</span>
+    </li>
+    <li class="sh-step">
+      <span class="sh-dot">3</span>
+      <span class="sh-lb">Payment</span>
+    </li>
+    <li class="sh-step">
+      <span class="sh-dot">4</span>
+      <span class="sh-lb">Review</span>
+    </li>
+  </ol>
+  <p class="sh-status" id="shStatus" aria-live="polite">Step 1 of 4 — Cart</p>
+  <div class="sh-ctrl">
+    <button class="sh-btn" type="button" id="shBack" disabled>Back</button>
+    <button class="sh-btn sh-go" type="button" id="shNext">Next</button>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.sh-wrap { max-width: 520px; margin: 0 auto; }
+.sh-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: flex-start;
+}
+.sh-step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; position: relative; }
+.sh-step::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  right: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--border);
+}
+.sh-step:first-child::before { display: none; }
+.sh-step.is-done::before, .sh-step.is-now::before { background: var(--accent); }
+.sh-dot {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sh-step.is-done .sh-dot { background: var(--accent); border-color: var(--accent); color: #fff; }
+.sh-step.is-now .sh-dot { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.sh-lb { font-size: 0.74rem; font-weight: 600; color: var(--muted); }
+.sh-step.is-now .sh-lb { color: var(--text); }
+.sh-status { text-align: center; font-size: 0.8rem; color: var(--muted); margin: 16px 0 12px; }
+.sh-ctrl { display: flex; justify-content: center; gap: 10px; }
+.sh-btn {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 9px 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+}
+.sh-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.sh-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.sh-go { background: var(--accent); border-color: var(--accent); color: #fff; }
+.sh-go:hover:not(:disabled) { opacity: 0.92; color: #fff; }
+.sh-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 480px) {
+  .sh-lb { font-size: 0.66rem; }
+  .sh-dot { width: 26px; height: 26px; font-size: 0.7rem; }
+  .sh-step::before { top: 12px; }
+}</style>
+    <script data-block>(function () {
+  var steps = Array.prototype.slice.call(document.querySelectorAll("#shSteps .sh-step"));
+  var status = document.getElementById("shStatus");
+  var back = document.getElementById("shBack");
+  var next = document.getElementById("shNext");
+  var names = ["Cart", "Shipping", "Payment", "Review"];
+  var cur = 0;
+
+  function render() {
+    steps.forEach(function (s, i) {
+      s.classList.toggle("is-done", i < cur);
+      s.classList.toggle("is-now", i === cur);
+      if (i === cur) s.setAttribute("aria-current", "step");
+      else s.removeAttribute("aria-current");
+      s.querySelector(".sh-dot").textContent = i < cur ? "\u2713" : String(i + 1);
+    });
+    status.textContent = "Step " + (cur + 1) + " of " + steps.length + " — " + names[cur];
+    back.disabled = cur === 0;
+    next.disabled = cur === steps.length - 1;
+  }
+
+  back.addEventListener("click", function () { if (cur > 0) { cur--; render(); } });
+  next.addEventListener("click", function () { if (cur < steps.length - 1) { cur++; render(); } });
+  render();
+})();</script>
+  </section>
+
+  <section class="vw-block" id="stepper-vertical" aria-labelledby="stepper-vertical-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="stepper-vertical-t">Vertical stepper</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<ol class="sv-steps">
+  <li class="sv-step is-done">
+    <span class="sv-dot">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+    </span>
+    <div class="sv-body">
+      <p class="sv-h">Order placed</p>
+      <p class="sv-d">12 Oct, 9:12 AM</p>
+    </div>
+  </li>
+  <li class="sv-step is-done">
+    <span class="sv-dot">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+    </span>
+    <div class="sv-body">
+      <p class="sv-h">Packed</p>
+      <p class="sv-d">12 Oct, 2:40 PM</p>
+    </div>
+  </li>
+  <li class="sv-step is-now" aria-current="step">
+    <span class="sv-dot">3</span>
+    <div class="sv-body">
+      <p class="sv-h">Out for delivery</p>
+      <p class="sv-d">Expected by 6:00 PM</p>
+    </div>
+  </li>
+  <li class="sv-step">
+    <span class="sv-dot">4</span>
+    <div class="sv-body">
+      <p class="sv-h">Delivered</p>
+      <p class="sv-d">Pending</p>
+    </div>
+  </li>
+</ol>
+        </div>
+      </div>
+    </div>
+    <style data-block>.sv-steps { list-style: none; margin: 0; padding: 0; max-width: 360px; }
+.sv-step { display: flex; gap: 12px; position: relative; padding-bottom: 22px; }
+.sv-step:last-child { padding-bottom: 0; }
+.sv-step::before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 30px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--border);
+}
+.sv-step:last-child::before { display: none; }
+.sv-step.is-done::before { background: var(--accent); }
+.sv-dot {
+  position: relative;
+  z-index: 1;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+.sv-dot svg { width: 13px; height: 13px; }
+.sv-step.is-done .sv-dot { background: var(--accent); border-color: var(--accent); color: #fff; }
+.sv-step.is-now .sv-dot { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.sv-body { padding-top: 3px; }
+.sv-h { margin: 0; font-size: 0.88rem; font-weight: 600; }
+.sv-step:not(.is-done):not(.is-now) .sv-h { color: var(--muted); }
+.sv-d { margin: 2px 0 0; font-size: 0.74rem; color: var(--muted); }</style>
+    <script data-block></script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

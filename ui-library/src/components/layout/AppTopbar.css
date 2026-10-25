@@ -1,0 +1,68 @@
+.app-topbar {
+  position: sticky; top: 0; z-index: var(--z-topbar);
+  height: 64px; display: flex; align-items: center; gap: 12px;
+  padding: 0 clamp(12px, 2.5vw, 24px);
+  background: color-mix(in srgb, var(--card) 92%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.app-topbar__burger {
+  display: none;
+  width: 40px; height: 40px; border: 1px solid var(--border);
+  border-radius: var(--radius); background: var(--card); color: var(--text);
+  align-items: center; justify-content: center; cursor: pointer;
+}
+.app-topbar__brand {
+  display: flex; align-items: center; gap: 9px;
+  font-weight: 700; text-decoration: none; color: var(--text); white-space: nowrap;
+}
+.app-topbar__mark {
+  width: 30px; height: 30px; border-radius: var(--radius);
+  background: var(--accent); color: var(--on-accent);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.app-topbar__search {
+  position: relative; flex: 1; max-width: 480px; margin: 0 auto;
+  display: flex; align-items: center; gap: 8px;
+}
+.app-topbar__search-icon { color: var(--muted); position: absolute; left: 13px; pointer-events: none; }
+.app-topbar__search input {
+  width: 100%; height: 40px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--card); color: var(--text);
+  font: inherit; font-size: var(--fs-sm);
+  padding: 0 14px 0 38px; outline: none;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.app-topbar__search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.app-topbar__results {
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: var(--z-tooltip);
+  margin: 0; padding: 6px; list-style: none;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);
+  animation: own-pop-in 0.16s ease;
+}
+.app-topbar__results button {
+  display: flex; align-items: center; gap: 9px; width: 100%;
+  border: 0; background: transparent; color: var(--text);
+  font: inherit; font-size: var(--fs-sm); text-align: left;
+  padding: 9px 10px; border-radius: var(--radius-xs); cursor: pointer;
+}
+.app-topbar__results button:hover { background: var(--accent-soft); color: var(--accent); }
+.app-topbar__results em { margin-left: auto; font-style: normal; font-size: var(--fs-xs); color: var(--muted); text-transform: capitalize; }
+.app-topbar__empty { padding: 12px; color: var(--muted); font-size: var(--fs-sm); list-style: none; }
+.app-topbar__actions { display: flex; align-items: center; gap: 8px; }
+
+.app-topbar__scrim {
+  position: fixed; inset: 64px 0 0 0; z-index: var(--z-drawer);
+  background: rgba(10, 12, 18, 0.45);
+}
+
+@media (max-width: 980px) {
+  .app-topbar__burger { display: inline-flex; }
+  .app-topbar__search { max-width: none; }
+  .app-topbar__label-hide { display: none; }
+}
+@media (max-width: 560px) {
+  .app-topbar__brand { font-size: var(--fs-base); }
+}

@@ -1,0 +1,21 @@
+.app-layout { min-height: 100vh; }
+.app-layout__body { display: flex; align-items: flex-start; max-width: 1440px; margin: 0 auto; width: 100%; }
+.app-layout__sidebar { width: 264px; flex: 0 0 264px; }
+.app-layout__main { flex: 1; min-width: 0; padding: clamp(18px, 3vw, 34px); width: 100%; }
+.app-layout__scrim { display: none; }
+
+@media (max-width: 980px) {
+  .app-layout__sidebar {
+    position: fixed; top: 64px; bottom: 0; left: 0; z-index: var(--z-drawer);
+    transform: translateX(-105%);
+    transition: transform var(--t-base);
+    box-shadow: var(--shadow-lg);
+  }
+  .app-layout__sidebar[data-open='true'] { transform: none; }
+  .app-layout__sidebar .app-sidebar { height: calc(100vh - 64px); background: var(--card); }
+  .app-layout__scrim {
+    display: block; position: fixed; inset: 64px 0 0 0;
+    z-index: calc(var(--z-drawer) - 1);
+    border: 0; background: rgba(10, 12, 18, 0.45); width: 100%;
+  }
+}

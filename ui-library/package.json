@@ -1,0 +1,24 @@
+{
+  "name": "own-ui-library",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "OWN — personal reusable UI design library (React + Vite)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "smoke:catalog": "vite build --ssr scripts/catalog-smoke.jsx --outDir node_modules/.cache/ssr-smoke --emptyOutDir && node node_modules/.cache/ssr-smoke/catalog-smoke.js",
+    "smoke:pages": "vite build --ssr scripts/pages-smoke.jsx --outDir node_modules/.cache/ssr-pages --emptyOutDir && node node_modules/.cache/ssr-pages/pages-smoke.js",
+    "smoke": "npm run smoke:catalog && npm run smoke:pages"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.8"
+  }
+}

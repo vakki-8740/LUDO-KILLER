@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Search Bar · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Forms &amp; Inputs</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Search Bar</h1>
+    <p>Pill search with icon, clear button and live suggestions.</p>
+  </div>
+  <section class="vw-block" id="search-bar" aria-labelledby="search-bar-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="search-bar-t">Search with suggestions</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="sb-wrap">
+  <div class="sb-bar">
+    <svg class="sb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input class="sb-input" id="sbInput" type="search" placeholder="Search components..." aria-label="Search components" autocomplete="off">
+    <button class="sb-clear" type="button" id="sbClear" aria-label="Clear search" hidden>&times;</button>
+    <span class="sb-key" aria-hidden="true">/</span>
+  </div>
+  <ul class="sb-list" id="sbList" role="listbox" aria-label="Suggestions"></ul>
+  <p class="sb-hint" id="sbHint">Try “toast”, “table” or “login”.</p>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.sb-wrap { max-width: 420px; }
+.sb-bar { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); background: var(--card); border-radius: 999px; padding: 6px 10px 6px 14px; transition: border-color 0.2s, box-shadow 0.2s; }
+.sb-bar:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.sb-ic { width: 17px; height: 17px; color: var(--muted); flex: 0 0 auto; }
+.sb-input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--text); font: inherit; font-size: 0.86rem; padding: 4px 0; outline: none; }
+.sb-input::placeholder { color: var(--muted); }
+.sb-clear { border: 0; background: var(--bg); color: var(--muted); width: 20px; height: 20px; border-radius: 999px; cursor: pointer; font-size: 0.9rem; line-height: 1; display: flex; align-items: center; justify-content: center; }
+.sb-clear:hover { color: var(--text); }
+.sb-clear:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sb-key { font-size: 0.68rem; font-weight: 700; color: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; }
+.sb-list { list-style: none; margin: 8px 0 0; padding: 4px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); max-height: 190px; overflow: auto; }
+.sb-list:empty { display: none; }
+.sb-opt { display: flex; align-items: center; gap: 8px; width: 100%; border: 0; background: transparent; color: var(--text); font: inherit; font-size: 0.81rem; text-align: left; padding: 8px; border-radius: 4px; cursor: pointer; }
+.sb-opt:hover, .sb-opt:focus-visible { background: var(--accent-soft); color: var(--accent); outline: none; }
+.sb-opt mark { background: transparent; color: var(--accent); font-weight: 700; }
+.sb-hint { margin: 8px 2px 0; font-size: 0.74rem; color: var(--muted); }</style>
+    <script data-block>(function () {
+  var items = ["Toast notifications", "Data table", "Login form", "Modal dialog", "Tabs", "Tooltip", "Pagination", "Accordion", "Color palette", "OTP input"];
+  var input = document.getElementById("sbInput");
+  var list = document.getElementById("sbList");
+  var clear = document.getElementById("sbClear");
+  var hint = document.getElementById("sbHint");
+
+  function highlight(text, q) {
+    if (!q) return text;
+    var i = text.toLowerCase().indexOf(q.toLowerCase());
+    if (i < 0) return text;
+    return text.slice(0, i) + "<mark>" + text.slice(i, i + q.length) + "</mark>" + text.slice(i + q.length);
+  }
+
+  function render(q) {
+    list.innerHTML = "";
+    clear.hidden = !q;
+    if (!q) { hint.textContent = "Try “toast”, “table” or “login”."; return; }
+    var hits = items.filter(function (t) { return t.toLowerCase().indexOf(q.toLowerCase()) > -1; });
+    if (!hits.length) { hint.textContent = "No matches for “" + q + "”."; return; }
+    hint.textContent = hits.length + " result" + (hits.length > 1 ? "s" : "");
+    hits.forEach(function (t) {
+      var li = document.createElement("li");
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "sb-opt";
+      b.setAttribute("role", "option");
+      b.innerHTML = highlight(t, q);
+      b.addEventListener("click", function () { input.value = t; render(t); input.focus(); });
+      li.appendChild(b);
+      list.appendChild(li);
+    });
+  }
+
+  input.addEventListener("input", function () { render(input.value.trim()); });
+  clear.addEventListener("click", function () { input.value = ""; render(""); input.focus(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "/" && document.activeElement !== input) { e.preventDefault(); input.focus(); }
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

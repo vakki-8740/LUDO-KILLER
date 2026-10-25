@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Product Details · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">E-commerce</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Product Details</h1>
+    <p>Gallery, color and size selectors with quantity.</p>
+  </div>
+  <section class="vw-block" id="product-details" aria-labelledby="product-details-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="product-details-t">Product page</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="pd-wrap">
+  <div class="pd-gallery">
+    <div class="pd-main pd-mainA" id="pdMain" role="img" aria-label="Sneaker product photo"></div>
+    <div class="pd-thumbs" role="group" aria-label="Product photos">
+      <button class="pd-thumb pd-tA is-on" type="button" data-g="pd-mainA" aria-label="View photo 1"></button>
+      <button class="pd-thumb pd-tB" type="button" data-g="pd-mainB" aria-label="View photo 2"></button>
+      <button class="pd-thumb pd-tC" type="button" data-g="pd-mainC" aria-label="View photo 3"></button>
+    </div>
+  </div>
+  <div class="pd-info">
+    <p class="pd-brand">OWN Goods</p>
+    <h4 class="pd-name">Court low sneaker</h4>
+    <p class="pd-price">$86.00 <span class="pd-old">$110.00</span></p>
+    <p class="pd-label">Color: <span id="pdColor">Sand</span></p>
+    <div class="pd-colors" role="group" aria-label="Color">
+      <button class="pd-color is-on" type="button" data-c="Sand" style="background: #d8c3a5;" aria-label="Sand"></button>
+      <button class="pd-color" type="button" data-c="Ink" style="background: #2b2f3a;" aria-label="Ink"></button>
+      <button class="pd-color" type="button" data-c="Sage" style="background: #8fa88b;" aria-label="Sage"></button>
+    </div>
+    <p class="pd-label">Size</p>
+    <div class="pd-sizes" role="group" aria-label="Size">
+      <button class="pd-size" type="button">7</button>
+      <button class="pd-size is-on" type="button">8</button>
+      <button class="pd-size" type="button">9</button>
+      <button class="pd-size" type="button">10</button>
+    </div>
+    <div class="pd-row">
+      <div class="pd-qty">
+        <button class="pd-qb" type="button" id="pdMinus" aria-label="Decrease quantity">&minus;</button>
+        <span class="pd-qv" id="pdQty">1</span>
+        <button class="pd-qb" type="button" id="pdPlus" aria-label="Increase quantity">+</button>
+      </div>
+      <button class="pd-cart" type="button" id="pdCart">Add to cart</button>
+    </div>
+    <p class="pd-msg" id="pdMsg" role="status"></p>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.pd-wrap { display: grid; grid-template-columns: 1fr 1.2fr; gap: 12px; max-width: 440px; }
+.pd-gallery { min-width: 0; }
+.pd-main { height: 150px; border-radius: var(--radius); border: 1px solid var(--border); }
+.pd-mainA { background: linear-gradient(140deg, #f0e2cf, #d8c3a5 62%, #9c7b55); }
+.pd-mainB { background: linear-gradient(140deg, #c9ccd6, #2b2f3a 65%, #12141a); }
+.pd-mainC { background: linear-gradient(140deg, #dfe8da, #8fa88b 62%, #4c6b4f); }
+.pd-thumbs { display: flex; gap: 5px; margin-top: 5px; }
+.pd-thumb { flex: 1; height: 30px; border-radius: 3px; border: 1px solid var(--border); cursor: pointer; padding: 0; }
+.pd-thumb.is-on { box-shadow: 0 0 0 2px var(--accent); }
+.pd-thumb:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pd-tA { background: linear-gradient(140deg, #f0e2cf, #d8c3a5); }
+.pd-tB { background: linear-gradient(140deg, #c9ccd6, #2b2f3a); }
+.pd-tC { background: linear-gradient(140deg, #dfe8da, #8fa88b); }
+.pd-info { min-width: 0; }
+.pd-brand { margin: 0; font-size: 0.54rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.pd-name { margin: 1px 0 2px; font-size: 0.92rem; }
+.pd-price { margin: 0 0 7px; font-size: 0.82rem; font-weight: 800; color: var(--accent); }
+.pd-old { font-size: 0.62rem; font-weight: 500; color: var(--muted); text-decoration: line-through; margin-left: 3px; }
+.pd-label { margin: 0 0 4px; font-size: 0.6rem; font-weight: 600; color: var(--muted); }
+.pd-label span { color: var(--text); }
+.pd-colors { display: flex; gap: 5px; margin-bottom: 8px; }
+.pd-color { width: 18px; height: 18px; border-radius: 999px; border: 2px solid var(--card); box-shadow: 0 0 0 1px var(--border); cursor: pointer; padding: 0; }
+.pd-color.is-on { box-shadow: 0 0 0 2px var(--accent); }
+.pd-color:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pd-sizes { display: flex; gap: 4px; margin-bottom: 8px; }
+.pd-size { width: 26px; height: 26px; border: 1px solid var(--border); border-radius: 4px; background: var(--card); color: var(--text); font: inherit; font-size: 0.62rem; font-weight: 600; cursor: pointer; }
+.pd-size.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.pd-size:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pd-row { display: flex; gap: 6px; align-items: center; }
+.pd-qty { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 4px; }
+.pd-qb { width: 24px; height: 28px; border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 0.8rem; cursor: pointer; }
+.pd-qb:hover { color: var(--accent); }
+.pd-qb:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.pd-qv { min-width: 18px; text-align: center; font-size: 0.68rem; font-weight: 700; }
+.pd-cart { flex: 1; border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.68rem; font-weight: 700; padding: 8px; border-radius: 4px; cursor: pointer; }
+.pd-cart:hover { opacity: 0.92; }
+.pd-cart:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pd-msg { min-height: 1em; margin: 6px 0 0; font-size: 0.62rem; color: var(--yes); }
+@media (max-width: 430px) { .pd-wrap { grid-template-columns: 1fr; } .pd-main { height: 120px; } }</style>
+    <script data-block>(function () {
+  var qty = 1;
+  var out = document.getElementById("pdQty");
+  var msg = document.getElementById("pdMsg");
+
+  document.getElementById("pdMinus").addEventListener("click", function () {
+    qty = Math.max(1, qty - 1);
+    out.textContent = qty;
+  });
+  document.getElementById("pdPlus").addEventListener("click", function () {
+    qty = Math.min(9, qty + 1);
+    out.textContent = qty;
+  });
+
+  document.querySelectorAll(".pd-size").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll(".pd-size").forEach(function (x) { x.classList.remove("is-on"); });
+      b.classList.add("is-on");
+    });
+  });
+
+  document.querySelectorAll(".pd-color").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll(".pd-color").forEach(function (x) { x.classList.remove("is-on"); });
+      b.classList.add("is-on");
+      document.getElementById("pdColor").textContent = b.getAttribute("data-c");
+    });
+  });
+
+  document.querySelectorAll(".pd-thumb").forEach(function (t) {
+    t.addEventListener("click", function () {
+      document.querySelectorAll(".pd-thumb").forEach(function (x) { x.classList.remove("is-on"); });
+      t.classList.add("is-on");
+      document.getElementById("pdMain").className = "pd-main " + t.getAttribute("data-g");
+    });
+  });
+
+  document.getElementById("pdCart").addEventListener("click", function () {
+    msg.textContent = qty + " item(s) added to cart.";
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

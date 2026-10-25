@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Popover · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Overlays</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Popover</h1>
+    <p>Anchored popover card with close on outside click.</p>
+  </div>
+  <section class="vw-block" id="popover" aria-labelledby="popover-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="popover-t">Filter popover</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="po-wrap">
+  <button class="po-trigger" type="button" id="poTrigger" aria-expanded="false" aria-haspopup="dialog" aria-controls="poPanel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+    Filters
+  </button>
+  <div class="po-panel" id="poPanel" role="dialog" aria-label="Filters" hidden>
+    <span class="po-arrow" aria-hidden="true"></span>
+    <p class="po-title">Filter results</p>
+    <label class="po-opt"><input class="po-check" type="checkbox" checked> <span class="po-text">Available now</span></label>
+    <label class="po-opt"><input class="po-check" type="checkbox"> <span class="po-text">Free shipping</span></label>
+    <label class="po-opt"><input class="po-check" type="checkbox"> <span class="po-text">Top rated</span></label>
+    <div class="po-foot">
+      <button class="po-clear" type="button" id="poClear">Clear</button>
+      <button class="po-done" type="button" id="poDone">Apply</button>
+    </div>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.po-wrap { position: relative; display: inline-block; }
+.po-trigger { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--border); background: var(--card); color: var(--text); font: inherit; font-size: 0.8rem; font-weight: 600; padding: 8px 13px; border-radius: var(--radius); cursor: pointer; }
+.po-trigger svg { width: 15px; height: 15px; color: var(--muted); }
+.po-trigger:hover { border-color: var(--accent); color: var(--accent); }
+.po-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.po-panel { position: absolute; top: calc(100% + 9px); left: 0; width: 210px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 10px; z-index: 20; }
+.po-arrow { position: absolute; top: -5px; left: 20px; width: 9px; height: 9px; background: var(--card); border-left: 1px solid var(--border); border-top: 1px solid var(--border); transform: rotate(45deg); }
+.po-title { margin: 0 0 7px; font-size: 0.74rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.po-opt { display: flex; align-items: center; gap: 7px; padding: 6px 6px; border-radius: 4px; font-size: 0.78rem; cursor: pointer; }
+.po-opt:hover { background: var(--bg); }
+.po-check { accent-color: var(--accent); width: 14px; height: 14px; }
+.po-text { flex: 1; }
+.po-foot { display: flex; gap: 6px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+.po-clear { flex: 1; border: 1px solid var(--border); background: transparent; color: var(--muted); font: inherit; font-size: 0.72rem; font-weight: 600; padding: 6px; border-radius: 4px; cursor: pointer; }
+.po-done { flex: 1; border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.72rem; font-weight: 600; padding: 6px; border-radius: 4px; cursor: pointer; }
+.po-clear:focus-visible, .po-done:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }</style>
+    <script data-block>(function () {
+  var trigger = document.getElementById("poTrigger");
+  var panel = document.getElementById("poPanel");
+
+  function set(open) {
+    panel.hidden = !open;
+    trigger.setAttribute("aria-expanded", String(open));
+  }
+
+  trigger.addEventListener("click", function (e) {
+    e.stopPropagation();
+    set(panel.hidden);
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!panel.hidden && !panel.contains(e.target) && e.target !== trigger) set(false);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { set(false); trigger.focus(); }
+  });
+
+  document.getElementById("poDone").addEventListener("click", function () { set(false); trigger.focus(); });
+  document.getElementById("poClear").addEventListener("click", function () {
+    document.querySelectorAll(".po-check").forEach(function (c) { c.checked = false; });
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

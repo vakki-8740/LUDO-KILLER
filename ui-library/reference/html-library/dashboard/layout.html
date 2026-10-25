@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard Layout · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Dashboard &amp; App</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Dashboard Layout</h1>
+    <p>Sidebar, topbar and content shell in one frame.</p>
+  </div>
+  <section class="vw-block" id="dashboard-layout" aria-labelledby="dashboard-layout-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="dashboard-layout-t">App shell</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="dl-frame">
+  <aside class="dl-side">
+    <div class="dl-brand"><span class="dl-logo" aria-hidden="true">O</span><span class="dl-brandT">OWN</span></div>
+    <nav class="dl-nav" aria-label="Main">
+      <button class="dl-item is-on" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span class="dl-label">Overview</span>
+      </button>
+      <button class="dl-item" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span class="dl-label">Projects</span>
+      </button>
+      <button class="dl-item" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span class="dl-label">Messages</span>
+      </button>
+      <button class="dl-item" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        <span class="dl-label">Settings</span>
+      </button>
+    </nav>
+    <div class="dl-promo"><span class="dl-promoT">Pro plan</span><span class="dl-promoD">Unlock analytics</span></div>
+  </aside>
+  <div class="dl-main">
+    <div class="dl-top">
+      <input class="dl-search" type="search" placeholder="Search..." aria-label="Search dashboard">
+      <span class="dl-bell" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10.3 21a2 2 0 0 0 3.4 0"/></svg>
+      </span>
+      <span class="dl-av" aria-hidden="true">AK</span>
+    </div>
+    <div class="dl-content">
+      <p class="dl-h">Overview</p>
+      <div class="dl-stats">
+        <div class="dl-stat"><span class="dl-sk">Projects</span><span class="dl-sv">12</span></div>
+        <div class="dl-stat"><span class="dl-sk">Tasks</span><span class="dl-sv">48</span></div>
+        <div class="dl-stat"><span class="dl-sk">Done</span><span class="dl-sv">31</span></div>
+      </div>
+      <div class="dl-panel">
+        <p class="dl-pt">Recent projects</p>
+        <div class="dl-row"><span class="dl-pdot" style="background: var(--accent);"></span><span class="dl-pn">Website refresh</span><span class="dl-pm">6 tasks</span></div>
+        <div class="dl-row"><span class="dl-pdot" style="background: var(--yes);"></span><span class="dl-pn">Mobile app</span><span class="dl-pm">4 tasks</span></div>
+        <div class="dl-row"><span class="dl-pdot" style="background: var(--warn);"></span><span class="dl-pn">Brand kit</span><span class="dl-pm">2 tasks</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.dl-frame { display: grid; grid-template-columns: 150px 1fr; height: 340px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--card); }
+.dl-side { display: flex; flex-direction: column; background: var(--bg); border-right: 1px solid var(--border); padding: 10px 8px; }
+.dl-brand { display: flex; align-items: center; gap: 6px; padding: 2px 4px 12px; }
+.dl-logo { width: 20px; height: 20px; border-radius: 4px; background: var(--accent); color: #fff; font-size: 0.66rem; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.dl-brandT { font-size: 0.76rem; font-weight: 800; letter-spacing: 0.04em; }
+.dl-nav { display: flex; flex-direction: column; gap: 2px; }
+.dl-item { display: flex; align-items: center; gap: 7px; border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 0.72rem; font-weight: 600; padding: 7px; border-radius: 4px; cursor: pointer; text-align: left; }
+.dl-item svg { width: 14px; height: 14px; flex: 0 0 auto; }
+.dl-item:hover { color: var(--text); background: var(--card); }
+.dl-item.is-on { background: var(--accent-soft); color: var(--accent); }
+.dl-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.dl-promo { margin-top: auto; background: var(--accent-soft); border-radius: 4px; padding: 7px; }
+.dl-promoT { display: block; font-size: 0.66rem; font-weight: 700; color: var(--accent); }
+.dl-promoD { display: block; font-size: 0.6rem; color: var(--muted); }
+.dl-main { display: flex; flex-direction: column; min-width: 0; }
+.dl-top { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+.dl-search { flex: 1; min-width: 0; border: 1px solid var(--border); border-radius: 999px; background: var(--bg); color: var(--text); font: inherit; font-size: 0.72rem; padding: 5px 10px; outline: none; }
+.dl-search:focus { border-color: var(--accent); }
+.dl-bell { width: 18px; height: 18px; color: var(--muted); flex: 0 0 auto; }
+.dl-bell svg { width: 100%; height: 100%; }
+.dl-av { width: 24px; height: 24px; border-radius: 999px; background: linear-gradient(135deg, #4f6bed, #8b5cf6); color: #fff; font-size: 0.56rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.dl-content { padding: 10px; overflow: auto; }
+.dl-h { margin: 0 0 8px; font-size: 0.8rem; font-weight: 700; }
+.dl-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 8px; }
+.dl-stat { border: 1px solid var(--border); border-radius: 4px; padding: 7px; }
+.dl-sk { display: block; font-size: 0.6rem; color: var(--muted); }
+.dl-sv { font-size: 0.9rem; font-weight: 800; }
+.dl-panel { border: 1px solid var(--border); border-radius: 4px; padding: 8px; }
+.dl-pt { margin: 0 0 4px; font-size: 0.68rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.dl-row { display: flex; align-items: center; gap: 6px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+.dl-row:last-child { border-bottom: 0; }
+.dl-pdot { width: 6px; height: 6px; border-radius: 999px; flex: 0 0 auto; }
+.dl-pn { flex: 1; font-size: 0.69rem; font-weight: 600; }
+.dl-pm { font-size: 0.62rem; color: var(--muted); }
+@media (max-width: 520px) {
+  .dl-frame { grid-template-columns: 44px 1fr; }
+  .dl-label, .dl-brandT, .dl-promo { display: none; }
+  .dl-item { justify-content: center; }
+  .dl-brand { justify-content: center; padding: 2px 0 12px; }
+}</style>
+    <script data-block></script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

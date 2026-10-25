@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Notification Center · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Feedback</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Notification Center</h1>
+    <p>Bell trigger with unread count and a notification panel.</p>
+  </div>
+  <section class="vw-block" id="notification-center" aria-labelledby="notification-center-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="notification-center-t">Notifications</h2>
+      <span class="vw-note">Bell par click karein — unread badge aur mark-all-read dekhein.</span>
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="nc-wrap">
+  <button class="nc-bell" type="button" id="ncBell" aria-expanded="false" aria-haspopup="dialog" aria-controls="ncPanel" aria-label="Notifications">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10.3 21a2 2 0 0 0 3.4 0"/></svg>
+    <span class="nc-badge" id="ncBadge">3</span>
+  </button>
+  <div class="nc-panel" id="ncPanel" role="dialog" aria-label="Notifications" hidden>
+    <div class="nc-head">
+      <span class="nc-title">Notifications</span>
+      <button class="nc-mark" type="button" id="ncMark">Mark all read</button>
+    </div>
+    <ul class="nc-list" id="ncList">
+      <li class="nc-item is-unread"><span class="nc-dot" aria-hidden="true"></span><div><p class="nc-t">New comment on your post</p><p class="nc-m">Ayesha replied 4 minutes ago.</p></div></li>
+      <li class="nc-item is-unread"><span class="nc-dot" aria-hidden="true"></span><div><p class="nc-t">Invoice paid</p><p class="nc-m">Payment of $48.00 was received.</p></div></li>
+      <li class="nc-item is-unread"><span class="nc-dot" aria-hidden="true"></span><div><p class="nc-t">Backup complete</p><p class="nc-m">All files were synced last night.</p></div></li>
+      <li class="nc-item"><span class="nc-dot" aria-hidden="true"></span><div><p class="nc-t">Weekly report ready</p><p class="nc-m">Your analytics summary is available.</p></div></li>
+    </ul>
+    <a class="nc-all" href="#">View all notifications</a>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.nc-wrap { position: relative; display: inline-block; }
+.nc-bell {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+}
+.nc-bell svg { width: 19px; height: 19px; }
+.nc-bell:hover { border-color: var(--accent); color: var(--accent); }
+.nc-bell:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.nc-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--no);
+  color: #fff;
+  font-size: 0.66rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nc-badge.is-zero { display: none; }
+.nc-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 290px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  z-index: 30;
+  overflow: hidden;
+}
+.nc-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+.nc-title { font-size: 0.82rem; font-weight: 700; }
+.nc-mark { border: 0; background: transparent; color: var(--accent); font: inherit; font-size: 0.72rem; font-weight: 700; cursor: pointer; padding: 2px 4px; border-radius: 3px; }
+.nc-mark:hover { text-decoration: underline; }
+.nc-mark:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.nc-list { list-style: none; margin: 0; padding: 4px; max-height: 240px; overflow: auto; }
+.nc-item { display: flex; gap: 8px; padding: 8px; border-radius: 4px; }
+.nc-item:hover { background: var(--bg); }
+.nc-dot { width: 7px; height: 7px; border-radius: 999px; background: transparent; margin-top: 5px; flex: 0 0 auto; }
+.nc-item.is-unread .nc-dot { background: var(--accent); }
+.nc-t { margin: 0; font-size: 0.78rem; font-weight: 600; }
+.nc-m { margin: 2px 0 0; font-size: 0.73rem; color: var(--muted); line-height: 1.4; }
+.nc-all { display: block; text-align: center; padding: 9px; border-top: 1px solid var(--border); color: var(--accent); font-size: 0.75rem; font-weight: 700; text-decoration: none; }
+.nc-all:hover { background: var(--bg); }
+.nc-all:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }</style>
+    <script data-block>(function () {
+  var bell = document.getElementById("ncBell");
+  var panel = document.getElementById("ncPanel");
+  var badge = document.getElementById("ncBadge");
+  var list = document.getElementById("ncList");
+
+  function countUnread() { return list.querySelectorAll(".is-unread").length; }
+
+  function syncBadge() {
+    var n = countUnread();
+    badge.textContent = n;
+    badge.classList.toggle("is-zero", n === 0);
+  }
+
+  function set(open) {
+    panel.hidden = !open;
+    bell.setAttribute("aria-expanded", String(open));
+  }
+
+  bell.addEventListener("click", function (e) {
+    e.stopPropagation();
+    set(panel.hidden);
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!panel.hidden && !panel.contains(e.target) && !bell.contains(e.target)) set(false);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { set(false); bell.focus(); }
+  });
+
+  document.getElementById("ncMark").addEventListener("click", function () {
+    list.querySelectorAll(".is-unread").forEach(function (li) { li.classList.remove("is-unread"); });
+    syncBadge();
+  });
+
+  list.querySelectorAll(".nc-item").forEach(function (li) {
+    li.addEventListener("click", function () {
+      li.classList.remove("is-unread");
+      syncBadge();
+    });
+  });
+
+  syncBadge();
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

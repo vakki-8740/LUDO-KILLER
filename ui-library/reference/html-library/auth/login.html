@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login Form · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Authentication</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Login Form</h1>
+    <p>Email and password sign-in with visibility toggle.</p>
+  </div>
+  <section class="vw-block" id="login-form" aria-labelledby="login-form-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="login-form-t">Sign in</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="lg-card">
+  <h4 class="lg-t">Welcome back</h4>
+  <p class="lg-s">Sign in to continue to your workspace.</p>
+  <label class="lg-lbl" for="lgEmail">Email</label>
+  <input class="lg-input" id="lgEmail" type="email" placeholder="you@example.com" autocomplete="email">
+  <label class="lg-lbl" for="lgPass">Password</label>
+  <div class="lg-passwrap">
+    <input class="lg-input lg-pass" id="lgPass" type="password" placeholder="Enter password" autocomplete="current-password">
+    <button class="lg-eye" type="button" id="lgEye" aria-label="Show password" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+    </button>
+  </div>
+  <div class="lg-row">
+    <label class="lg-remember"><input class="lg-check" type="checkbox"> Remember me</label>
+    <button class="lg-forgot" type="button">Forgot password?</button>
+  </div>
+  <button class="lg-submit" type="button" id="lgSubmit">Sign in</button>
+  <p class="lg-msg" id="lgMsg" role="status"></p>
+  <p class="lg-or"><span>or continue with</span></p>
+  <div class="lg-social">
+    <button class="lg-soc" type="button">Google</button>
+    <button class="lg-soc" type="button">GitHub</button>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.lg-card { max-width: 340px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 20px; }
+.lg-t { margin: 0 0 3px; font-size: 1.05rem; }
+.lg-s { margin: 0 0 16px; font-size: 0.78rem; color: var(--muted); }
+.lg-lbl { display: block; margin: 0 0 4px; font-size: 0.72rem; font-weight: 600; color: var(--muted); }
+.lg-input { width: 100%; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font: inherit; font-size: 0.83rem; padding: 9px 11px; outline: none; margin-bottom: 10px; }
+.lg-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.lg-passwrap { position: relative; }
+.lg-pass { padding-right: 36px; }
+.lg-eye { position: absolute; right: 4px; top: 4px; width: 30px; height: 30px; border: 0; background: transparent; color: var(--muted); cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+.lg-eye svg { width: 16px; height: 16px; }
+.lg-eye:hover { color: var(--accent); }
+.lg-eye:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.lg-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.lg-remember { display: inline-flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--muted); cursor: pointer; }
+.lg-check { accent-color: var(--accent); width: 13px; height: 13px; }
+.lg-forgot { border: 0; background: transparent; color: var(--accent); font: inherit; font-size: 0.72rem; font-weight: 600; cursor: pointer; padding: 2px; border-radius: 3px; }
+.lg-forgot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lg-submit { width: 100%; border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.84rem; font-weight: 600; padding: 10px; border-radius: var(--radius); cursor: pointer; }
+.lg-submit:hover { opacity: 0.92; }
+.lg-submit:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lg-msg { min-height: 1em; margin: 8px 0 0; font-size: 0.74rem; color: var(--no); }
+.lg-msg.is-ok { color: var(--yes); }
+.lg-or { display: flex; align-items: center; gap: 8px; margin: 12px 0; font-size: 0.68rem; color: var(--muted); }
+.lg-or::before, .lg-or::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+.lg-social { display: flex; gap: 7px; }
+.lg-soc { flex: 1; border: 1px solid var(--border); background: transparent; color: var(--text); font: inherit; font-size: 0.74rem; font-weight: 600; padding: 8px; border-radius: var(--radius); cursor: pointer; }
+.lg-soc:hover { border-color: var(--accent); color: var(--accent); }
+.lg-soc:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }</style>
+    <script data-block>(function () {
+  var pass = document.getElementById("lgPass");
+  var eye = document.getElementById("lgEye");
+  var msg = document.getElementById("lgMsg");
+
+  eye.addEventListener("click", function () {
+    var show = pass.type === "password";
+    pass.type = show ? "text" : "password";
+    eye.setAttribute("aria-label", show ? "Hide password" : "Show password");
+    eye.setAttribute("aria-pressed", String(show));
+  });
+
+  document.getElementById("lgSubmit").addEventListener("click", function () {
+    var email = document.getElementById("lgEmail").value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      msg.textContent = "Enter a valid email address.";
+      msg.classList.remove("is-ok");
+      return;
+    }
+    if (pass.value.length < 6) {
+      msg.textContent = "Password must be at least 6 characters.";
+      msg.classList.remove("is-ok");
+      return;
+    }
+    msg.textContent = "Signed in successfully (demo).";
+    msg.classList.add("is-ok");
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

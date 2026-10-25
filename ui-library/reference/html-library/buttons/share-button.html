@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Share Button · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Buttons &amp; Actions</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Share Button</h1>
+    <p>Share sheet with copy link, native share and social icons.</p>
+  </div>
+  <section class="vw-block" id="share-button" aria-labelledby="share-button-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="share-button-t">Share sheet</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="shr-wrap">
+  <button class="shr-btn" type="button" id="shrToggle" aria-expanded="false" aria-haspopup="dialog" aria-controls="shrSheet">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.6l6.8-3.9M8.6 13.4l6.8 3.9"/></svg>
+    Share
+  </button>
+  <div class="shr-sheet" id="shrSheet" role="dialog" aria-label="Share this page" hidden>
+    <p class="shr-h">Share this page</p>
+    <button class="shr-opt" type="button" id="shrCopy">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      Copy link
+    </button>
+    <button class="shr-opt" type="button" id="shrNative">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5-5 5 5"/><path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>
+      Share via device
+    </button>
+    <div class="shr-social">
+      <a class="shr-soc" href="#" aria-label="Share on WhatsApp">WA</a>
+      <a class="shr-soc" href="#" aria-label="Share on X">X</a>
+      <a class="shr-soc" href="#" aria-label="Share by email">@</a>
+    </div>
+    <p class="shr-msg" id="shrMsg" aria-live="polite"></p>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.shr-wrap { position: relative; display: inline-block; }
+.shr-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  padding: 9px 15px;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.shr-btn svg { width: 16px; height: 16px; }
+.shr-btn:hover { border-color: var(--accent); color: var(--accent); }
+.shr-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.shr-sheet {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 240px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 12px;
+  z-index: 30;
+}
+.shr-h { margin: 0 0 8px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+.shr-opt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.83rem;
+  text-align: left;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.shr-opt svg { width: 16px; height: 16px; color: var(--accent); }
+.shr-opt:hover { background: var(--bg); }
+.shr-opt:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.shr-social { display: flex; gap: 8px; margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--border); }
+.shr-soc {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-decoration: none;
+}
+.shr-soc:hover { border-color: var(--accent); color: var(--accent); }
+.shr-soc:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.shr-msg { margin: 8px 0 0; font-size: 0.74rem; color: var(--yes); min-height: 1em; }</style>
+    <script data-block>(function () {
+  var toggle = document.getElementById("shrToggle");
+  var sheet = document.getElementById("shrSheet");
+  var msg = document.getElementById("shrMsg");
+
+  function set(open) {
+    sheet.hidden = !open;
+    toggle.setAttribute("aria-expanded", String(open));
+  }
+
+  toggle.addEventListener("click", function (e) {
+    e.stopPropagation();
+    set(sheet.hidden);
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!sheet.hidden && !sheet.contains(e.target) && e.target !== toggle) set(false);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !sheet.hidden) { set(false); toggle.focus(); }
+  });
+
+  function copy(text) {
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (err) { ok = false; }
+      document.body.removeChild(ta);
+      ok ? resolve() : reject(new Error("fail"));
+    });
+  }
+
+  document.getElementById("shrCopy").addEventListener("click", function () {
+    copy("https://own-library.dev/components").then(function () {
+      msg.textContent = "Link copied!";
+    }).catch(function () { msg.textContent = "Copy failed."; });
+  });
+
+  document.getElementById("shrNative").addEventListener("click", function () {
+    if (navigator.share) {
+      navigator.share({ title: "OWN Library", url: "https://own-library.dev/components" }).then(function () {
+        msg.textContent = "Shared.";
+      }).catch(function () { msg.textContent = "Share cancelled."; });
+    } else {
+      msg.textContent = "Native share not supported — link copy karein.";
+    }
+  });
+
+  sheet.querySelectorAll(".shr-soc").forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      msg.textContent = a.getAttribute("aria-label") + " share demo.";
+    });
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

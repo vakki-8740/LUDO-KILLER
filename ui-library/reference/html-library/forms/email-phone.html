@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Email &amp; Phone Input · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Forms &amp; Inputs</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Email &amp; Phone Input</h1>
+    <p>Toggle between email and phone with inline validation.</p>
+  </div>
+  <section class="vw-block" id="email-phone" aria-labelledby="email-phone-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="email-phone-t">Contact input</h2>
+      
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="ep-card">
+  <div class="ep-tabs" role="tablist" aria-label="Contact method">
+    <button class="ep-tab is-on" type="button" role="tab" aria-selected="true" id="epTabEmail">Email</button>
+    <button class="ep-tab" type="button" role="tab" aria-selected="false" id="epTabPhone">Phone</button>
+  </div>
+  <label class="ep-lbl" for="epField" id="epLabel">Email address</label>
+  <div class="ep-field" id="epFieldWrap">
+    <svg class="ep-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5L12 13l8.5-6.5"/></svg>
+    <input class="ep-input" id="epField" type="email" placeholder="you@example.com" autocomplete="email">
+  </div>
+  <p class="ep-err" id="epErr" role="alert"></p>
+  <button class="ep-btn" type="button" id="epSend">Continue</button>
+  <p class="ep-ok" id="epOk" role="status"></p>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.ep-card { max-width: 380px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: 16px; }
+.ep-tabs { display: flex; gap: 4px; background: var(--bg); border-radius: var(--radius); padding: 3px; margin-bottom: 14px; }
+.ep-tab { flex: 1; border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 0.8rem; font-weight: 600; padding: 7px; border-radius: 4px; cursor: pointer; }
+.ep-tab.is-on { background: var(--card); color: var(--text); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); }
+.ep-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.ep-lbl { display: block; margin-bottom: 6px; font-size: 0.76rem; font-weight: 600; color: var(--muted); }
+.ep-field { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: var(--radius); padding: 0 10px; background: var(--bg); transition: border-color 0.2s, box-shadow 0.2s; }
+.ep-field:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.ep-field.is-bad { border-color: var(--no); }
+.ep-ic { width: 16px; height: 16px; color: var(--muted); flex: 0 0 auto; }
+.ep-input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--text); font: inherit; font-size: 0.86rem; padding: 10px 0; outline: none; }
+.ep-err { margin: 6px 0 0; min-height: 1em; font-size: 0.73rem; color: var(--no); }
+.ep-btn { width: 100%; margin-top: 8px; border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 0.84rem; font-weight: 600; padding: 10px; border-radius: var(--radius); cursor: pointer; }
+.ep-btn:hover { opacity: 0.92; }
+.ep-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ep-ok { margin: 8px 0 0; min-height: 1em; font-size: 0.76rem; color: var(--yes); }</style>
+    <script data-block>(function () {
+  var mode = "email";
+  var field = document.getElementById("epField");
+  var label = document.getElementById("epLabel");
+  var icon = document.querySelector(".ep-ic");
+  var err = document.getElementById("epErr");
+  var ok = document.getElementById("epOk");
+  var wrap = document.getElementById("epFieldWrap");
+
+  function setMode(m) {
+    mode = m;
+    document.getElementById("epTabEmail").classList.toggle("is-on", m === "email");
+    document.getElementById("epTabPhone").classList.toggle("is-on", m === "phone");
+    document.getElementById("epTabEmail").setAttribute("aria-selected", String(m === "email"));
+    document.getElementById("epTabPhone").setAttribute("aria-selected", String(m === "phone"));
+    field.value = "";
+    err.textContent = "";
+    ok.textContent = "";
+    wrap.classList.remove("is-bad");
+    if (m === "email") {
+      label.textContent = "Email address";
+      field.type = "email";
+      field.placeholder = "you@example.com";
+      field.setAttribute("autocomplete", "email");
+      icon.innerHTML = '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5L12 13l8.5-6.5"/>';
+    } else {
+      label.textContent = "Phone number";
+      field.type = "tel";
+      field.placeholder = "+91 98765 43210";
+      field.setAttribute("autocomplete", "tel");
+      icon.innerHTML = '<path d="M5 3h4l2 5-3 2a12 12 0 0 0 6 6l2-3 5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/>';
+    }
+    field.focus();
+  }
+
+  document.getElementById("epTabEmail").addEventListener("click", function () { setMode("email"); });
+  document.getElementById("epTabPhone").addEventListener("click", function () { setMode("phone"); });
+
+  document.getElementById("epSend").addEventListener("click", function () {
+    var v = field.value.trim();
+    var valid = mode === "email"
+      ? /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)
+      : /^\+?[0-9][0-9\s-]{6,15}$/.test(v);
+    wrap.classList.toggle("is-bad", !valid);
+    err.textContent = valid ? "" : (v ? "That " + mode + " does not look right." : "Please enter your " + mode + ".");
+    ok.textContent = valid ? "Verification code sent to " + v + "." : "";
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>

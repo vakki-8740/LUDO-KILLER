@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mega Menu · OWN Library</title>
+<script>
+try {
+  var vt = localStorage.getItem("theme");
+  if (vt) { document.documentElement.setAttribute("data-theme", vt); }
+  else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) { document.documentElement.setAttribute("data-theme", "dark"); }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="../lib/viewer.css" />
+</head>
+<body>
+<header class="vw-topbar">
+  <a class="vw-back" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    OWN Library
+  </a>
+  <span class="vw-cat">Navigation &amp; Layout</span>
+  <span class="vw-spacer"></span>
+  <button class="vw-theme" id="vwTheme" type="button" aria-label="Toggle theme">
+    <svg class="vw-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="vw-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</header>
+<main class="vw-page">
+  <div class="vw-head">
+    <h1>Mega Menu</h1>
+    <p>Wide dropdown with grouped links and a featured panel.</p>
+  </div>
+  <section class="vw-block" id="mega-menu" aria-labelledby="mega-menu-t">
+    <div class="vw-bhead">
+      <h2 class="vw-btitle" id="mega-menu-t">Mega menu</h2>
+      <span class="vw-note">Trigger par click, bahar click ya Escape se band.</span>
+      <div class="vw-tools">
+        <div class="vw-seg" role="group" aria-label="Preview size">
+          <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+    </div>
+    <div class="vw-stage">
+      <p class="vw-mobile-tag">Mobile preview · 375px</p>
+      <div class="vw-stage-inner">
+        <div class="vw-frame">
+<div class="mm-bar">
+  <span class="mm-logo"></span>
+  <nav class="mm-nav" aria-label="Main">
+    <div class="mm-item">
+      <button class="mm-trigger" type="button" id="mmTrigger" aria-expanded="false" aria-controls="mmPanel">Products
+        <svg class="mm-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="mm-panel" id="mmPanel" role="region" aria-label="Products" hidden>
+        <div class="mm-grid">
+          <div class="mm-col">
+            <p class="mm-ct">Design</p>
+            <a class="mm-link" href="#">UI Kit</a>
+            <a class="mm-link" href="#">Icons</a>
+            <a class="mm-link" href="#">Templates</a>
+          </div>
+          <div class="mm-col">
+            <p class="mm-ct">Build</p>
+            <a class="mm-link" href="#">Components</a>
+            <a class="mm-link" href="#">Charts</a>
+            <a class="mm-link" href="#">Forms</a>
+          </div>
+          <div class="mm-col">
+            <p class="mm-ct">Ship</p>
+            <a class="mm-link" href="#">Templates</a>
+            <a class="mm-link" href="#">Changelog</a>
+            <a class="mm-link" href="#">Docs</a>
+          </div>
+          <div class="mm-feat">
+            <span class="mm-feat-tile"></span>
+            <p class="mm-feat-k">New</p>
+            <p class="mm-feat-h">Library v2 is live</p>
+            <p class="mm-feat-d">120+ ready blocks with copyable code.</p>
+            <span class="mm-feat-btn">Explore</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="mm-link mm-top" href="#">Pricing</a>
+    <a class="mm-link mm-top" href="#">Docs</a>
+  </nav>
+</div>
+        </div>
+      </div>
+    </div>
+    <style data-block>.mm-bar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  box-shadow: var(--shadow);
+}
+.mm-logo { width: 26px; height: 26px; border-radius: 6px; background: var(--accent); flex: 0 0 auto; }
+.mm-nav { display: flex; align-items: center; gap: 6px; flex: 1; }
+.mm-item { position: relative; }
+.mm-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.mm-trigger:hover, .mm-trigger[aria-expanded="true"] { background: var(--accent-soft); color: var(--accent); }
+.mm-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mm-chev { width: 14px; height: 14px; transition: transform 0.2s; }
+.mm-trigger[aria-expanded="true"] .mm-chev { transform: rotate(180deg); }
+.mm-top { text-decoration: none; }
+.mm-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: -40px;
+  width: min(620px, 86vw);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  z-index: 30;
+}
+.mm-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1.2fr; gap: 14px; }
+.mm-ct { margin: 0 0 8px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.mm-link {
+  display: block;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 6px 8px;
+  border-radius: var(--radius);
+}
+.mm-link:hover { background: var(--bg); color: var(--accent); }
+.mm-feat { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
+.mm-feat-tile { display: block; height: 54px; border-radius: 5px; background: linear-gradient(135deg, var(--accent), #8b5cf6); margin-bottom: 8px; }
+.mm-feat-k { margin: 0; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.mm-feat-h { margin: 2px 0; font-size: 0.86rem; font-weight: 700; }
+.mm-feat-d { margin: 0 0 8px; font-size: 0.74rem; color: var(--muted); line-height: 1.4; }
+.mm-feat-btn { display: inline-block; font-size: 0.74rem; font-weight: 700; color: var(--accent); }
+@media (max-width: 640px) {
+  .mm-panel { left: -60px; width: min(320px, 88vw); }
+  .mm-grid { grid-template-columns: 1fr 1fr; }
+  .mm-feat { grid-column: span 2; }
+}</style>
+    <script data-block>(function () {
+"use strict";
+  var trigger = document.getElementById("mmTrigger");
+  var panel = document.getElementById("mmPanel");
+
+  function mmSet(open) {
+    panel.hidden = !open;
+    trigger.setAttribute("aria-expanded", String(open));
+  }
+
+  trigger.addEventListener("click", function (e) {
+    e.stopPropagation();
+    mmSet(panel.hidden);
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!panel.hidden && !panel.contains(e.target) && e.target !== trigger) mmSet(false);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) {
+      mmSet(false);
+      trigger.focus();
+    }
+  });
+})();</script>
+  </section>
+  <footer class="vw-foot">
+    Copy kiya gaya code standalone hota hai — usme library ka viewer chrome shamil nahi. Agar code me <code>var(--…)</code> use hua hai to <b>Tokens</b> tab wale CSS variables bhi project me add karein.
+  </footer>
+</main>
+<script src="../lib/viewer.js"></script>
+</body>
+</html>
